@@ -11,7 +11,7 @@ import {
   Users,
   ArrowRight,
 } from 'lucide-react';
-import PortfolioClient from './PortfolioClient';
+import { PortfolioClient } from './PortfolioClient';
 
 const PortfolioPage = async () => {
   // Fetch portfolio data on server
