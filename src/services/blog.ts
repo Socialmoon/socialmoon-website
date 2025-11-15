@@ -1,4 +1,4 @@
-import { connectToDatabase } from '@/lib/database';
+import { connectToDatabase } from '@/database';
 import Blog, { IBlog } from '@/models/Blog';
 
 export class BlogService {

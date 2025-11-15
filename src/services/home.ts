@@ -1,4 +1,4 @@
-import { connectToDatabase } from '@/lib/database';
+import { connectToDatabase } from '@/database';
 import Home, { IHome } from '@/models/Home';
 
 export class HomeService {

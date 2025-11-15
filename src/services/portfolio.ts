@@ -1,4 +1,4 @@
-import { connectToDatabase } from '@/lib/database';
+import { connectToDatabase } from '@/database';
 import Project, { IProject } from '@/models/Project';
 
 export class PortfolioService {

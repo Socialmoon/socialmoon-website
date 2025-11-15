@@ -1,4 +1,4 @@
-import { connectToDatabase } from '@/lib/database';
+import { connectToDatabase } from '@/database';
 import Message, { IMessage } from '@/models/Message';
 
 export class MessagesService {

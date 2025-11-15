@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PortfolioService } from '@/lib/services/portfolio';
+import { PortfolioService } from '@/services/portfolio';
 
 export async function GET() {
   try {

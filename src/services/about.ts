@@ -1,4 +1,4 @@
-import { connectToDatabase } from '@/lib/database';
+import { connectToDatabase } from '@/database';
 import About, { IAbout } from '@/models/About';
 
 export class AboutService {

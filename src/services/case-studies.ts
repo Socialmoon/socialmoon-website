@@ -1,4 +1,4 @@
-import { connectToDatabase } from '@/lib/database';
+import { connectToDatabase } from '@/database';
 import CaseStudy, { ICaseStudy } from '@/models/CaseStudy';
 
 export class CaseStudiesService {

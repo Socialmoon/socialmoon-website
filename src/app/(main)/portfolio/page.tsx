@@ -1,4 +1,4 @@
-import { PortfolioService } from '@/lib/services/portfolio';
+import { PortfolioService } from '@/services/portfolio';
 import { Hero } from '@/components/common/Hero';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
