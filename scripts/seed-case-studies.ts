@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 dotenv.config({ path: '.env.local' });
 
 import { CaseStudiesService } from '../src/services/case-studies';
