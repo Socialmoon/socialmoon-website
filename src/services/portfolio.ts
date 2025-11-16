@@ -16,6 +16,7 @@ export class PortfolioService {
             title: 'TechCorp Social Media Transformation',
             description: 'Complete social media overhaul for a leading technology company, resulting in significant engagement growth and brand visibility.',
             imageUrl: '/images/portfolio/techcorp.jpg',
+            videoUrl: '/videos/project-1.mp4',
             link: 'https://techcorp.com',
             category: 'Social Media Marketing',
             client: 'TechCorp',
@@ -38,6 +39,7 @@ export class PortfolioService {
             title: 'FashionForward Content Creation',
             description: 'Viral content strategy that positioned FashionForward as a trendsetter in the fashion industry.',
             imageUrl: '/images/portfolio/fashionforward.jpg',
+            videoUrl: '/videos/project-2.mp4',
             link: 'https://fashionforward.com',
             category: 'Content Creation',
             client: 'FashionForward',
@@ -60,6 +62,7 @@ export class PortfolioService {
             title: 'StartupXYZ Advertising Campaign',
             description: 'Strategic advertising campaign that drove lead generation and user acquisition for a growing startup.',
             imageUrl: '/images/portfolio/startupxyz.jpg',
+            videoUrl: '/videos/project-3.mp4',
             link: 'https://startupxyz.com',
             category: 'Brand Strategy',
             client: 'StartupXYZ',
@@ -82,6 +85,7 @@ export class PortfolioService {
             title: 'ECommerce Web Development',
             description: 'Custom e-commerce platform development with seamless user experience and high conversion rates.',
             imageUrl: '/images/portfolio/ecommerce.jpg',
+            videoUrl: '/videos/project-4.mp4',
             link: 'https://ecommerceplus.com',
             category: 'Web Development',
             client: 'ECommerce Plus',
@@ -104,6 +108,7 @@ export class PortfolioService {
             title: 'Fitness App Development',
             description: 'Comprehensive fitness tracking app with personalized workout plans and community features.',
             imageUrl: '/images/portfolio/fitness.jpg',
+            videoUrl: '/videos/project-5.mp4',
             link: 'https://fitlifeapp.com',
             category: 'App Development',
             client: 'FitLife App',
@@ -126,6 +131,7 @@ export class PortfolioService {
             title: 'Restaurant Brand Strategy',
             description: 'Complete brand transformation for a local restaurant chain, increasing customer loyalty and revenue.',
             imageUrl: '/images/portfolio/restaurant.jpg',
+            videoUrl: '/videos/project-6.mp4',
             link: 'https://restaurantchain.com',
             category: 'Social Media Marketing',
             client: 'Restaurant Chain',
@@ -145,14 +151,25 @@ export class PortfolioService {
         ];
       }
 
+      // Ensure all projects have proper slugs
+      const defaultSlugs = [
+        'techcorp-social-media-transformation',
+        'fashion-forward-content-creation',
+        'startup-xyz-advertising-campaign',
+        'ecommerce-web-development',
+        'fitness-app-development',
+        'restaurant-brand-strategy'
+      ];
+
       return {
         title: 'Our Portfolio',
-        projects: projects.map(project => ({
+        projects: projects.map((project, index) => ({
           id: project.id,
-          slug: project.slug,
+          slug: project.slug || defaultSlugs[index % defaultSlugs.length],
           title: project.title,
           description: project.description,
           imageUrl: project.imageUrl,
+          videoUrl: project.videoUrl,
           link: project.link,
           category: project.category,
           client: project.client,
@@ -178,13 +195,24 @@ export class PortfolioService {
       // Clear existing projects
       await Project.deleteMany({});
 
+      // Ensure slugs are present
+      const defaultSlugs = [
+        'techcorp-social-media-transformation',
+        'fashion-forward-content-creation',
+        'startup-xyz-advertising-campaign',
+        'ecommerce-web-development',
+        'fitness-app-development',
+        'restaurant-brand-strategy'
+      ];
+
       // Insert new projects
-      const projectsToInsert = data.projects.map(project => ({
+      const projectsToInsert = data.projects.map((project, index) => ({
         id: project.id,
-        slug: project.slug,
+        slug: project.slug || defaultSlugs[index % defaultSlugs.length],
         title: project.title,
         description: project.description,
         imageUrl: project.imageUrl,
+        videoUrl: project.videoUrl,
         link: project.link,
         category: project.category,
         client: project.client,

@@ -60,7 +60,7 @@ const InsightsPage = () => {
   const [aboutData, setAboutData] = useState<AboutData | null>(null);
   const [blogData, setBlogData] = useState<BlogData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeView, setActiveView] = useState<'overview' | 'about' | 'team' | 'blog' | 'case-studies'>('overview');
+  const [activeView, setActiveView] = useState<'overview' | 'about' | 'team' | 'blog' | 'case-studies' | 'careers'>('overview');
   const [caseStudies, setCaseStudies] = useState<any[]>([]);
 
   useEffect(() => {
@@ -211,6 +211,17 @@ const InsightsPage = () => {
                   <Award className="w-4 h-4 mr-2" />
                   Case Studies
                 </button>
+                <button
+                  onClick={() => setActiveView('careers')}
+                  className={`flex items-center px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 ${
+                    activeView === 'careers'
+                      ? 'bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-xl transform scale-105'
+                      : 'text-gray-600 hover:text-orange-600 hover:bg-orange-50'
+                  }`}
+                >
+                  <Users className="w-4 h-4 mr-2" />
+                  Careers
+                </button>
               </div>
             </div>
           </div>
@@ -224,7 +235,11 @@ const InsightsPage = () => {
                 ? 'text-green-700 font-medium'
                 : activeView === 'team'
                 ? 'text-purple-700 font-medium'
-                : 'text-indigo-700 font-medium'
+                : activeView === 'blog'
+                ? 'text-indigo-700 font-medium'
+                : activeView === 'case-studies'
+                ? 'text-emerald-700 font-medium'
+                : 'text-orange-700 font-medium'
             }`}>
               {activeView === 'overview'
                 ? 'Explore our comprehensive insights and knowledge base'
@@ -234,7 +249,9 @@ const InsightsPage = () => {
                 ? 'Meet the creative minds behind our success'
                 : activeView === 'blog'
                 ? 'Stay updated with our latest thoughts and industry insights'
-                : 'Discover real results from our successful projects and campaigns'
+                : activeView === 'case-studies'
+                ? 'Discover real results from our successful projects and campaigns'
+                : 'Join our team and shape the future of digital marketing'
               }
             </p>
           </div>
@@ -326,61 +343,109 @@ const InsightsPage = () => {
         </Container>
       </Section>
 
-      {/* Premium CTA Section */}
-      <Section className="py-32 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
+      {/* Redesigned Conversation CTA Section */}
+      <Section className="py-32 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 relative overflow-hidden">
+        {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-blue-600/5 to-purple-600/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-blue-200/40 to-purple-200/40 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-purple-200/40 to-pink-200/40 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-blue-100/30 to-purple-100/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
         </div>
 
         <Container className="relative z-10">
-          <div className="text-center max-w-5xl mx-auto">
-            <div className="inline-flex items-center px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm text-white text-base font-semibold mb-8 border border-white/20">
-              <MessageSquare className="w-5 h-5 mr-3" />
-              Ready to Connect?
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left side - Content */}
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-base font-semibold mb-8 border border-blue-200/50 shadow-lg">
+                <MessageSquare className="w-5 h-5 mr-3" />
+                Ready to Connect?
+              </div>
+
+              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent">
+                Let's Start a
+                <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  Conversation
+                </span>
+              </h2>
+
+              <p className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed max-w-2xl">
+                Whether you need expert advice, want to discuss a project, or just want to learn more about our approach, we're here to help.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+                <Link href="/contact">
+                  <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-6 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 border-0">
+                    Get In Touch
+                    <MessageSquare className="ml-4 h-6 w-6" />
+                  </Button>
+                </Link>
+
+                <Link href="/services">
+                  <Button size="lg" variant="outline" className="border-2 border-blue-300 text-blue-700 hover:bg-blue-50 px-12 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
+                    Explore Services
+                    <ArrowRight className="ml-4 h-6 w-6" />
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Contact highlights */}
+              <div className="grid grid-cols-2 gap-6 max-w-md mx-auto lg:mx-0 mt-12">
+                {[
+                  { icon: Clock, label: "Quick Response" },
+                  { icon: Users, label: "Personal Service" },
+                  { icon: CheckCircle, label: "Free Consultation" },
+                  { icon: Star, label: "Expert Advice" }
+                ].map((item, index) => (
+                  <div key={index} className="text-center bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300">
+                    <item.icon className="h-6 w-6 text-blue-600 mx-auto mb-2" />
+                    <div className="text-gray-700 font-medium text-xs">{item.label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
-              Let's Start a
-              <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Conversation
-              </span>
-            </h2>
+            {/* Right side - Conversation Preview */}
+            <div className="relative">
+              <div className="bg-white/90 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50 relative overflow-hidden">
+                {/* Chat bubbles */}
+                <div className="space-y-6">
+                  {/* User message */}
+                  <div className="flex justify-end">
+                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-2xl rounded-br-md max-w-xs shadow-lg">
+                      <p className="text-sm font-medium">Hi! I'm interested in your social media services.</p>
+                    </div>
+                  </div>
 
-            <p className="text-xl md:text-2xl text-gray-300 mb-12 leading-relaxed max-w-4xl mx-auto">
-              Whether you need expert advice, want to discuss a project, or just want to learn more about our approach, we're here to help.
-            </p>
+                  {/* Bot response */}
+                  <div className="flex justify-start">
+                    <div className="bg-gray-100 text-gray-800 px-6 py-4 rounded-2xl rounded-bl-md max-w-xs shadow-lg">
+                      <p className="text-sm font-medium">Great! We'd love to help. What specific goals do you have for your social media presence?</p>
+                    </div>
+                  </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Link href="/contact">
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-6 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 border-0">
-                  Get In Touch
-                  <MessageSquare className="ml-4 h-6 w-6" />
-                </Button>
-              </Link>
+                  {/* User response */}
+                  <div className="flex justify-end">
+                    <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-4 rounded-2xl rounded-br-md max-w-xs shadow-lg">
+                      <p className="text-sm font-medium">Increase engagement and grow our following.</p>
+                    </div>
+                  </div>
 
-              <Link href="/services">
-                <Button size="lg" variant="outline" className="border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm px-12 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
-                  Explore Services
-                  <ArrowRight className="ml-4 h-6 w-6" />
-                </Button>
-              </Link>
-            </div>
-
-            {/* Contact highlights */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mt-16">
-              {[
-                { icon: Clock, label: "Quick Response" },
-                { icon: Users, label: "Personal Service" },
-                { icon: CheckCircle, label: "Free Consultation" },
-                { icon: Star, label: "Expert Advice" }
-              ].map((item, index) => (
-                <div key={index} className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                  <item.icon className="h-8 w-8 text-white/80 mx-auto mb-4" />
-                  <div className="text-white font-medium text-sm">{item.label}</div>
+                  {/* Bot response */}
+                  <div className="flex justify-start">
+                    <div className="bg-gray-100 text-gray-800 px-6 py-4 rounded-2xl rounded-bl-md max-w-xs shadow-lg">
+                      <p className="text-sm font-medium">Perfect! Let's schedule a free consultation to discuss your strategy.</p>
+                    </div>
+                  </div>
                 </div>
-              ))}
+
+                {/* Floating elements */}
+                <div className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full animate-bounce"></div>
+                <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
+                <div className="absolute top-1/2 -right-2 w-4 h-4 bg-gradient-to-r from-pink-400 to-red-400 rounded-full animate-bounce" style={{ animationDelay: '2s' }}></div>
+              </div>
+
+              {/* Decorative elements */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-pink-600/10 rounded-3xl blur-2xl -z-10"></div>
             </div>
           </div>
         </Container>
@@ -827,67 +892,144 @@ const InsightsPage = () => {
             </div>
           </Container>
         </Section>
-      ) : null}
-
-      {/* Premium CTA Section */}
-      <Section className="py-32 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-blue-600/5 to-purple-600/5 rounded-full blur-3xl"></div>
-        </div>
-
-        <Container className="relative z-10">
-          <div className="text-center max-w-5xl mx-auto">
-            <div className="inline-flex items-center px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm text-white text-base font-semibold mb-8 border border-white/20">
-              <MessageSquare className="w-5 h-5 mr-3" />
-              Ready to Connect?
+      ) : activeView === 'careers' ? (
+        <Section className="py-32 bg-gradient-to-br from-white via-orange-50/30 to-red-50/30">
+          <Container>
+            <div className="text-center mb-20">
+              <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-orange-100 to-red-100 text-orange-700 text-sm font-semibold mb-6 border border-orange-200/50">
+                <Users className="w-4 h-4 mr-2" />
+                Join Our Team
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-orange-900 to-red-900 bg-clip-text text-transparent">
+                Shape the Future of Digital Marketing
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Join a team of passionate innovators and help businesses transform their digital presence. We're always looking for talented individuals to join our growing family.
+              </p>
             </div>
 
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
-              Let's Start a
-              <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Conversation
-              </span>
-            </h2>
-
-            <p className="text-xl md:text-2xl text-gray-300 mb-12 leading-relaxed max-w-4xl mx-auto">
-              Whether you need expert advice, want to discuss a project, or just want to learn more about our approach, we're here to help.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Link href="/contact">
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-6 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 border-0">
-                  Get In Touch
-                  <MessageSquare className="ml-4 h-6 w-6" />
-                </Button>
-              </Link>
-
-              <Link href="/services">
-                <Button size="lg" variant="outline" className="border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm px-12 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
-                  Explore Services
-                  <ArrowRight className="ml-4 h-6 w-6" />
-                </Button>
-              </Link>
-            </div>
-
-            {/* Contact highlights */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mt-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+              {/* Job Position Cards */}
               {[
-                { icon: Clock, label: "Quick Response" },
-                { icon: Users, label: "Personal Service" },
-                { icon: CheckCircle, label: "Free Consultation" },
-                { icon: Star, label: "Expert Advice" }
-              ].map((item, index) => (
-                <div key={index} className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                  <item.icon className="h-8 w-8 text-white/80 mx-auto mb-4" />
-                  <div className="text-white font-medium text-sm">{item.label}</div>
+                {
+                  title: "Senior Social Media Strategist",
+                  type: "Full-time",
+                  location: "Remote",
+                  description: "Lead strategic social media campaigns for enterprise clients and mentor junior team members.",
+                  requirements: ["5+ years experience", "Strategy expertise", "Team leadership"],
+                  color: "from-orange-500 to-red-500"
+                },
+                {
+                  title: "Content Marketing Specialist",
+                  type: "Full-time",
+                  location: "Hybrid",
+                  description: "Create compelling content strategies and manage content production across multiple platforms.",
+                  requirements: ["3+ years experience", "Content creation", "SEO knowledge"],
+                  color: "from-red-500 to-pink-500"
+                },
+                {
+                  title: "Digital Marketing Analyst",
+                  type: "Full-time",
+                  location: "On-site",
+                  description: "Analyze campaign performance, generate insights, and optimize strategies for better ROI.",
+                  requirements: ["Analytics experience", "Data visualization", "Marketing metrics"],
+                  color: "from-pink-500 to-purple-500"
+                },
+                {
+                  title: "Social Media Manager",
+                  type: "Full-time",
+                  location: "Remote",
+                  description: "Manage social media accounts, create content calendars, and engage with audiences.",
+                  requirements: ["2+ years experience", "Social platforms", "Community management"],
+                  color: "from-purple-500 to-indigo-500"
+                },
+                {
+                  title: "UI/UX Designer",
+                  type: "Contract",
+                  location: "Remote",
+                  description: "Design user interfaces and experiences for web and mobile applications.",
+                  requirements: ["Design portfolio", "Figma/Sketch", "User research"],
+                  color: "from-indigo-500 to-blue-500"
+                },
+                {
+                  title: "Marketing Coordinator",
+                  type: "Full-time",
+                  location: "Hybrid",
+                  description: "Support marketing initiatives, coordinate campaigns, and assist with project management.",
+                  requirements: ["1+ years experience", "Organization skills", "Marketing tools"],
+                  color: "from-blue-500 to-cyan-500"
+                }
+              ].map((job, index) => (
+                <div key={index} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
+                  {/* Glow effect */}
+                  <div className={`absolute -inset-1 bg-gradient-to-r ${job.color} rounded-3xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
+
+                  <div className="relative bg-white rounded-3xl shadow-xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-3 overflow-hidden border border-gray-100">
+                    {/* Header with gradient */}
+                    <div className={`bg-gradient-to-r ${job.color} p-6 text-white relative overflow-hidden`}>
+                      <div className="absolute inset-0 bg-black/10"></div>
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center space-x-3">
+                            <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
+                              <Users className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <span className={`px-3 py-1 bg-white/20 rounded-full text-xs font-medium backdrop-blur-sm`}>
+                                {job.type}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-sm opacity-90">{job.location}</div>
+                          </div>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">{job.title}</h3>
+                        <p className="text-white/90 text-sm leading-relaxed">{job.description}</p>
+                      </div>
+                    </div>
+
+                    {/* Requirements */}
+                    <div className="p-6">
+                      <h4 className="font-semibold text-gray-900 mb-4">Key Requirements:</h4>
+                      <div className="space-y-2">
+                        {job.requirements.map((req, reqIndex) => (
+                          <div key={reqIndex} className="flex items-center text-sm text-gray-600">
+                            <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                            {req}
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="mt-6">
+                        <Button className={`w-full bg-gradient-to-r ${job.color} hover:opacity-90 text-white border-0`}>
+                          Apply Now
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
-          </div>
-        </Container>
-      </Section>
+
+            {/* Call to action */}
+            <div className="text-center mt-16">
+              <div className="bg-gradient-to-r from-orange-100 to-red-100 rounded-3xl p-8 md:p-12 border border-orange-200/50 shadow-lg">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Don't see the perfect role?</h3>
+                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                  We're always interested in connecting with talented individuals. Send us your resume and let's discuss opportunities.
+                </p>
+                <Button size="lg" className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white px-8 py-4 text-lg font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
+                  Send Your Resume
+                  <MessageSquare className="ml-3 h-5 w-5" />
+                </Button>
+              </div>
+            </div>
+          </Container>
+        </Section>
+      ) : null}
+
     </div>
   );
 };

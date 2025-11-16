@@ -20,7 +20,11 @@ export class CaseStudiesService {
           challenge: study.challenge,
           solution: study.solution,
           approach: study.approach,
-          metrics: study.metrics,
+          metrics: study.metrics.map((metric: any) => ({
+            before: metric.before,
+            after: metric.after,
+            improvement: metric.improvement,
+          })),
           testimonial: study.testimonial,
           clientName: study.clientName,
           clientPosition: study.clientPosition,
@@ -73,7 +77,29 @@ export class CaseStudiesService {
     try {
       await connectToDatabase();
       const caseStudy = await CaseStudy.findOne({ slug });
-      return caseStudy;
+      if (!caseStudy) return null;
+      return {
+        id: caseStudy.id,
+        slug: caseStudy.slug,
+        title: caseStudy.title,
+        company: caseStudy.company,
+        industry: caseStudy.industry,
+        service: caseStudy.service,
+        duration: caseStudy.duration,
+        results: caseStudy.results,
+        challenge: caseStudy.challenge,
+        solution: caseStudy.solution,
+        approach: caseStudy.approach,
+        metrics: caseStudy.metrics.map((metric: any) => ({
+          before: metric.before,
+          after: metric.after,
+          improvement: metric.improvement,
+        })),
+        testimonial: caseStudy.testimonial,
+        clientName: caseStudy.clientName,
+        clientPosition: caseStudy.clientPosition,
+        images: caseStudy.images,
+      };
     } catch (error) {
       console.error('Error fetching case study:', error);
       throw new Error('Failed to fetch case study');

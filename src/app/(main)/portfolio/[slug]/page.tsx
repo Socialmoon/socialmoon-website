@@ -36,6 +36,7 @@ interface Project {
   solution: string;
   process: string[];
   images: string[];
+  videoUrl?: string;
 }
 
 const PortfolioDetailPage = () => {
@@ -157,6 +158,35 @@ const PortfolioDetailPage = () => {
           </div>
         </div>
       </Hero>
+
+      {/* Video Showcase Section */}
+      {project.videoUrl && (
+        <Section className="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
+          <Container>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Project Showcase
+              </h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                See the project in action with our detailed walkthrough video
+              </p>
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              <div className="relative bg-black rounded-2xl overflow-hidden shadow-2xl">
+                <video
+                  controls
+                  className="w-full h-auto"
+                  poster={project.imageUrl}
+                >
+                  <source src={project.videoUrl} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
+          </Container>
+        </Section>
+      )}
 
       {/* Results Section */}
       <Section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white">

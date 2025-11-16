@@ -110,10 +110,10 @@ const ServicesPage = () => {
                     setActiveView('overview');
                     setSelectedService(null);
                   }}
-                  className={`flex items-center px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 ${
+                  className={`flex items-center px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500/50 ${
                     activeView === 'overview'
                       ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl transform scale-105'
-                      : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                      : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50 hover:scale-105'
                   }`}
                 >
                   <Zap className="w-5 h-5 mr-3" />
@@ -123,10 +123,10 @@ const ServicesPage = () => {
                 {selectedService && (
                   <button
                     onClick={() => setActiveView('detail')}
-                    className={`flex items-center px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 ${
+                    className={`flex items-center px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-500/50 ${
                       activeView === 'detail'
                         ? 'bg-gradient-to-r from-green-600 to-teal-600 text-white shadow-xl transform scale-105'
-                        : 'text-gray-600 hover:text-green-600 hover:bg-green-50'
+                        : 'text-gray-600 hover:text-green-600 hover:bg-green-50 hover:scale-105'
                     }`}
                   >
                     <Target className="w-5 h-5 mr-3" />
@@ -273,22 +273,25 @@ const ServicesPage = () => {
                       </div>
 
                       {/* CTA Button */}
-                      <Button className={`w-full py-4 text-lg font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 bg-gradient-to-r ${gradient} text-white border-0 shadow-lg hover:shadow-xl`}>
+                      <Button
+                        className={`w-full py-4 text-lg font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 bg-gradient-to-r ${gradient} text-white border-0 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-500/50`}
+                        onClick={() => window.open('/contact', '_self')}
+                      >
                         Get Started
-                        <ArrowRight className="ml-2 h-5 w-5" />
+                        <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                       </Button>
 
                       {/* Learn More Button */}
                       <Button
                         variant="outline"
-                        className="w-full mt-3 py-3 text-base font-semibold rounded-2xl border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300"
+                        className="w-full mt-3 py-3 text-base font-semibold rounded-2xl border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-300/50 active:scale-95"
                         onClick={() => {
                           setSelectedService(service);
                           setActiveView('detail');
                         }}
                       >
                         Learn More
-                        <Target className="ml-2 h-4 w-4" />
+                        <Target className="ml-2 h-4 w-4 transition-transform group-hover:rotate-12" />
                       </Button>
                     </div>
                   </div>
@@ -488,29 +491,30 @@ const ServicesPage = () => {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="px-8 py-4 text-lg font-semibold rounded-2xl border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50"
+                  className="px-8 py-4 text-lg font-semibold rounded-2xl border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-300/50 active:scale-95"
                   onClick={() => {
                     const currentIndex = content?.services.findIndex(s => s.id === selectedService.id) || 0;
                     const prevIndex = currentIndex > 0 ? currentIndex - 1 : content!.services.length - 1;
                     setSelectedService(content!.services[prevIndex]);
                   }}
                 >
-                  <ArrowRight className="w-5 h-5 mr-2 rotate-180" />
+                  <ArrowRight className="w-5 h-5 mr-2 rotate-180 transition-transform hover:-translate-x-1" />
                   Previous Service
                 </Button>
 
                 <Button
                   size="lg"
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-4 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-4 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500/50 active:scale-95"
+                  onClick={() => window.open('/contact', '_self')}
                 >
                   Get Started Today
-                  <Zap className="ml-3 h-6 w-6" />
+                  <Zap className="ml-3 h-6 w-6 transition-transform hover:rotate-12" />
                 </Button>
 
                 <Button
                   variant="outline"
                   size="lg"
-                  className="px-8 py-4 text-lg font-semibold rounded-2xl border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50"
+                  className="px-8 py-4 text-lg font-semibold rounded-2xl border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-300/50 active:scale-95"
                   onClick={() => {
                     const currentIndex = content?.services.findIndex(s => s.id === selectedService.id) || 0;
                     const nextIndex = currentIndex < content!.services.length - 1 ? currentIndex + 1 : 0;
@@ -518,7 +522,7 @@ const ServicesPage = () => {
                   }}
                 >
                   Next Service
-                  <ArrowRight className="w-5 h-5 ml-2" />
+                  <ArrowRight className="w-5 h-5 ml-2 transition-transform hover:translate-x-1" />
                 </Button>
               </div>
             </div>
@@ -584,6 +588,133 @@ const ServicesPage = () => {
         </Container>
       </Section>
 
+      {/* Instagram Showcase Section */}
+      <Section className="py-20 bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
+        <Container>
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 text-sm font-semibold mb-6 border border-pink-200/50">
+              <span className="text-lg mr-2">📸</span>
+              Instagram Excellence
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+              Instagram Marketing Mastery
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Transform your Instagram presence with our proven strategies for growth, engagement, and conversion.
+            </p>
+          </div>
+
+          {/* Instagram Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+            {[
+              { number: "2.5M+", label: "Followers Gained", icon: "👥" },
+              { number: "85%", label: "Engagement Boost", icon: "❤️" },
+              { number: "500K+", label: "Stories Views", icon: "👁️" },
+              { number: "95%", label: "Client Satisfaction", icon: "⭐" }
+            ].map((stat, index) => (
+              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-center">
+                <div className="text-3xl mb-2">{stat.icon}</div>
+                <div className="text-2xl md:text-3xl font-bold text-pink-600 mb-2">{stat.number}</div>
+                <div className="text-gray-600 font-medium text-sm">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Instagram Services Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {[
+              {
+                service: 'Content Strategy',
+                icon: '🎯',
+                title: 'Strategic Content Planning',
+                description: 'Data-driven content calendars that align with your brand and maximize audience engagement.',
+                features: ['Audience Analysis', 'Content Calendar', 'Brand Alignment', 'Performance Tracking']
+              },
+              {
+                service: 'Visual Design',
+                icon: '🎨',
+                title: 'Stunning Visual Content',
+                description: 'Eye-catching graphics, stories, and reels that stop the scroll and drive interaction.',
+                features: ['Custom Graphics', 'Story Design', 'Reel Production', 'Brand Aesthetics']
+              },
+              {
+                service: 'Growth Hacking',
+                icon: '🚀',
+                title: 'Accelerated Growth',
+                description: 'Proven tactics to rapidly increase followers, engagement, and reach organically.',
+                features: ['Hashtag Strategy', 'Engagement Tactics', 'Influencer Partnerships', 'Algorithm Optimization']
+              }
+            ].map((item, index) => (
+              <div key={item.service} className="group relative" style={{ animationDelay: `${index * 0.2}s` }}>
+                <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 to-purple-500 rounded-3xl blur-xl opacity-10 group-hover:opacity-20 transition-opacity duration-500"></div>
+                <div className="relative bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 overflow-hidden">
+                  {/* Header */}
+                  <div className="bg-gradient-to-r from-pink-500 to-purple-500 p-6 text-white text-center">
+                    <div className="text-4xl mb-3">{item.icon}</div>
+                    <h3 className="text-xl font-bold">{item.title}</h3>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6">
+                    <p className="text-gray-600 mb-6 leading-relaxed">{item.description}</p>
+
+                    {/* Features */}
+                    <div className="space-y-3 mb-6">
+                      {item.features.map((feature, featureIndex) => (
+                        <div key={featureIndex} className="flex items-center space-x-3">
+                          <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
+                          <span className="text-gray-700 text-sm">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* CTA */}
+                    <Link href="/contact?service=instagram">
+                      <Button
+                        className="w-full py-3 text-sm font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-pink-500 to-purple-500 text-white border-0 shadow-lg hover:shadow-xl"
+                      >
+                        Get Instagram Strategy
+                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Instagram CTA */}
+          <div className="text-center">
+            <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-3xl p-8 border border-pink-200/50 max-w-4xl mx-auto">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Dominate Instagram?</h3>
+              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                Join hundreds of brands that have transformed their Instagram presence with our expert strategies and creative content.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href="/contact?service=instagram">
+                  <Button
+                    size="lg"
+                    className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-1"
+                  >
+                    Start Instagram Growth
+                    <ArrowRight className="ml-3 h-5 w-5" />
+                  </Button>
+                </Link>
+                <Link href="/portfolio">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-pink-300 text-pink-700 hover:bg-pink-50 px-8 py-4 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1"
+                  >
+                    View Instagram Portfolio
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
       {/* Success Stories Section */}
       <Section className="py-32 bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
@@ -606,8 +737,8 @@ const ServicesPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
-            {caseStudies.slice(0, 2).map((study, index) => (
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12">
+            {caseStudies.map((study, index) => (
               <div key={study.id} className="group relative" style={{ animationDelay: `${index * 0.2}s` }}>
                 <div className={`absolute -inset-2 bg-gradient-to-r ${
                   index === 0
@@ -791,61 +922,62 @@ const ServicesPage = () => {
         </Container>
       </Section>
 
-      {/* Premium CTA Section */}
-      <Section className="py-32 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
+      {/* Success Story CTA Section */}
+      <Section className="py-32 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
+        {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-blue-600/5 to-purple-600/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-20 left-10 w-64 h-64 bg-blue-100/60 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-80 h-80 bg-purple-100/60 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-indigo-200/30 to-purple-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
         </div>
 
         <Container className="relative z-10">
           <div className="text-center max-w-5xl mx-auto">
-            <div className="inline-flex items-center px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm text-white text-base font-semibold mb-8 border border-white/20">
-              <Rocket className="w-5 h-5 mr-3" />
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-sm font-semibold mb-8 border border-indigo-200/50">
+              <Rocket className="w-4 h-4 mr-2" />
               Ready to Elevate Your Digital Presence?
             </div>
 
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight bg-gradient-to-r from-gray-900 via-indigo-900 to-purple-900 bg-clip-text text-transparent">
               Let's Build Your
-              <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                 Success Story
               </span>
             </h2>
 
-            <p className="text-xl md:text-2xl text-gray-300 mb-12 leading-relaxed max-w-4xl mx-auto">
+            <p className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed max-w-4xl mx-auto">
               Start with our professional services and see the difference expert management can make. Choose the package that fits your needs and let's get started today.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+            {/* Key Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-12">
+              {[
+                { number: "500+", label: "Projects Completed" },
+                { number: "98%", label: "Client Satisfaction" },
+                { number: "24/7", label: "Support Available" },
+                { number: "30", label: "Day Setup" }
+              ].map((stat, index) => (
+                <div key={index} className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                  <div className="text-3xl font-bold text-indigo-600 mb-2">{stat.number}</div>
+                  <div className="text-gray-600 font-medium">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Link href="/contact">
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-6 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 border-0">
+                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-6 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 border-0 focus:outline-none focus:ring-4 focus:ring-blue-500/50 active:scale-95">
                   Book Free Consultation
-                  <MessageSquare className="ml-4 h-6 w-6" />
+                  <MessageSquare className="ml-4 h-6 w-6 transition-transform hover:scale-110" />
                 </Button>
               </Link>
 
               <Link href="/portfolio">
-                <Button size="lg" variant="outline" className="border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm px-12 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
+                <Button size="lg" variant="outline" className="border-2 border-indigo-300 text-indigo-700 hover:bg-indigo-50 px-12 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-indigo-300/50 active:scale-95">
                   View Our Portfolio
-                  <ArrowRight className="ml-4 h-6 w-6" />
+                  <ArrowRight className="ml-4 h-6 w-6 transition-transform hover:translate-x-2" />
                 </Button>
               </Link>
-            </div>
-
-            {/* Service highlights */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-              {[
-                { icon: CheckCircle, label: "No Long-term Contracts" },
-                { icon: Clock, label: "Quick Setup Process" },
-                { icon: Users, label: "Dedicated Account Manager" },
-                { icon: TrendingUp, label: "Guaranteed Results" }
-              ].map((item, index) => (
-                <div key={index} className="text-center bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                  <item.icon className="h-8 w-8 text-white/80 mx-auto mb-4" />
-                  <div className="text-white font-medium text-sm">{item.label}</div>
-                </div>
-              ))}
             </div>
           </div>
         </Container>
