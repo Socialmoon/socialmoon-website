@@ -29,6 +29,21 @@ const LoginPage = () => {
 
       if (response.ok && data.success) {
         localStorage.setItem('isAdmin', 'true');
+        localStorage.setItem('adminUsername', username);
+        // Fetch and store role
+        try {
+          const roleResponse = await fetch('/api/admin/role', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username }),
+          });
+          if (roleResponse.ok) {
+            const roleData = await roleResponse.json();
+            localStorage.setItem('adminRole', roleData.role);
+          }
+        } catch (error) {
+          console.error('Error fetching role:', error);
+        }
         router.push('/admin/dashboard');
       } else {
         setError(data.error || 'Invalid username or password. Please try again.');

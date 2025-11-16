@@ -49,10 +49,10 @@ export async function PUT(request: Request) {
   }
 }
 
-export async function DELETE(request: Request) {
+export async function DELETE(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
+    const body = await request.json();
+    const { id } = body;
 
     if (!id) {
       return NextResponse.json(
@@ -61,7 +61,7 @@ export async function DELETE(request: Request) {
       );
     }
 
-    const result = await MessagesService.deleteMessage(parseInt(id));
+    const result = await MessagesService.deleteMessage(id);
     return NextResponse.json(result);
   } catch (error) {
     console.error('Error in DELETE /api/messages:', error);

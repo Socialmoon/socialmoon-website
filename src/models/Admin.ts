@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 export interface IAdmin extends Document {
   username: string;
   password: string;
+  role: 'admin' | 'superadmin';
   createdAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
@@ -11,6 +12,7 @@ export interface IAdmin extends Document {
 const AdminSchema: Schema = new Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  role: { type: String, enum: ['admin', 'superadmin'], default: 'admin' },
 }, {
   timestamps: true,
 });

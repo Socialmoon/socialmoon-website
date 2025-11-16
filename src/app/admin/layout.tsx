@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [blogDropdownOpen, setBlogDropdownOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [portfolioDropdownOpen, setPortfolioDropdownOpen] = useState(false);
@@ -70,6 +72,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
         { name: 'Add Case Study', href: '/admin/case-studies/add' },
       ]
     },
+    { name: 'Admins', href: '/admin/admins', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z' },
   ];
 
   // If on login page, just render children without admin layout
@@ -98,13 +101,13 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
-      <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}>
+      <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-all duration-300 ease-in-out ${isCollapsed ? 'lg:opacity-0 lg:pointer-events-none' : 'lg:opacity-100 lg:translate-x-0 lg:static lg:inset-0'}`}>
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-center h-16 px-4 bg-gradient-to-r from-blue-600 to-indigo-600">
-            <h1 className="text-xl font-bold text-white">SocialMoon Admin</h1>
+          <div className="flex items-center justify-center h-24 px-4 bg-white">
+            <Image src="/1.png" alt="SocialMoon Logo" width={100} height={100} className="object-contain" />
           </div>
           <nav className="flex-1 mt-8">
-            <div className="px-4 space-y-2">
+            <div className={`${isCollapsed ? 'px-2' : 'px-4'} space-y-2`}>
               {navigation.map((item) => {
                 if ('children' in item) {
                   const isBlog = item.name === 'Blog';
@@ -119,7 +122,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     <div key={item.name}>
                       <button
                         onClick={() => setOpen(!isOpen)}
-                        className={`flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                        className={`flex items-center w-full ${isCollapsed ? 'px-2' : 'px-4'} py-3 text-sm font-medium rounded-lg transition-colors ${
                           pathname.startsWith(pathPrefix)
                             ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
                             : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
@@ -128,24 +131,26 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                         <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
                         </svg>
-                        {item.name}
-                        <svg className={`w-4 h-4 ml-auto transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
+                        {!isCollapsed && item.name}
+                        {!isCollapsed && (
+                          <svg className={`w-4 h-4 ml-auto transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        )}
                       </button>
                       {isOpen && item.children && (
-                        <div className="ml-8 mt-2 space-y-1">
+                        <div className={`${isCollapsed ? 'ml-4' : 'ml-8'} mt-2 space-y-1`}>
                           {item.children.map((child) => (
                             <Link
                               key={child.name}
                               href={child.href}
-                              className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                              className={`block ${isCollapsed ? 'px-2' : 'px-4'} py-2 text-sm font-medium rounded-lg transition-colors ${
                                 pathname === child.href
                                   ? 'bg-blue-50 text-blue-700'
                                   : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                               }`}
                             >
-                              {child.name}
+                              {!isCollapsed && child.name}
                             </Link>
                           ))}
                         </div>
@@ -157,7 +162,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                      className={`flex items-center ${isCollapsed ? 'px-2' : 'px-4'} py-3 text-sm font-medium rounded-lg transition-colors ${
                         pathname === item.href
                           ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
                           : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
@@ -166,22 +171,22 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                       <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
                       </svg>
-                      {item.name}
+                      {!isCollapsed && item.name}
                     </Link>
                   );
                 }
               })}
             </div>
           </nav>
-          <div className="p-4">
+          <div className={`${isCollapsed ? 'p-2' : 'p-4'}`}>
             <button
               onClick={handleLogout}
-              className="flex items-center w-full px-4 py-3 text-sm font-medium text-red-600 rounded-lg hover:bg-red-50 transition-colors"
+              className={`flex items-center w-full ${isCollapsed ? 'px-2' : 'px-4'} py-3 text-sm font-medium text-red-600 rounded-lg hover:bg-red-50 transition-colors`}
             >
               <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
-              Logout
+              {!isCollapsed && 'Logout'}
             </button>
           </div>
         </div>
@@ -200,6 +205,17 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
+              </button>
+              {isCollapsed && <Image src="/1.png" alt="SocialMoon Logo" width={48} height={48} className="object-contain ml-4" />}
+              <button
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                className="hidden lg:flex items-center ml-4 px-3 py-2 rounded-md text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors"
+                title={isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
+              >
+                <svg className={`w-5 h-5 mr-2 transition-transform ${isCollapsed ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                <span className="text-sm font-medium">{isCollapsed ? 'Expand' : 'Collapse'}</span>
               </button>
             </div>
             <div className="flex items-center">

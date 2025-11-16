@@ -22,6 +22,7 @@ type HomePageContent = {
 
 const HomePage = () => {
   const [content, setContent] = useState<HomePageContent | null>(null);
+  const [subscribeSuccess, setSubscribeSuccess] = useState(false);
 
   useEffect(() => {
     fetch('/api/home')
@@ -650,11 +651,34 @@ const HomePage = () => {
               />
               <Button
                 className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-6 py-3 rounded-lg font-semibold whitespace-nowrap shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-emerald-500/50 active:scale-95"
-                onClick={() => alert('Thank you for subscribing!')}
+                onClick={async () => {
+                  const emailInput = document.querySelector('input[type="email"]') as HTMLInputElement;
+                  const email = emailInput?.value;
+                  if (!email) {
+                    return;
+                  }
+                  try {
+                    const res = await fetch('/api/subscribers', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ email }),
+                    });
+                    if (res.ok) {
+                      emailInput.value = '';
+                      setSubscribeSuccess(true);
+                      setTimeout(() => setSubscribeSuccess(false), 3000);
+                    }
+                  } catch (error) {
+                    // Silent fail
+                  }
+                }}
               >
                 Subscribe
               </Button>
             </div>
+            {subscribeSuccess && (
+              <p className="text-sm text-green-600 mt-2 text-center">Thank you for subscribing!</p>
+            )}
             <p className="text-sm text-gray-500 mt-4">No spam, unsubscribe anytime.</p>
           </div>
         </Container>

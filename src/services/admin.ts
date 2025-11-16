@@ -2,10 +2,10 @@ import { connectToDatabase } from '@/database';
 import Admin, { IAdmin } from '@/models/Admin';
 
 export class AdminService {
-  static async createAdmin(username: string, password: string): Promise<IAdmin> {
+  static async createAdmin(username: string, password: string, role: 'admin' | 'superadmin' = 'admin'): Promise<IAdmin> {
     try {
       await connectToDatabase();
-      const admin = new Admin({ username, password });
+      const admin = new Admin({ username, password, role });
       await admin.save();
       return admin;
     } catch (error) {
@@ -44,6 +44,43 @@ export class AdminService {
     } catch (error) {
       console.error('Error getting admins:', error);
       throw new Error('Failed to get admins');
+    }
+  }
+
+  static async updatePassword(username: string, newPassword: string): Promise<boolean> {
+    try {
+      await connectToDatabase();
+      const admin = await Admin.findOne({ username });
+      if (!admin) return false;
+
+      admin.password = newPassword; // Will be hashed by pre-save hook
+      await admin.save();
+      return true;
+    } catch (error) {
+      console.error('Error updating password:', error);
+      throw new Error('Failed to update password');
+    }
+  }
+
+  static async updateRole(username: string, role: 'admin' | 'superadmin'): Promise<boolean> {
+    try {
+      await connectToDatabase();
+      const result = await Admin.findOneAndUpdate({ username }, { role }, { new: true });
+      return !!result;
+    } catch (error) {
+      console.error('Error updating role:', error);
+      throw new Error('Failed to update role');
+    }
+  }
+
+  static async getAdminRole(username: string): Promise<'admin' | 'superadmin' | null> {
+    try {
+      await connectToDatabase();
+      const admin = await Admin.findOne({ username }).select('role');
+      return admin ? admin.role : null;
+    } catch (error) {
+      console.error('Error getting admin role:', error);
+      return null;
     }
   }
 
