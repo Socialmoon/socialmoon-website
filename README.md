@@ -147,6 +147,17 @@ All data is managed through the **Admin Dashboard**. No JSON files are used for 
 
 Access the admin dashboard at `/admin/dashboard` (requires authentication).
 
+### Admin Authentication
+- **Secure Database Authentication**: Admin credentials are stored securely in MongoDB with bcrypt password hashing
+- **Environment-Based Setup**: Admin credentials are set via environment variables for security
+- **Production Setup**: Set `ADMIN_USERNAME` and `ADMIN_PASSWORD` in environment variables, then run `npm run seed:admin`
+
+### Authentication Flow
+1. Visit `/admin/login`
+2. Enter credentials (shown on login page for demo)
+3. Access granted to admin dashboard
+4. Automatic logout clears session
+
 ### Features:
 - **Service Management**: Add/edit/delete services with pricing
 - **Case Study Management**: Full CRUD for detailed case studies
@@ -210,8 +221,20 @@ import { connectToDatabase, ServicesService } from '@/lib';
 ### Environment Variables for Production
 ```env
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/socialmoon
+ADMIN_USERNAME=your-admin-username
+ADMIN_PASSWORD=your-secure-admin-password
+NVIDIA_API_KEY=your-nvidia-api-key-for-chatbot
 NEXTAUTH_SECRET=your-production-secret
 NEXTAUTH_URL=https://yourdomain.com
+```
+
+### Database Setup & Seeding
+```bash
+# Create admin user (run after deployment)
+npm run seed:admin
+
+# Seed sample data (optional)
+npm run seed:data
 ```
 
 ### Build and Deploy
@@ -219,6 +242,13 @@ NEXTAUTH_URL=https://yourdomain.com
 npm run build
 npm start
 ```
+
+### Post-Deployment Checklist
+- [ ] Set all environment variables in deployment platform (including ADMIN_USERNAME and ADMIN_PASSWORD)
+- [ ] Run `npm run seed:admin` to create admin user with secure credentials
+- [ ] Test admin login with your configured credentials
+- [ ] Verify chatbot functionality (requires NVIDIA_API_KEY)
+- [ ] Change default admin password to something more secure
 
 ## 🤝 Contributing
 

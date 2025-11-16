@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -10,7 +10,25 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [portfolioDropdownOpen, setPortfolioDropdownOpen] = useState(false);
   const [caseStudiesDropdownOpen, setCaseStudiesDropdownOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    // Check authentication
+    const checkAuth = () => {
+      const isAdmin = localStorage.getItem('isAdmin');
+      if (pathname !== '/admin/login' && !isAdmin) {
+        router.push('/admin/login');
+      } else {
+        setIsAuthenticated(!!isAdmin);
+      }
+      setIsLoading(false);
+    };
+
+    checkAuth();
+  }, [pathname, router]);
 
   const handleLogout = () => {
     localStorage.removeItem('isAdmin');
@@ -57,6 +75,24 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   // If on login page, just render children without admin layout
   if (pathname === '/admin/login') {
     return <>{children}</>;
+  }
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="flex items-center space-x-2">
+          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce"></div>
+          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+        </div>
+      </div>
+    );
+  }
+
+  // If not authenticated and not on login page, this shouldn't happen due to redirect, but just in case
+  if (!isAuthenticated) {
+    return null;
   }
 
   return (

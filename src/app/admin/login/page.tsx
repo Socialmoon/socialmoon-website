@@ -16,14 +16,26 @@ const LoginPage = () => {
     setIsLoading(true);
     setError('');
 
-    // Simulate loading
-    await new Promise(resolve => setTimeout(resolve, 500));
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (username === 'admin' && password === 'admin') {
-      localStorage.setItem('isAdmin', 'true');
-      router.push('/admin/dashboard');
-    } else {
-      setError('Invalid username or password. Please try again.');
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        localStorage.setItem('isAdmin', 'true');
+        router.push('/admin/dashboard');
+      } else {
+        setError(data.error || 'Invalid username or password. Please try again.');
+      }
+    } catch (error) {
+      setError('Network error. Please try again.');
+    } finally {
       setIsLoading(false);
     }
   };
