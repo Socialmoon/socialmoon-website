@@ -29,8 +29,16 @@ const AdminManagementPage = () => {
   const [currentUserRole, setCurrentUserRole] = useState<'admin' | 'superadmin'>('admin');
   const router = useRouter();
 
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('adminToken');
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+  };
+
   useEffect(() => {
-    if (typeof window !== 'undefined' && !localStorage.getItem('isAdmin')) {
+    if (typeof window !== 'undefined' && !localStorage.getItem('adminToken')) {
       router.push('/admin/login');
       return;
     }
@@ -41,7 +49,9 @@ const AdminManagementPage = () => {
 
   const fetchAdmins = async () => {
     try {
-      const res = await fetch('/api/admins');
+      const res = await fetch('/api/admins', {
+        headers: getAuthHeaders(),
+      });
       if (res.ok) {
         const data = await res.json();
         setAdmins(data);
@@ -58,7 +68,7 @@ const AdminManagementPage = () => {
     try {
       const res = await fetch('/api/admins', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ username: newUsername, password: newPassword, role: newRole }),
       });
       if (res.ok) {
@@ -80,7 +90,7 @@ const AdminManagementPage = () => {
     try {
       const res = await fetch('/api/admins', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ username: changeUsername, newPassword: changePasswordValue }),
       });
       if (res.ok) {
@@ -100,7 +110,7 @@ const AdminManagementPage = () => {
     try {
       const res = await fetch('/api/admins', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ username: changeUsername, role: selectedRole }),
       });
       if (res.ok) {
@@ -120,7 +130,7 @@ const AdminManagementPage = () => {
     try {
       const res = await fetch('/api/admins', {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ username }),
       });
       if (res.ok) {

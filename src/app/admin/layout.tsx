@@ -20,11 +20,11 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Check authentication
     const checkAuth = () => {
-      const isAdmin = localStorage.getItem('isAdmin');
-      if (pathname !== '/admin/login' && !isAdmin) {
+      const token = localStorage.getItem('adminToken');
+      if (pathname !== '/admin/login' && !token) {
         router.push('/admin/login');
       } else {
-        setIsAuthenticated(!!isAdmin);
+        setIsAuthenticated(!!token);
       }
       setIsLoading(false);
     };
@@ -33,7 +33,9 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   }, [pathname, router]);
 
   const handleLogout = () => {
-    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminUsername');
+    localStorage.removeItem('adminRole');
     window.location.href = '/admin/login';
   };
 

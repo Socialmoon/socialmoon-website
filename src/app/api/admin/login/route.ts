@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AdminService } from '@/services/admin';
+import { AuthUtils } from '@/lib/auth';
 
 // Simple in-memory rate limiting for admin login (in production, use Redis)
 const loginAttempts = new Map<string, { count: number; resetTime: number }>();
@@ -67,9 +68,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Get admin role
+    const role = await AdminService.getAdminRole(sanitizedUsername);
+    if (!role) {
+      return NextResponse.json(
+        { error: 'Admin role not found' },
+        { status: 500 }
+      );
+    }
+
+    // Generate JWT token
+    const token = AuthUtils.generateToken({ username: sanitizedUsername, role });
+
     return NextResponse.json({
       success: true,
-      message: 'Login successful'
+      message: 'Login successful',
+      token,
+      role,
+      username: sanitizedUsername
     });
 
   } catch (error) {
