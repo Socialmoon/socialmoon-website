@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
-const AddBlogPage = () => {
+const AddBlogForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -329,6 +329,14 @@ const AddBlogPage = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const AddBlogPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AddBlogForm />
+    </Suspense>
   );
 };
 

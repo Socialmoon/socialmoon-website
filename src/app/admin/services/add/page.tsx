@@ -1,19 +1,48 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
-const AddServicePage = () => {
+const AddServiceForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     price: 0,
   });
   const [saving, setSaving] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const editId = searchParams.get('id');
+
+  useEffect(() => {
+    if (editId) {
+      // Load existing service data for editing
+      const loadServiceData = async () => {
+        try {
+          const res = await fetch('/api/services');
+          if (res.ok) {
+            const servicesData = await res.json();
+            const service = servicesData.services.find((s: any) => s.id === parseInt(editId));
+            if (service) {
+              setFormData({
+                title: service.title,
+                description: service.description,
+                price: service.price,
+              });
+              setIsEditing(true);
+            }
+          }
+        } catch (error) {
+          console.error('Error loading service data:', error);
+        }
+      };
+      loadServiceData();
+    }
+  }, [editId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -32,12 +61,23 @@ const AddServicePage = () => {
       if (!res.ok) throw new Error('Failed to fetch services data');
       const servicesData = await res.json();
 
-      // Add new service
-      const newService = {
-        id: Date.now(),
-        ...formData,
-      };
-      servicesData.services.push(newService);
+      if (isEditing && editId) {
+        // Update existing service
+        const serviceIndex = servicesData.services.findIndex((s: any) => s.id === parseInt(editId));
+        if (serviceIndex !== -1) {
+          servicesData.services[serviceIndex] = {
+            ...servicesData.services[serviceIndex],
+            ...formData,
+          };
+        }
+      } else {
+        // Add new service
+        const newService = {
+          id: Date.now(),
+          ...formData,
+        };
+        servicesData.services.push(newService);
+      }
 
       // Update services
       const updateRes = await fetch('/api/services', {
@@ -47,13 +87,13 @@ const AddServicePage = () => {
       });
 
       if (updateRes.ok) {
-        setNotification({ type: 'success', message: 'Service added successfully!' });
+        setNotification({ type: 'success', message: `Service ${isEditing ? 'updated' : 'added'} successfully!` });
         setTimeout(() => router.push('/admin/services'), 2000);
       } else {
-        setNotification({ type: 'error', message: 'Error adding service. Please try again.' });
+        setNotification({ type: 'error', message: `Error ${isEditing ? 'updating' : 'adding'} service. Please try again.` });
       }
     } catch (error) {
-      setNotification({ type: 'error', message: 'Error adding service. Please try again.' });
+      setNotification({ type: 'error', message: `Error ${isEditing ? 'updating' : 'adding'} service. Please try again.` });
     }
     setSaving(false);
   };
@@ -63,8 +103,12 @@ const AddServicePage = () => {
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Add New Service</h1>
-            <p className="text-gray-600">Create a new service offering</p>
+            <h1 className="text-3xl font-bold text-gray-900">
+              {isEditing ? 'Edit Service' : 'Add New Service'}
+            </h1>
+            <p className="text-gray-600">
+              {isEditing ? 'Update the service details' : 'Create a new service offering'}
+            </p>
           </div>
           <Button
             onClick={() => router.push('/admin/services')}
@@ -195,14 +239,14 @@ const AddServicePage = () => {
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                           </svg>
-                          Adding...
+                          {isEditing ? 'Updating...' : 'Adding...'}
                         </>
                       ) : (
                         <>
                           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                           </svg>
-                          Add Service
+                          {isEditing ? 'Update Service' : 'Add Service'}
                         </>
                       )}
                     </Button>
@@ -243,6 +287,14 @@ const AddServicePage = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const AddServicePage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AddServiceForm />
+    </Suspense>
   );
 };
 
