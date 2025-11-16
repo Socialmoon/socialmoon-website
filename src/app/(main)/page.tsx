@@ -112,10 +112,19 @@ const HomePage = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Button size="lg" className="bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white px-10 py-5 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-              Get Started <ArrowRight className="ml-2 h-5 w-5" />
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white px-10 py-5 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-gray-500/50 active:scale-95"
+              onClick={() => window.open('/contact', '_self')}
+            >
+              Get Started <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
-            <Button size="lg" variant="outline" className="border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 px-10 py-5 text-lg font-semibold rounded-2xl hover:bg-gray-50 transition-all duration-300">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 px-10 py-5 text-lg font-semibold rounded-2xl hover:bg-gray-50 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-gray-300/50 active:scale-95"
+              onClick={() => window.open('/services', '_self')}
+            >
               Learn More
             </Button>
           </div>
@@ -639,7 +648,10 @@ const HomePage = () => {
                 placeholder="Enter your email"
                 className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white/80 backdrop-blur-sm border border-gray-200"
               />
-              <Button className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-6 py-3 rounded-lg font-semibold whitespace-nowrap shadow-lg hover:shadow-xl transition-all duration-300">
+              <Button
+                className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-6 py-3 rounded-lg font-semibold whitespace-nowrap shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-emerald-500/50 active:scale-95"
+                onClick={() => alert('Thank you for subscribing!')}
+              >
                 Subscribe
               </Button>
             </div>
