@@ -54,6 +54,11 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     },
   ];
 
+  // If on login page, just render children without admin layout
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
+  }
+
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
