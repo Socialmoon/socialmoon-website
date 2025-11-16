@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Hero } from '@/components/common/Hero';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
@@ -43,21 +43,36 @@ const CaseStudiesPage = () => {
   const [caseStudies, setCaseStudies] = useState<CaseStudy[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
+  const previousDataRef = useRef<string | null>(null);
 
   useEffect(() => {
-    const fetchCaseStudies = async () => {
+    const fetchCaseStudies = async (isPolling = false) => {
       try {
         const response = await fetch('/api/case-studies');
         const data = await response.json();
-        setCaseStudies(data.caseStudies || []);
+        const studies = data.caseStudies || [];
+        const studiesString = JSON.stringify(studies);
+
+        // Only update if data has changed or it's the initial load
+        if (!isPolling || studiesString !== previousDataRef.current) {
+          setCaseStudies(studies);
+          previousDataRef.current = studiesString;
+        }
       } catch (error) {
         console.error('Error fetching case studies:', error);
       } finally {
-        setLoading(false);
+        if (!isPolling) {
+          setLoading(false);
+        }
       }
     };
 
     fetchCaseStudies();
+
+    // Poll for updates every 30 seconds
+    const interval = setInterval(() => fetchCaseStudies(true), 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const categories = ['All', 'Social Media Management', 'Content Creation', 'Web Development', 'App Development'];

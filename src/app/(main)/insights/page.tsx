@@ -841,46 +841,149 @@ const InsightsPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
               {caseStudies.map((study, index) => (
                 <div key={study.id} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
-                  {/* Premium glow effect */}
+                  {/* Enhanced premium glow effect */}
                   <div className={`absolute -inset-1 bg-gradient-to-r ${
                     index % 3 === 0 ? 'from-blue-600 via-purple-600 to-pink-600' :
                     index % 3 === 1 ? 'from-green-600 via-teal-600 to-blue-600' :
                     'from-emerald-600 via-teal-600 to-cyan-600'
-                  } rounded-3xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
+                  } rounded-3xl blur-xl opacity-0 group-hover:opacity-25 transition-all duration-500`}></div>
 
-                  <div className="relative bg-white rounded-3xl shadow-xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-3 overflow-hidden border border-gray-100">
-                    {/* Service header with gradient */}
-                    <div className={`bg-gradient-to-r ${
-                      index % 3 === 0 ? 'from-blue-500 to-purple-600' :
-                      index % 3 === 1 ? 'from-green-500 to-teal-600' :
-                      'from-emerald-500 to-cyan-600'
+                  {/* Secondary glow for depth */}
+                  <div className={`absolute -inset-2 bg-gradient-to-r ${
+                    index % 3 === 0 ? 'from-blue-400/20 via-purple-400/20 to-pink-400/20' :
+                    index % 3 === 1 ? 'from-green-400/20 via-teal-400/20 to-blue-400/20' :
+                    'from-emerald-400/20 via-teal-400/20 to-cyan-400/20'
+                  } rounded-3xl blur-2xl opacity-0 group-hover:opacity-15 transition-all duration-700`}></div>
+
+                  <div className="relative bg-white rounded-3xl shadow-xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-4 overflow-hidden border border-gray-100">
+                    {/* Enhanced service header with gradient and client avatar */}
+                    <div className={`bg-gradient-to-br ${
+                      index % 3 === 0 ? 'from-blue-500 via-purple-600 to-indigo-700' :
+                      index % 3 === 1 ? 'from-green-500 via-teal-600 to-cyan-700' :
+                      'from-emerald-500 via-teal-600 to-blue-700'
                     } p-6 text-white relative overflow-hidden`}>
-                      <div className="absolute inset-0 bg-black/10"></div>
-                      <div className="relative flex items-center justify-between mb-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-sm">
-                            <Award className="w-6 h-6" />
+                      {/* Animated background pattern */}
+                      <div className="absolute inset-0 opacity-10">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-16 translate-x-16"></div>
+                        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/15 rounded-full translate-y-12 -translate-x-12"></div>
+                      </div>
+
+                      <div className="relative">
+                        {/* Clean Header */}
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                              <span className="text-sm font-bold text-white">
+                                {study.company.charAt(0)}
+                              </span>
+                            </div>
+                            <div>
+                              <h3 className="text-base font-bold text-white">{study.company}</h3>
+                              <p className="text-white/70 text-xs">{study.industry}</p>
+                            </div>
                           </div>
-                          <div>
-                            <h3 className="text-xl font-bold">{study.company}</h3>
-                            <p className="text-white/90 text-sm">{study.industry}</p>
+                          <div className="text-right">
+                            <div className="text-lg font-bold text-white">{study.results}</div>
+                            <div className="text-xs text-white/70">{study.duration}</div>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold">{study.results}</div>
-                          <div className="text-sm opacity-90">in {study.duration}</div>
+
+                        {/* Simple Service Badge */}
+                        <div className="mb-3">
+                          <span className="inline-block px-2 py-1 bg-white/20 rounded-md text-xs font-medium text-white">
+                            {study.service}
+                          </span>
+                        </div>
+
+                        {/* Clean Testimonial */}
+                        <div className="bg-white/5 rounded-lg p-3 border border-white/10">
+                          <p className="text-white/90 text-sm leading-relaxed">
+                            "{study.testimonial}"
+                          </p>
+                          <p className="text-white/60 text-xs mt-2 font-medium">
+                            — {study.clientName}
+                          </p>
                         </div>
                       </div>
-                      <p className="text-white/90 leading-relaxed">{study.testimonial}</p>
                     </div>
 
-                    {/* Service details */}
+                    {/* Enhanced service details with metrics */}
                     <div className="p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">{study.service}</span>
+                      {/* Approach badges */}
+                      <div className="mb-4">
+                        <h4 className="text-sm font-semibold text-gray-900 mb-2">Approach:</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {study.approach.slice(0, 3).map((item: string, idx: number) => (
+                            <span key={idx} className={`px-3 py-1 rounded-full text-xs font-medium ${
+                              index % 3 === 0 ? 'bg-blue-100 text-blue-700' :
+                              index % 3 === 1 ? 'bg-green-100 text-green-700' :
+                              'bg-emerald-100 text-emerald-700'
+                            }`}>
+                              {item}
+                            </span>
+                          ))}
+                          {study.approach.length > 3 && (
+                            <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">
+                              +{study.approach.length - 3} more
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Metrics visualization */}
+                      {study.metrics && study.metrics.length > 0 && (
+                        <div className="mb-6">
+                          <h4 className="text-sm font-semibold text-gray-900 mb-3">Key Metrics:</h4>
+                          <div className="space-y-3">
+                            {study.metrics.slice(0, 2).map((metric: { before: string; after: string; improvement: string }, idx: number) => (
+                              <div key={idx} className="bg-gray-50 rounded-xl p-3">
+                                <div className="flex justify-between items-center mb-2">
+                                  <span className="text-xs font-medium text-gray-600">{metric.before}</span>
+                                  <span className="text-xs font-medium text-gray-600">{metric.after}</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <div className="flex-1 bg-gray-200 rounded-full h-2">
+                                    <div className={`h-2 rounded-full transition-all duration-1000 ${
+                                      index % 3 === 0 ? 'bg-gradient-to-r from-blue-500 to-purple-500' :
+                                      index % 3 === 1 ? 'bg-gradient-to-r from-green-500 to-teal-500' :
+                                      'bg-gradient-to-r from-emerald-500 to-cyan-500'
+                                    }`} style={{ width: '75%' }}></div>
+                                  </div>
+                                  <span className={`text-xs font-bold ${
+                                    index % 3 === 0 ? 'text-blue-600' :
+                                    index % 3 === 1 ? 'text-green-600' :
+                                    'text-emerald-600'
+                                  }`}>
+                                    {metric.improvement}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Enhanced CTA */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <div className={`w-2 h-2 rounded-full ${
+                            index % 3 === 0 ? 'bg-blue-500' :
+                            index % 3 === 1 ? 'bg-green-500' :
+                            'bg-emerald-500'
+                          } animate-pulse`}></div>
+                          <span className="text-xs text-gray-500 font-medium">Success Story</span>
+                        </div>
                         <Link href={`/case-studies/${study.slug}`}>
-                          <Button variant="outline" size="sm" className="group/btn border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300">
-                            View Details
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className={`group/btn border-2 transition-all duration-300 ${
+                              index % 3 === 0 ? 'border-blue-300 hover:border-blue-400 hover:bg-blue-50' :
+                              index % 3 === 1 ? 'border-green-300 hover:border-green-400 hover:bg-green-50' :
+                              'border-emerald-300 hover:border-emerald-400 hover:bg-emerald-50'
+                            }`}
+                          >
+                            <span className="font-medium">View Details</span>
                             <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-2 transition-transform duration-300" />
                           </Button>
                         </Link>

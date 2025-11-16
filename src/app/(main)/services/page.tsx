@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Hero } from '@/components/common/Hero';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
@@ -27,18 +27,45 @@ type ServicesPageContent = {
 const ServicesPage = () => {
   const [content, setContent] = useState<ServicesPageContent | null>(null);
   const [caseStudies, setCaseStudies] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState<'overview' | 'detail'>('overview');
   const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const previousDataRef = useRef<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/services')
-      .then((res) => res.json())
-      .then((data) => setContent(data));
+    const fetchData = async (isPolling = false) => {
+      try {
+        const servicesRes = await fetch('/api/services');
+        const services = await servicesRes.json();
+        const servicesString = JSON.stringify(services);
 
-    // Fetch case studies for success stories
-    fetch('/api/case-studies')
-      .then((res) => res.json())
-      .then((data) => setCaseStudies(data.caseStudies || []));
+        // Only update if data has changed or it's the initial load
+        if (!isPolling || servicesString !== previousDataRef.current) {
+          setContent(services);
+          previousDataRef.current = servicesString;
+        }
+
+        // Also fetch case studies if not polling or if we need to refresh
+        if (!isPolling) {
+          const caseStudiesRes = await fetch('/api/case-studies');
+          const caseStudiesData = await caseStudiesRes.json();
+          setCaseStudies(caseStudiesData.caseStudies || []);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        if (!isPolling) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+
+    // Poll for updates every 30 seconds
+    const interval = setInterval(() => fetchData(true), 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
   if (!content) {
@@ -251,8 +278,7 @@ const ServicesPage = () => {
                           <IconComponent className="w-8 h-8" />
                         </div>
                         <div className="text-right">
-                          <div className="text-3xl font-bold">${service.price}</div>
-                          <div className="text-sm opacity-90">per month</div>
+                          <div className="text-3xl font-bold">Starting from ${service.price}/month</div>
                         </div>
                       </div>
                       <h3 className="text-2xl font-bold mb-2 leading-tight">{service.title}</h3>
@@ -324,8 +350,7 @@ const ServicesPage = () => {
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl p-8 border border-blue-200/50 shadow-lg">
                   <div className="flex items-center justify-center space-x-8">
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-blue-600 mb-2">${selectedService.price}</div>
-                      <div className="text-gray-600">per month</div>
+                      <div className="text-4xl font-bold text-blue-600 mb-2">Starting from ${selectedService.price}/month</div>
                     </div>
                     <div className="h-16 w-px bg-gray-300"></div>
                     <div className="text-center">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Hero } from '@/components/common/Hero';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
@@ -31,21 +31,35 @@ type BlogData = {
 const BlogPage = () => {
   const [blogData, setBlogData] = useState<BlogData | null>(null);
   const [loading, setLoading] = useState(true);
+  const previousDataRef = useRef<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (isPolling = false) => {
       try {
         const blogRes = await fetch('/api/blog');
         const blog = await blogRes.json();
-        setBlogData(blog);
+        const blogString = JSON.stringify(blog);
+
+        // Only update if data has changed or it's the initial load
+        if (!isPolling || blogString !== previousDataRef.current) {
+          setBlogData(blog);
+          previousDataRef.current = blogString;
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
-        setLoading(false);
+        if (!isPolling) {
+          setLoading(false);
+        }
       }
     };
 
     fetchData();
+
+    // Poll for updates every 30 seconds
+    const interval = setInterval(() => fetchData(true), 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {

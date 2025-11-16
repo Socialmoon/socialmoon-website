@@ -2,13 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 type Message = {
   id: number;
   name: string;
   email: string;
   message: string;
-  date: string;
+  timestamp: string;
   status: 'unread' | 'read' | 'replied';
 };
 
@@ -74,70 +77,88 @@ const ContactAdminPage = () => {
     setSaving(false);
   };
 
-  if (loading) return <div className="p-8">Loading...</div>;
+  if (loading) return <div className="p-8 text-center">Loading messages...</div>;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-3xl font-bold mb-8">Manage Contact Messages</h1>
-      <div className="bg-white p-6 rounded shadow">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Manage Contact Messages</h1>
+          <Button
+            onClick={() => router.push('/admin/dashboard')}
+            variant="outline"
+          >
+            Back to Dashboard
+          </Button>
+        </div>
+
         {messages.length === 0 ? (
-          <p>No messages yet.</p>
+          <Card className="p-8 text-center">
+            <p className="text-gray-500">No messages yet.</p>
+          </Card>
         ) : (
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {messages.map((msg) => (
-              <div key={msg.id} className="border p-4 rounded">
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <h3 className="font-bold">{msg.name} ({msg.email})</h3>
-                    <p className="text-sm text-gray-600">{new Date(msg.date).toLocaleString()}</p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <span className={`px-2 py-1 rounded text-sm ${
-                      msg.status === 'unread' ? 'bg-red-100 text-red-800' :
-                      msg.status === 'read' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-green-100 text-green-800'
-                    }`}>
+              <Card key={msg.id} className="hover:shadow-lg transition-shadow">
+                <CardHeader className="pb-3">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <CardTitle className="text-lg">{msg.name}</CardTitle>
+                      <p className="text-sm text-gray-600 mt-1">{msg.email}</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {new Date(msg.timestamp).toLocaleString()}
+                      </p>
+                    </div>
+                    <Badge
+                      variant={
+                        msg.status === 'unread' ? 'destructive' :
+                        msg.status === 'read' ? 'secondary' :
+                        'default'
+                      }
+                      className="ml-2"
+                    >
                       {msg.status}
-                    </span>
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <p className="text-sm text-gray-700 mb-4 line-clamp-3">{msg.message}</p>
+                  <div className="flex flex-wrap gap-2">
                     {msg.status === 'unread' && (
-                      <button
+                      <Button
                         onClick={() => updateMessageStatus(msg.id, 'read')}
                         disabled={saving}
-                        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 disabled:opacity-50"
+                        size="sm"
+                        variant="default"
                       >
                         Mark Read
-                      </button>
+                      </Button>
                     )}
                     {msg.status === 'read' && (
-                      <button
+                      <Button
                         onClick={() => updateMessageStatus(msg.id, 'replied')}
                         disabled={saving}
-                        className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 disabled:opacity-50"
+                        size="sm"
+                        variant="default"
                       >
                         Mark Replied
-                      </button>
+                      </Button>
                     )}
-                    <button
+                    <Button
                       onClick={() => deleteMessage(msg.id)}
                       disabled={saving}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 disabled:opacity-50"
+                      size="sm"
+                      variant="destructive"
                     >
                       Delete
-                    </button>
+                    </Button>
                   </div>
-                </div>
-                <p>{msg.message}</p>
-              </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         )}
       </div>
-      <button
-        onClick={() => router.push('/admin/dashboard')}
-        className="mt-4 text-blue-500 hover:underline"
-      >
-        Back to Dashboard
-      </button>
     </div>
   );
 };

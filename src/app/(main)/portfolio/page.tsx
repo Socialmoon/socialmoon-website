@@ -1,4 +1,6 @@
-import { PortfolioService } from '@/services/portfolio';
+'use client';
+
+import { useEffect, useState, useRef } from 'react';
 import { Hero } from '@/components/common/Hero';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
@@ -18,24 +20,64 @@ import { CategoryProjectsSection } from './CategoryProjectsSection';
 import { PlatformExpertiseSection } from './PlatformExpertiseSection';
 import { InstagramProjectsSection } from './InstagramProjectsSection';
 
-export const dynamic = 'force-dynamic';
+const PortfolioPage = () => {
+  const [content, setContent] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const previousDataRef = useRef<string | null>(null);
 
-const PortfolioPage = async () => {
-  // Fetch portfolio data on server
-  const portfolioData = await PortfolioService.getPortfolio();
+  useEffect(() => {
+    const fetchData = async (isPolling = false) => {
+      try {
+        const response = await fetch('/api/portfolio');
+        const portfolioData = await response.json();
 
-  // Add additional data to projects for enhanced display
-  const enhancedProjects = portfolioData.projects.map((project: any, index: number) => ({
-    ...project,
-    slug: ['techcorp-social-media-transformation', 'fashion-forward-content-creation', 'startup-xyz-advertising-campaign', 'ecommerce-web-development', 'fitness-app-development', 'restaurant-brand-strategy'][index % 6],
-    category: ['Social Media Marketing', 'Content Creation', 'Brand Strategy', 'Web Development', 'App Development', 'Social Media Marketing'][index % 6],
-    client: ['TechCorp', 'FashionForward', 'StartupXYZ', 'ECommerce Plus', 'FitLife App', 'Restaurant Chain'][index % 6],
-    results: ['300% engagement increase', '200% follower growth', '150% lead generation', '400% website traffic boost', '100,000+ app downloads', '250% brand awareness'][index % 6],
-    duration: ['6 months', '4 months', '3 months', '8 months', '12 months', '5 months'][index % 6],
-    videoUrl: `/videos/project-${(index % 6) + 1}.mp4` // Sample video URLs
-  }));
+        // Add additional data to projects for enhanced display
+        const enhancedProjects = portfolioData.projects.map((project: any, index: number) => ({
+          ...project,
+          slug: ['techcorp-social-media-transformation', 'fashion-forward-content-creation', 'startup-xyz-advertising-campaign', 'ecommerce-web-development', 'fitness-app-development', 'restaurant-brand-strategy'][index % 6],
+          category: ['Social Media Marketing', 'Content Creation', 'Brand Strategy', 'Web Development', 'App Development', 'Social Media Marketing'][index % 6],
+          client: ['TechCorp', 'FashionForward', 'StartupXYZ', 'ECommerce Plus', 'FitLife App', 'Restaurant Chain'][index % 6],
+          results: ['300% engagement increase', '200% follower growth', '150% lead generation', '400% website traffic boost', '100,000+ app downloads', '250% brand awareness'][index % 6],
+          duration: ['6 months', '4 months', '3 months', '8 months', '12 months', '5 months'][index % 6],
+          videoUrl: `/videos/project-${(index % 6) + 1}.mp4` // Sample video URLs
+        }));
 
-  const content = { ...portfolioData, projects: enhancedProjects };
+        const enhancedContent = { ...portfolioData, projects: enhancedProjects };
+        const contentString = JSON.stringify(enhancedContent);
+
+        // Only update if data has changed or it's the initial load
+        if (!isPolling || contentString !== previousDataRef.current) {
+          setContent(enhancedContent);
+          previousDataRef.current = contentString;
+        }
+      } catch (error) {
+        console.error('Error fetching portfolio data:', error);
+      } finally {
+        if (!isPolling) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+
+    // Poll for updates every 30 seconds
+    const interval = setInterval(() => fetchData(true), 30000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  if (loading || !content) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
+        <div className="flex items-center space-x-2">
+          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce"></div>
+          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
@@ -81,7 +123,7 @@ const PortfolioPage = async () => {
       </Hero>
 
       {/* Projects by Category Section */}
-      <CategoryProjectsSection projects={enhancedProjects} />
+      <CategoryProjectsSection projects={content.projects} />
 
       {/* Platform Expertise Section */}
       <PlatformExpertiseSection />
@@ -104,10 +146,10 @@ const PortfolioPage = async () => {
 
           {/* Instagram Projects Showcase - Phone Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {enhancedProjects
-              .filter(project => project.category === 'Social Media Marketing' || project.category === 'Content Creation')
+            {content.projects
+              .filter((project: any) => project.category === 'Social Media Marketing' || project.category === 'Content Creation')
               .slice(0, 6) // Show first 6 Instagram projects
-              .map((project) => (
+              .map((project: any) => (
                 <Link key={project.id} href={`/portfolio/${project.slug}`}>
                   <div className="group cursor-pointer h-full flex justify-center">
                     {/* Phone Frame Container */}
