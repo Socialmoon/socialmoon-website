@@ -18,6 +18,8 @@ import { CategoryProjectsSection } from './CategoryProjectsSection';
 import { PlatformExpertiseSection } from './PlatformExpertiseSection';
 import { InstagramProjectsSection } from './InstagramProjectsSection';
 
+export const dynamic = 'force-dynamic';
+
 const PortfolioPage = async () => {
   // Fetch portfolio data on server
   const portfolioData = await PortfolioService.getPortfolio();
