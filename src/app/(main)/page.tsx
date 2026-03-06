@@ -191,29 +191,21 @@ const HomePage = () => {
         <Container>
           <div className="text-center mb-8">
             <p className="text-lg font-semibold text-gray-600 uppercase tracking-wider">
-              Trusted by leading companies worldwide
+              Trusted by leading Indian companies
             </p>
           </div>
 
           <div className="grid grid-cols-4 md:grid-cols-8 gap-4 md:gap-6">
-            {/* Genuine brand logos */}
+            {/* Indian small brand logos */}
             {[
-              { name: "Google", url: "https://www.google.com/s2/favicons?domain=google.com&sz=128" },
-              { name: "Microsoft", url: "https://www.google.com/s2/favicons?domain=microsoft.com&sz=128" },
-              { name: "Amazon", url: "https://www.google.com/s2/favicons?domain=amazon.com&sz=128" },
-              { name: "Meta", url: "https://www.google.com/s2/favicons?domain=meta.com&sz=128" },
-              { name: "Apple", url: "https://www.google.com/s2/favicons?domain=apple.com&sz=128" },
-              { name: "Netflix", url: "https://www.google.com/s2/favicons?domain=netflix.com&sz=128" },
-              { name: "Tesla", url: "https://www.google.com/s2/favicons?domain=tesla.com&sz=128" },
-              { name: "Spotify", url: "https://www.google.com/s2/favicons?domain=spotify.com&sz=128" },
-              { name: "LinkedIn", url: "https://www.google.com/s2/favicons?domain=linkedin.com&sz=128" },
-              { name: "Salesforce", url: "https://www.google.com/s2/favicons?domain=salesforce.com&sz=128" },
-              { name: "Uber", url: "https://www.google.com/s2/favicons?domain=uber.com&sz=128" },
-              { name: "Airbnb", url: "https://www.google.com/s2/favicons?domain=airbnb.com&sz=128" },
-              { name: "Slack", url: "https://www.google.com/s2/favicons?domain=slack.com&sz=128" },
-              { name: "Twitter", url: "https://www.google.com/s2/favicons?domain=twitter.com&sz=128" },
-              { name: "Shopify", url: "https://www.google.com/s2/favicons?domain=shopify.com&sz=128" },
-              { name: "Stripe", url: "https://www.google.com/s2/favicons?domain=stripe.com&sz=128" }
+              { name: "Bewakoof", url: "https://www.google.com/s2/favicons?domain=bewakoof.com&sz=128" },
+              { name: "Lenskart", url: "https://www.google.com/s2/favicons?domain=lenskart.com&sz=128" },
+              { name: "boAt", url: "https://www.google.com/s2/favicons?domain=boat-lifestyle.com&sz=128" },
+              { name: "Mamaearth", url: "https://www.google.com/s2/favicons?domain=mamaearth.in&sz=128" },
+              { name: "Sugar", url: "https://www.google.com/s2/favicons?domain=sugarcosmetics.com&sz=128" },
+              { name: "Sleepy Owl", url: "https://www.google.com/s2/favicons?domain=sleepyowlcoffee.com&sz=128" },
+              { name: "Chumbak", url: "https://www.google.com/s2/favicons?domain=chumbak.com&sz=128" },
+              { name: "Wakefit", url: "https://www.google.com/s2/favicons?domain=wakefit.co&sz=128" }
             ].map((brand, index) => (
               <div key={index} className="flex items-center justify-center">
                 <Image
@@ -404,131 +396,131 @@ const HomePage = () => {
             <div className="flex animate-scroll space-x-6">
               {[
                 {
-                  quote: "SocialMoon transformed our social media presence completely. Our engagement increased by 300% in just 3 months.",
-                  author: "Sarah Johnson",
-                  role: "Marketing Director",
-                  company: "TechCorp",
-                  avatar: "SJ"
+                  quote: "SocialMoon ne humare Instagram page ko completely transform kar diya. Sirf 2 mahine mein followers 5x ho gaye!",
+                  author: "Priya Sharma",
+                  role: "Founder",
+                  company: "Priya's Boutique, Delhi",
+                  avatar: "PS"
                 },
                 {
-                  quote: "The analytics and insights we get are incredible. We've never had this level of understanding about our audience.",
-                  author: "Mike Chen",
-                  role: "CEO",
-                  company: "StartupXYZ",
-                  avatar: "MC"
+                  quote: "Pehle hum khud content banate the, bahut time lagta tha. Ab SocialMoon se sab kuch smooth ho gaya hai. Highly recommended!",
+                  author: "Rahul Verma",
+                  role: "Marketing Head",
+                  company: "Verma Sweets & Co., Lucknow",
+                  avatar: "RV"
                 },
                 {
-                  quote: "Finally, a social media tool that actually works. The AI suggestions are spot-on and save us hours every week.",
-                  author: "Emily Rodriguez",
+                  quote: "Our engagement rate went from 1% to almost 8% in three months. The content strategy they helped us build actually works.",
+                  author: "Ananya Iyer",
                   role: "Social Media Manager",
-                  company: "FashionForward",
-                  avatar: "ER"
+                  company: "The Brew Room, Bangalore",
+                  avatar: "AI"
                 },
                 {
-                  quote: "SocialMoon has revolutionized how we connect with our customers. The automated responses are intelligent and save us countless hours.",
-                  author: "David Park",
-                  role: "Customer Success Manager",
-                  company: "EcomGiant",
-                  avatar: "DP"
+                  quote: "Bohot achi service hai. Hamare restaurant ke liye reels aur posts banane mein bahut help mili. Orders bhi badhe.",
+                  author: "Mohammed Arif",
+                  role: "Owner",
+                  company: "Arif's Biryani House, Hyderabad",
+                  avatar: "MA"
                 },
                 {
-                  quote: "Our ROI on social media advertising doubled after implementing SocialMoon's strategies. Highly recommend!",
-                  author: "Lisa Wong",
-                  role: "Digital Marketing Lead",
-                  company: "RetailPlus",
-                  avatar: "LW"
+                  quote: "I was skeptical at first but the results speak for themselves. Our brand visibility on Instagram doubled within weeks.",
+                  author: "Sneha Kulkarni",
+                  role: "Co-Founder",
+                  company: "Kulkarni Organics, Pune",
+                  avatar: "SK"
                 },
                 {
-                  quote: "The content scheduling feature is a game-changer. We maintain consistent posting without the hassle.",
-                  author: "James Taylor",
-                  role: "Content Creator",
-                  company: "CreativeStudio",
-                  avatar: "JT"
+                  quote: "SocialMoon ka scheduling tool bahut kaam ka hai. Ek baar set karo, baaki sab automatic. Time aur paise dono bache.",
+                  author: "Deepak Nair",
+                  role: "Business Owner",
+                  company: "Nair Electronics, Kochi",
+                  avatar: "DN"
                 },
                 {
-                  quote: "SocialMoon's AI understands our brand voice perfectly. The generated content feels authentic and engaging.",
-                  author: "Anna Martinez",
+                  quote: "We run a small handcraft business from home. SocialMoon helped us reach customers pan-India through social media. Life-changing!",
+                  author: "Kavita Joshi",
+                  role: "Artisan & Owner",
+                  company: "KavitaKrafts, Jaipur",
+                  avatar: "KJ"
+                },
+                {
+                  quote: "The support team is very responsive. Whenever we had a doubt, they explained everything clearly. Great experience overall.",
+                  author: "Amit Bhatia",
+                  role: "Digital Lead",
+                  company: "Bhatia Travel Agency, Chandigarh",
+                  avatar: "AB"
+                },
+                {
+                  quote: "Hamari clothing brand ke liye SocialMoon ne kaam ka content calendar banaya. Sales mein seedha 40% ka fark pada.",
+                  author: "Riya Mehta",
                   role: "Brand Manager",
-                  company: "LuxuryBrands",
-                  avatar: "AM"
+                  company: "Studio Riya, Surat",
+                  avatar: "RM"
                 },
                 {
-                  quote: "We've seen a 250% increase in follower growth since using SocialMoon. The targeting is spot-on.",
-                  author: "Robert Kim",
-                  role: "Growth Hacker",
-                  company: "ScaleUp Inc",
-                  avatar: "RK"
+                  quote: "Finally found a platform that understands small Indian businesses. No jargon, just results. Our Facebook page is thriving now.",
+                  author: "Suresh Pillai",
+                  role: "Owner",
+                  company: "Pillai Bakery, Chennai",
+                  avatar: "SP"
                 },
                 {
-                  quote: "The customer support is exceptional. They helped us customize the platform to our specific needs.",
-                  author: "Maria Garcia",
-                  role: "Operations Director",
-                  company: "ServicePro",
-                  avatar: "MG"
+                  quote: "SocialMoon ki team ne samjha ki hamara target customer kaun hai. Uske hisaab se campaigns chalaye. Bahut fayda hua.",
+                  author: "Pooja Agarwal",
+                  role: "CEO",
+                  company: "Agarwal Jewellers, Nagpur",
+                  avatar: "PA"
                 },
                 {
-                  quote: "SocialMoon integrates seamlessly with all our existing tools. Setup was incredibly smooth.",
-                  author: "Thomas Brown",
-                  role: "IT Manager",
-                  company: "TechSolutions",
-                  avatar: "TB"
-                },
-                {
-                  quote: "Our conversion rates from social media have improved dramatically. SocialMoon delivers real results.",
-                  author: "Jennifer Lee",
-                  role: "Conversion Specialist",
-                  company: "ConvertMasters",
-                  avatar: "JL"
-                },
-                {
-                  quote: "The reporting dashboard gives us all the insights we need to make data-driven decisions.",
-                  author: "Kevin Wright",
-                  role: "Data Analyst",
-                  company: "InsightCorp",
-                  avatar: "KW"
+                  quote: "We used to post randomly. Now with SocialMoon we have a proper strategy. Our inquiries from Instagram have tripled.",
+                  author: "Vikram Singh",
+                  role: "Founder",
+                  company: "VS Fitness Studio, Indore",
+                  avatar: "VS"
                 }
               ].concat([
                 {
-                  quote: "SocialMoon transformed our social media presence completely. Our engagement increased by 300% in just 3 months.",
-                  author: "Sarah Johnson",
-                  role: "Marketing Director",
-                  company: "TechCorp",
-                  avatar: "SJ"
+                  quote: "SocialMoon ne humare Instagram page ko completely transform kar diya. Sirf 2 mahine mein followers 5x ho gaye!",
+                  author: "Priya Sharma",
+                  role: "Founder",
+                  company: "Priya's Boutique, Delhi",
+                  avatar: "PS"
                 },
                 {
-                  quote: "The analytics and insights we get are incredible. We've never had this level of understanding about our audience.",
-                  author: "Mike Chen",
-                  role: "CEO",
-                  company: "StartupXYZ",
-                  avatar: "MC"
+                  quote: "Pehle hum khud content banate the, bahut time lagta tha. Ab SocialMoon se sab kuch smooth ho gaya hai. Highly recommended!",
+                  author: "Rahul Verma",
+                  role: "Marketing Head",
+                  company: "Verma Sweets & Co., Lucknow",
+                  avatar: "RV"
                 },
                 {
-                  quote: "Finally, a social media tool that actually works. The AI suggestions are spot-on and save us hours every week.",
-                  author: "Emily Rodriguez",
+                  quote: "Our engagement rate went from 1% to almost 8% in three months. The content strategy they helped us build actually works.",
+                  author: "Ananya Iyer",
                   role: "Social Media Manager",
-                  company: "FashionForward",
-                  avatar: "ER"
+                  company: "The Brew Room, Bangalore",
+                  avatar: "AI"
                 },
                 {
-                  quote: "SocialMoon has revolutionized how we connect with our customers. The automated responses are intelligent and save us countless hours.",
-                  author: "David Park",
-                  role: "Customer Success Manager",
-                  company: "EcomGiant",
-                  avatar: "DP"
+                  quote: "Bohot achi service hai. Hamare restaurant ke liye reels aur posts banane mein bahut help mili. Orders bhi badhe.",
+                  author: "Mohammed Arif",
+                  role: "Owner",
+                  company: "Arif's Biryani House, Hyderabad",
+                  avatar: "MA"
                 },
                 {
-                  quote: "Our ROI on social media advertising doubled after implementing SocialMoon's strategies. Highly recommend!",
-                  author: "Lisa Wong",
-                  role: "Digital Marketing Lead",
-                  company: "RetailPlus",
-                  avatar: "LW"
+                  quote: "I was skeptical at first but the results speak for themselves. Our brand visibility on Instagram doubled within weeks.",
+                  author: "Sneha Kulkarni",
+                  role: "Co-Founder",
+                  company: "Kulkarni Organics, Pune",
+                  avatar: "SK"
                 },
                 {
-                  quote: "The content scheduling feature is a game-changer. We maintain consistent posting without the hassle.",
-                  author: "James Taylor",
-                  role: "Content Creator",
-                  company: "CreativeStudio",
-                  avatar: "JT"
+                  quote: "SocialMoon ka scheduling tool bahut kaam ka hai. Ek baar set karo, baaki sab automatic. Time aur paise dono bache.",
+                  author: "Deepak Nair",
+                  role: "Business Owner",
+                  company: "Nair Electronics, Kochi",
+                  avatar: "DN"
                 }
               ]).map((testimonial, index) => (
                 <div key={index} className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20 flex-shrink-0 w-96 z-10">
