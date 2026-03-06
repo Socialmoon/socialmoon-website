@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: path.resolve(__dirname),
+  },
   images: {
     remotePatterns: [
       {
@@ -34,6 +38,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: '*.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'logo.clearbit.com',
       },
     ],
     unoptimized: process.env.NODE_ENV === 'development',
