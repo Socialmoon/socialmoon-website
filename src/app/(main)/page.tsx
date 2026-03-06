@@ -157,10 +157,10 @@ const HomePage = () => {
             <div className="flex items-center">
               <div className="flex -space-x-2">
                 {[
-                  'https://logo.clearbit.com/google.com',
-                  'https://logo.clearbit.com/x.com',
-                  'https://logo.clearbit.com/amazon.com',
-                  'https://logo.clearbit.com/meta.com'
+                  'https://www.google.com/s2/favicons?domain=google.com&sz=128',
+                  'https://www.google.com/s2/favicons?domain=x.com&sz=128',
+                  'https://www.google.com/s2/favicons?domain=amazon.com&sz=128',
+                  'https://www.google.com/s2/favicons?domain=meta.com&sz=128'
                 ].map((logo, i) => (
                   <Image
                     key={i}
@@ -198,22 +198,22 @@ const HomePage = () => {
           <div className="grid grid-cols-4 md:grid-cols-8 gap-4 md:gap-6">
             {/* Genuine brand logos */}
             {[
-              { name: "Google", url: "https://logo.clearbit.com/google.com" },
-              { name: "Microsoft", url: "https://logo.clearbit.com/microsoft.com" },
-              { name: "Amazon", url: "https://logo.clearbit.com/amazon.com" },
-              { name: "Meta", url: "https://logo.clearbit.com/meta.com" },
-              { name: "Apple", url: "https://logo.clearbit.com/apple.com" },
-              { name: "Netflix", url: "https://logo.clearbit.com/netflix.com" },
-              { name: "Tesla", url: "https://logo.clearbit.com/tesla.com" },
-              { name: "Spotify", url: "https://logo.clearbit.com/spotify.com" },
-              { name: "LinkedIn", url: "https://logo.clearbit.com/linkedin.com" },
-              { name: "Salesforce", url: "https://logo.clearbit.com/salesforce.com" },
-              { name: "Uber", url: "https://logo.clearbit.com/uber.com" },
-              { name: "Airbnb", url: "https://logo.clearbit.com/airbnb.com" },
-              { name: "Slack", url: "https://logo.clearbit.com/slack.com" },
-              { name: "Twitter", url: "https://logo.clearbit.com/twitter.com" },
-              { name: "Shopify", url: "https://logo.clearbit.com/shopify.com" },
-              { name: "Stripe", url: "https://logo.clearbit.com/stripe.com" }
+              { name: "Google", url: "https://www.google.com/s2/favicons?domain=google.com&sz=128" },
+              { name: "Microsoft", url: "https://www.google.com/s2/favicons?domain=microsoft.com&sz=128" },
+              { name: "Amazon", url: "https://www.google.com/s2/favicons?domain=amazon.com&sz=128" },
+              { name: "Meta", url: "https://www.google.com/s2/favicons?domain=meta.com&sz=128" },
+              { name: "Apple", url: "https://www.google.com/s2/favicons?domain=apple.com&sz=128" },
+              { name: "Netflix", url: "https://www.google.com/s2/favicons?domain=netflix.com&sz=128" },
+              { name: "Tesla", url: "https://www.google.com/s2/favicons?domain=tesla.com&sz=128" },
+              { name: "Spotify", url: "https://www.google.com/s2/favicons?domain=spotify.com&sz=128" },
+              { name: "LinkedIn", url: "https://www.google.com/s2/favicons?domain=linkedin.com&sz=128" },
+              { name: "Salesforce", url: "https://www.google.com/s2/favicons?domain=salesforce.com&sz=128" },
+              { name: "Uber", url: "https://www.google.com/s2/favicons?domain=uber.com&sz=128" },
+              { name: "Airbnb", url: "https://www.google.com/s2/favicons?domain=airbnb.com&sz=128" },
+              { name: "Slack", url: "https://www.google.com/s2/favicons?domain=slack.com&sz=128" },
+              { name: "Twitter", url: "https://www.google.com/s2/favicons?domain=twitter.com&sz=128" },
+              { name: "Shopify", url: "https://www.google.com/s2/favicons?domain=shopify.com&sz=128" },
+              { name: "Stripe", url: "https://www.google.com/s2/favicons?domain=stripe.com&sz=128" }
             ].map((brand, index) => (
               <div key={index} className="flex items-center justify-center">
                 <Image
@@ -571,14 +571,14 @@ const HomePage = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6">
             {[
-              { name: "Instagram", logo: "https://logo.clearbit.com/instagram.com" },
-              { name: "Facebook", logo: "https://logo.clearbit.com/facebook.com" },
-              { name: "Twitter", logo: "https://logo.clearbit.com/twitter.com" },
-              { name: "LinkedIn", logo: "https://logo.clearbit.com/linkedin.com" },
-              { name: "TikTok", logo: "https://logo.clearbit.com/tiktok.com" },
-              { name: "YouTube", logo: "https://logo.clearbit.com/youtube.com" },
-              { name: "Pinterest", logo: "https://logo.clearbit.com/pinterest.com" },
-              { name: "Snapchat", logo: "https://logo.clearbit.com/snapchat.com" }
+              { name: "Instagram", logo: "https://www.google.com/s2/favicons?domain=instagram.com&sz=128" },
+              { name: "Facebook", logo: "https://www.google.com/s2/favicons?domain=facebook.com&sz=128" },
+              { name: "Twitter", logo: "https://www.google.com/s2/favicons?domain=twitter.com&sz=128" },
+              { name: "LinkedIn", logo: "https://www.google.com/s2/favicons?domain=linkedin.com&sz=128" },
+              { name: "TikTok", logo: "https://www.google.com/s2/favicons?domain=tiktok.com&sz=128" },
+              { name: "YouTube", logo: "https://www.google.com/s2/favicons?domain=youtube.com&sz=128" },
+              { name: "Pinterest", logo: "https://www.google.com/s2/favicons?domain=pinterest.com&sz=128" },
+              { name: "Snapchat", logo: "https://www.google.com/s2/favicons?domain=snapchat.com&sz=128" }
             ].map((platform, index) => (
               <div key={index} className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-sm rounded-2xl hover:bg-white/80 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-white/30 group">
                 <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 shadow-md border border-gray-200">

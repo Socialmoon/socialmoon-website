@@ -43,6 +43,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'logo.clearbit.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.google.com',
+      },
     ],
     unoptimized: process.env.NODE_ENV === 'development',
   },
