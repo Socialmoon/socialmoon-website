@@ -19,6 +19,7 @@ import {
   BarChart3
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface CaseStudy {
   id: string;
@@ -108,378 +109,224 @@ const CaseStudyDetailPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <Hero className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 pt-20 md:pt-24 pb-16">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-200 to-indigo-300 rounded-full opacity-30 blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-200 to-pink-300 rounded-full opacity-30 blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full">
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS1vcGFjaXR5PSIwLjAzIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-40"></div>
-          </div>
-        </div>
 
-        <div className="relative z-10 max-w-6xl mx-auto">
-          <Link href="/case-studies" className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-8 font-semibold transition-all hover:gap-3 gap-2">
+      {/* Hero */}
+      <div className="relative bg-gray-950 text-white pt-32 pb-24 px-4 overflow-hidden">
+        {caseStudy.images && caseStudy.images.length > 0 && (
+          <div className="absolute inset-0 opacity-20 transition-opacity duration-1000">
+            <Image
+              src={caseStudy.images[0]}
+              alt={caseStudy.title}
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/80 to-gray-950"></div>
+          </div>
+        )}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+
+        <div className="relative max-w-4xl mx-auto z-10">
+          <Link href="/insights" className="inline-flex items-center gap-2 text-gray-400 hover:text-white text-sm font-medium mb-10 transition-colors">
             <ArrowLeft className="w-4 h-4" />
-            Back to Case Studies
+            Back to Insights
           </Link>
 
-          <div className="text-center mb-12">
-            <div className="flex flex-wrap justify-center gap-2 mb-6">
-              {caseStudy.service && (
-                <Badge className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-1.5 text-sm font-semibold">
-                  {caseStudy.service}
-                </Badge>
-              )}
-              {caseStudy.tags && caseStudy.tags.slice(0, 3).map((tag, index) => (
-                <Badge key={index} className="bg-white/80 text-gray-700 border border-gray-200 hover:bg-white px-4 py-1.5 text-sm font-medium">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
-              {caseStudy.title}
-            </h1>
-            {caseStudy.overview ? (
-              <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-10">
-                {caseStudy.overview}
-              </p>
-            ) : (
-              <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-10">
-                A comprehensive case study of how we helped {caseStudy.company || caseStudy.client} achieve remarkable results through strategic digital marketing.
-              </p>
+          <div className="flex flex-wrap items-center gap-2 mb-6">
+            {caseStudy.service && (
+              <span className="text-xs font-semibold tracking-widest uppercase text-blue-400 bg-blue-400/10 px-3 py-1.5 rounded-full border border-blue-400/20">
+                {caseStudy.service}
+              </span>
             )}
-
-            <div className="flex flex-wrap justify-center gap-6 md:gap-8 mb-8">
-              <div className="flex items-center bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full shadow-sm border border-gray-100">
-                <Users className="w-5 h-5 mr-3 text-blue-600" />
-                <span className="font-semibold text-gray-900">{caseStudy.company || caseStudy.client}</span>
-              </div>
-              <div className="flex items-center bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full shadow-sm border border-gray-100">
-                <Award className="w-5 h-5 mr-3 text-purple-600" />
-                <span className="font-medium text-gray-700">{caseStudy.industry}</span>
-              </div>
-              <div className="flex items-center bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full shadow-sm border border-gray-100">
-                <Calendar className="w-5 h-5 mr-3 text-pink-600" />
-                <span className="font-medium text-gray-700">{caseStudy.duration}</span>
-              </div>
-            </div>
+            <span className="text-xs font-medium text-gray-500 bg-gray-800 px-3 py-1.5 rounded-full">
+              {caseStudy.industry}
+            </span>
           </div>
 
-          {/* Key Results - Enhanced */}
-          <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-100 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full opacity-20 blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-br from-pink-100 to-yellow-100 rounded-full opacity-20 blur-3xl"></div>
-            
-            <div className="relative z-10">
-              <div className="text-center mb-10">
-                <Badge className="bg-green-100 text-green-700 mb-4 px-4 py-1.5 font-semibold">
-                  🎯 BUSINESS IMPACT
-                </Badge>
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                  Key Results Achieved
-                </h2>
-                {Array.isArray(caseStudy.results) && (
-                  <div className="space-y-3 max-w-3xl mx-auto">
-                    {caseStudy.results.map((result, idx) => (
-                      <div key={idx} className="flex items-start justify-center gap-3">
-                        <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
-                        <p className="text-lg text-gray-700 font-medium text-left">{result}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+          <h1 className="text-3xl md:text-5xl font-bold leading-tight mb-6 text-white">
+            {caseStudy.title}
+          </h1>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
-                {caseStudy.metrics && Object.entries(caseStudy.metrics).map(([key, value], index) => {
-                  const gradients = [
-                    'from-blue-500 to-cyan-500',
-                    'from-purple-500 to-pink-500',
-                    'from-green-500 to-emerald-500',
-                    'from-orange-500 to-red-500'
-                  ];
-                  const gradient = gradients[index % gradients.length];
-                  
-                  return (
-                    <div key={index} className="relative group">
-                      <div className={`absolute -inset-0.5 bg-gradient-to-r ${gradient} rounded-2xl opacity-75 group-hover:opacity-100 blur transition-all duration-300`}></div>
-                      <div className="relative bg-white p-8 rounded-2xl text-center">
-                        <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg`}>
-                          <TrendingUp className="w-8 h-8 text-white" />
-                        </div>
-                        <div className={`text-3xl md:text-4xl font-bold bg-gradient-to-r ${gradient} bg-clip-text text-transparent mb-2`}>{value}</div>
-                        <div className="text-sm font-semibold text-gray-600 uppercase tracking-wide">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+          <p className="text-gray-400 text-lg leading-relaxed max-w-3xl mb-10">
+            {caseStudy.overview || `How we helped ${caseStudy.company || caseStudy.client} achieve remarkable results through strategic digital marketing.`}
+          </p>
+
+          <div className="flex flex-wrap gap-6 text-sm text-gray-400 border-t border-gray-800 pt-8">
+            <div className="flex items-center gap-2">
+              <Users className="w-4 h-4 text-gray-600" />
+              <span className="text-white font-medium">{caseStudy.company || caseStudy.client}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-gray-600" />
+              <span>{caseStudy.duration}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-gray-600" />
+              <span className="text-green-400 font-medium">{typeof caseStudy.results === 'string' ? caseStudy.results : 'Key results achieved'}</span>
             </div>
           </div>
         </div>
-      </Hero>
+      </div>
 
-      {/* Challenge & Solution */}
-      <Section className="py-24 bg-gradient-to-b from-white to-gray-50">
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="relative">
-              <div className="absolute -top-6 -left-6 w-12 h-12 bg-red-100 rounded-full opacity-50"></div>
-              <div className="bg-white p-8 rounded-2xl shadow-lg border-l-4 border-red-500 relative">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
-                    <Target className="w-6 h-6 text-red-600" />
-                  </div>
-                  <h2 className="text-3xl font-bold text-gray-900">
-                    The Challenge
-                  </h2>
-                </div>
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  {caseStudy.challenge}
-                </p>
-              </div>
-            </div>
-
-            {caseStudy.solution && (
-              <div className="relative">
-                <div className="absolute -top-6 -right-6 w-12 h-12 bg-green-100 rounded-full opacity-50"></div>
-                <div className="bg-white p-8 rounded-2xl shadow-lg border-l-4 border-green-500 relative">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                      <CheckCircle className="w-6 h-6 text-green-600" />
-                    </div>
-                    <h2 className="text-3xl font-bold text-gray-900">
-                      Our Solution
-                    </h2>
-                  </div>
-                  <p className="text-lg text-gray-700 leading-relaxed">
-                    {caseStudy.solution}
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        </Container>
-      </Section>
-
-      {/* Approach Section */}
-      <Section className="py-20 bg-white">
-        <Container>
-          <div className="text-center mb-16">
-            <Badge className="bg-blue-100 text-blue-700 mb-4 px-4 py-1.5 font-semibold">
-              📋 OUR STRATEGY
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Strategic Approach
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Step-by-step methodology that delivered exceptional results
-            </p>
-          </div>
-
-          {Array.isArray(caseStudy.approach) ? (
-            <div className="relative max-w-4xl mx-auto">
-              {/* Timeline line */}
-              <div className="hidden md:block absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500"></div>
-              
-              <div className="space-y-8">
-                {caseStudy.approach.map((step, index) => (
-                  <div key={index} className="relative flex items-start gap-6 group">
-                    {/* Timeline node */}
-                    <div className="hidden md:flex flex-shrink-0 w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-2xl items-center justify-center text-xl font-bold shadow-lg z-10 group-hover:scale-110 transition-transform duration-300">
-                      {index + 1}
-                    </div>
-                    
-                    {/* Content card */}
-                    <div className="flex-1 bg-gradient-to-br from-white to-gray-50 p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 group-hover:shadow-xl transition-all duration-300">
-                      <div className="flex items-center gap-3 mb-4">
-                        <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0" />
-                        <span className="md:hidden w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-lg flex items-center justify-center text-sm font-bold">
-                          {index + 1}
-                        </span>
-                      </div>
-                      <p className="text-gray-700 text-lg leading-relaxed">{step}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="bg-gradient-to-br from-white to-gray-50 p-8 md:p-12 rounded-2xl shadow-xl border border-gray-100 max-w-4xl mx-auto">
-              <div className="prose prose-lg max-w-none">
-                <div className="text-gray-700 leading-relaxed whitespace-pre-wrap text-lg">{caseStudy.approach}</div>
-              </div>
-            </div>
-          )}
-        </Container>
-      </Section>
-
-      {/* Execution Section (if available) */}
-      {caseStudy.execution && (
-        <Section className="py-20 bg-gradient-to-b from-gray-50 to-white">
-          <Container>
-            <div className="text-center mb-12">
-              <Badge className="bg-purple-100 text-purple-700 mb-4 px-4 py-1.5 font-semibold">
-                ⚡ EXECUTION
-              </Badge>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                Execution Strategy
-              </h2>
-            </div>
-            <div className="bg-gradient-to-br from-white to-purple-50 p-8 md:p-12 rounded-3xl shadow-2xl border border-purple-100 max-w-5xl mx-auto">
-              <div className="prose prose-lg max-w-none">
-                <div className="text-gray-700 leading-relaxed whitespace-pre-wrap text-lg">{caseStudy.execution}</div>
-              </div>
-            </div>
-          </Container>
-        </Section>
-      )}
-
-      {/* Testimonial Section */}
-      <Section className="py-24 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
-        
-        <Container className="relative z-10">
-          <div className="text-center max-w-5xl mx-auto">
-            <Badge className="bg-white/20 text-white border-white/30 mb-6 px-4 py-1.5 font-semibold backdrop-blur-sm">
-              💬 CLIENT TESTIMONIAL
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-16">
-              What Our Client Says
-            </h2>
-
-            <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-r from-yellow-300/20 to-pink-300/20 rounded-3xl blur-xl"></div>
-              <div className="relative bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-16 border border-white/20 shadow-2xl">
-                <div className="mb-10">
-                  <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-8">
-                    <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 32 32">
-                      <path d="M10 8v8c0 2.2-1.8 4-4 4H4c-.6 0-1-.4-1-1s.4-1 1-1h2c1.1 0 2-.9 2-2V8c0-.6.4-1 1-1s1 .4 1 1zm16 0v8c0 2.2-1.8 4-4 4h-2c-.6 0-1-.4-1-1s.4-1 1-1h2c1.1 0 2-.9 2-2V8c0-.6.4-1 1-1s1 .4 1 1z"/>
-                    </svg>
-                  </div>
-                  <p className="text-2xl md:text-3xl leading-relaxed font-medium">
-                    "{typeof caseStudy.testimonial === 'string' ? caseStudy.testimonial : caseStudy.testimonial?.quote}"
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-center gap-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-pink-400 rounded-full flex items-center justify-center text-2xl font-bold text-white shadow-lg">
-                    {(typeof caseStudy.testimonial === 'object' ? caseStudy.testimonial.author : caseStudy.clientName || 'C').charAt(0)}
-                  </div>
-                  <div className="text-left">
-                    <div className="font-bold text-xl text-white mb-1">
-                      {typeof caseStudy.testimonial === 'object' ? caseStudy.testimonial.author : caseStudy.clientName}
-                    </div>
-                    <div className="text-blue-100 font-medium">
-                      {typeof caseStudy.testimonial === 'object' ? caseStudy.testimonial.position : caseStudy.clientPosition}
-                    </div>
-                    <div className="text-blue-200 text-sm mt-1">{caseStudy.company || caseStudy.client}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Gallery Section */}
-      <Section className="py-20 bg-gradient-to-b from-white to-gray-50">
-        <Container>
-          <div className="text-center mb-16">
-            <Badge className="bg-pink-100 text-pink-700 mb-4 px-4 py-1.5 font-semibold">
-              📸 VISUAL SHOWCASE
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Project Gallery
-            </h2>
-            <p className="text-xl text-gray-600">
-              Behind-the-scenes and result showcases
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {caseStudy.images.map((image, index) => (
-              <div key={index} className="group relative overflow-hidden rounded-2xl shadow-lg">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
-                <img
-                  src={image}
-                  alt={`${caseStudy.title} - Image ${index + 1}`}
-                  className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute bottom-4 left-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-white font-semibold">View {index + 1} of {caseStudy.images.length}</p>
-                </div>
+      {/* Metrics bar */}
+      {caseStudy.metrics && Object.keys(caseStudy.metrics).length > 0 && (
+        <div className="relative -mt-12 z-20 max-w-5xl mx-auto px-4">
+          <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl p-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+            {Object.entries(caseStudy.metrics).slice(0, 4).map(([key, value], i) => (
+              <div key={i} className="text-center">
+                <p className="text-3xl md:text-4xl font-bold text-white mb-2">{value}</p>
+                <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider">{key.replace(/([A-Z])/g, ' $1').trim()}</p>
               </div>
             ))}
           </div>
-        </Container>
-      </Section>
-
-      {/* CTA Section */}
-      <Section className="py-24 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
         </div>
-        
-        <Container className="relative z-10">
-          <div className="text-center max-w-5xl mx-auto">
-            <Badge className="bg-white/20 text-white border-white/30 mb-6 px-4 py-2 font-semibold backdrop-blur-sm">
-              🚀 GET STARTED TODAY
-            </Badge>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Ready to Achieve
-              <span className="block bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
-                Similar Results?
-              </span>
-            </h2>
-            <p className="text-xl md:text-2xl text-blue-100 mb-4 leading-relaxed">
-              Let's discuss how we can help transform your business with proven strategies.
-            </p>
-            <p className="text-lg text-blue-200 mb-12">
-              🎯 Free Strategy Session • 💰 No Long-term Contracts • ⚡ Results in 30 Days
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Link href="/contact">
-                <Button 
-                  size="lg" 
-                  className="bg-white text-purple-600 hover:bg-blue-50 hover:scale-105 transition-all duration-300 px-10 py-6 text-lg font-bold rounded-2xl shadow-2xl group min-w-[240px]"
-                >
-                  <span>Start Your Project</span>
-                  <ExternalLink className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-              <Link href="/case-studies">
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-2 border-white text-white hover:bg-white hover:text-purple-600 hover:scale-105 transition-all duration-300 px-10 py-6 text-lg font-bold rounded-2xl backdrop-blur-sm bg-white/10 min-w-[240px]"
-                >
-                  More Success Stories
-                </Button>
-              </Link>
-            </div>
+      )}
 
-            <div className="flex flex-wrap items-center justify-center gap-6 text-blue-200 text-sm">
-              <div className="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
-                <TrendingUp className="w-4 h-4 mr-2" />
-                <span>Proven Results</span>
+      {/* Main content */}
+      <div className="max-w-4xl mx-auto px-4 py-16 space-y-16">
+
+        {/* Challenge & Solution */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-1 h-6 bg-red-500 rounded-full"></div>
+              <h2 className="text-xs font-bold uppercase tracking-widest text-gray-500">The Challenge</h2>
+            </div>
+            <p className="text-gray-700 leading-relaxed">{caseStudy.challenge}</p>
+          </div>
+          {caseStudy.solution && (
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-1 h-6 bg-green-500 rounded-full"></div>
+                <h2 className="text-xs font-bold uppercase tracking-widest text-gray-500">Our Solution</h2>
               </div>
-              <div className="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
-                <Award className="w-4 h-4 mr-2" />
-                <span>Award Winning</span>
+              <p className="text-gray-700 leading-relaxed">{caseStudy.solution}</p>
+            </div>
+          )}
+        </div>
+
+        {/* Approach */}
+        {caseStudy.approach && (Array.isArray(caseStudy.approach) ? caseStudy.approach.length > 0 : true) && (
+          <div>
+            <div className="flex items-center gap-2 mb-8">
+              <div className="w-1 h-6 bg-blue-500 rounded-full"></div>
+              <h2 className="text-xs font-bold uppercase tracking-widest text-gray-500">Strategic Approach</h2>
+            </div>
+            {Array.isArray(caseStudy.approach) ? (
+              <div className="space-y-4">
+                {caseStudy.approach.map((step, i) => (
+                  <div key={i} className="flex gap-4 items-start p-6 rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors text-sm font-bold flex items-center justify-center mt-0.5 shadow-sm">
+                      {i + 1}
+                    </span>
+                    <p className="text-gray-700 leading-relaxed">{step}</p>
+                  </div>
+                ))}
               </div>
-              <div className="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
-                <Users className="w-4 h-4 mr-2" />
-                <span>50+ Happy Clients</span>
+            ) : (
+              <p className="text-gray-700 leading-relaxed">{caseStudy.approach}</p>
+            )}
+          </div>
+        )}
+
+        {/* Execution */}
+        {caseStudy.execution && (
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-1 h-6 bg-violet-500 rounded-full"></div>
+              <h2 className="text-xs font-bold uppercase tracking-widest text-gray-500">Execution</h2>
+            </div>
+            <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{caseStudy.execution}</p>
+          </div>
+        )}
+
+        {/* Results list */}
+        {Array.isArray(caseStudy.results) && caseStudy.results.length > 0 && (
+          <div>
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-1 h-6 bg-emerald-500 rounded-full"></div>
+              <h2 className="text-xs font-bold uppercase tracking-widest text-gray-500">Results Achieved</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {(caseStudy.results as string[]).map((result, i) => (
+                <div key={i} className="flex gap-4 items-start p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="bg-emerald-100 p-2 rounded-full">
+                    <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                  </div>
+                  <p className="text-gray-800 text-[15px] font-medium leading-relaxed mt-1">{result}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Testimonial */}
+        {caseStudy.testimonial && (
+          <div className="bg-gray-950 rounded-2xl p-8 md:p-10">
+            <p className="text-white text-xl md:text-2xl font-medium leading-relaxed mb-8">
+              "{typeof caseStudy.testimonial === 'string' ? caseStudy.testimonial : caseStudy.testimonial?.quote}"
+            </p>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                {(typeof caseStudy.testimonial === 'object' ? caseStudy.testimonial.author : caseStudy.clientName || '?').charAt(0)}
+              </div>
+              <div>
+                <p className="text-white font-semibold">
+                  {typeof caseStudy.testimonial === 'object' ? caseStudy.testimonial.author : caseStudy.clientName}
+                </p>
+                <p className="text-gray-400 text-sm">
+                  {typeof caseStudy.testimonial === 'object' ? caseStudy.testimonial.position : caseStudy.clientPosition}
+                  {(caseStudy.company || caseStudy.client) && ` · ${caseStudy.company || caseStudy.client}`}
+                </p>
               </div>
             </div>
           </div>
-        </Container>
-      </Section>
+        )}
+
+        {/* Gallery */}
+        {caseStudy.images && caseStudy.images.length > 0 && (
+          <div>
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-1 h-6 bg-pink-500 rounded-full"></div>
+              <h2 className="text-xs font-bold uppercase tracking-widest text-gray-500">Project Gallery</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {caseStudy.images.map((image, index) => (
+                <div key={index} className={`overflow-hidden rounded-xl ${index === 0 && caseStudy.images.length > 2 ? 'md:col-span-2' : ''}`}>
+                  <img
+                    src={image}
+                    alt={`${caseStudy.title} - ${index + 1}`}
+                    className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* CTA */}
+        <div className="border border-gray-200 rounded-2xl p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 mb-1">Ready for similar results?</h3>
+            <p className="text-gray-500 text-sm">Let's talk about what we can do for your brand.</p>
+          </div>
+          <div className="flex gap-3 flex-shrink-0">
+            <Link href="/contact">
+              <Button className="bg-gray-900 hover:bg-gray-800 text-white px-6">
+                Get in touch
+                <ArrowLeft className="w-4 h-4 ml-2 rotate-180" />
+              </Button>
+            </Link>
+            <Link href="/insights">
+              <Button variant="outline" className="px-6">
+                More stories
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 };

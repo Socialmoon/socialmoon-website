@@ -225,23 +225,47 @@ const PortfolioDetailPage = () => {
       {/* Challenge & Solution */}
       <Section className="py-24 bg-white">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                The Challenge
-              </h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                {project.challenge}
-              </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="order-2 lg:order-1 relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+              {project.images && project.images.length > 0 ? (
+                <Image
+                  src={project.images[0]}
+                  alt="Project Challenge and Solution"
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                  <Target className="w-16 h-16 text-gray-400" />
+                </div>
+              )}
             </div>
+            <div className="space-y-12 order-1 lg:order-2">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-red-600 text-sm font-medium mb-4">
+                  <div className="w-2 h-2 rounded-full bg-red-600"></div>
+                  The Challenge
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                  Navigating the specific obstacles
+                </h2>
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  {project.challenge}
+                </p>
+              </div>
 
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Our Solution
-              </h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                {project.solution}
-              </p>
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 text-green-600 text-sm font-medium mb-4">
+                  <div className="w-2 h-2 rounded-full bg-green-600"></div>
+                  Our Solution
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                  Strategic implementation
+                </h2>
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  {project.solution}
+                </p>
+              </div>
             </div>
           </div>
         </Container>
@@ -261,14 +285,16 @@ const PortfolioDetailPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {project.process.map((step, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                <div className="flex items-center mb-4">
-                  <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+              <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 group">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-12 h-12 bg-blue-50 group-hover:bg-blue-600 text-blue-600 group-hover:text-white transition-colors rounded-2xl flex items-center justify-center text-lg font-bold">
                     {index + 1}
                   </div>
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center">
+                    <CheckCircle className="w-5 h-5 text-green-500" />
+                  </div>
                 </div>
-                <p className="text-gray-700 leading-relaxed">{step}</p>
+                <p className="text-gray-700 leading-relaxed text-lg">{step}</p>
               </div>
             ))}
           </div>

@@ -45,7 +45,7 @@ Staying ahead of these trends is crucial for business success in the digital age
     date: "2026-03-06",
     category: "Social Media",
     tags: ["marketing", "trends", "2026", "social media"],
-    imageUrl: "/images/blog/social-media-trends.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80",
     featured: true,
     published: true
   },
@@ -79,7 +79,7 @@ Our clients have seen 300% growth using these strategies consistently over 6 mon
     date: "2026-03-05",
     category: "Instagram Marketing",
     tags: ["instagram", "growth", "engagement", "strategy"],
-    imageUrl: "/images/blog/instagram-growth.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=800&q=80",
     featured: false,
     published: true
   },
@@ -113,7 +113,7 @@ We've helped 50+ brands create viral campaigns with millions of impressions.
     date: "2026-03-04",
     category: "Content Strategy",
     tags: ["viral", "content creation", "strategy", "engagement"],
-    imageUrl: "/images/blog/viral-content.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1611162618071-b39a2ec055ce?auto=format&fit=crop&w=800&q=80",
     featured: true,
     published: true
   }
@@ -141,11 +141,13 @@ const samplePortfolio = [
       followers: "200K+",
       revenue: "$500K"
     },
-    imageUrl: "/images/portfolio/techstartup.jpg",
+    technologies: ["Instagram", "Content Creation", "Social Strategy"],
+    process: ["Initial Audit", "Strategy Development", "Content Creation", "Execution & Growth"],
+    imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
     images: [
-      "/images/portfolio/techstartup-1.jpg",
-      "/images/portfolio/techstartup-2.jpg",
-      "/images/portfolio/techstartup-3.jpg"
+      "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80"
     ],
     tags: ["Instagram", "Branding", "Content Strategy", "B2B"],
     featured: true,
@@ -172,10 +174,12 @@ const samplePortfolio = [
       customers: "80K+",
       roi: "12:1"
     },
-    imageUrl: "/images/portfolio/fashionbrand.jpg",
+    technologies: ["Influencer Marketing", "Instagram", "Campaign Management"],
+    process: ["Influencer Discovery", "Outreach & Briefing", "Content Creation", "Performance Tracking"],
+    imageUrl: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80",
     images: [
-      "/images/portfolio/fashionbrand-1.jpg",
-      "/images/portfolio/fashionbrand-2.jpg"
+      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80"
     ],
     tags: ["Instagram", "Influencer Marketing", "Fashion", "E-commerce"],
     featured: true,
@@ -202,10 +206,12 @@ const samplePortfolio = [
       views: "50M+",
       downloads: "100K+"
     },
-    imageUrl: "/images/portfolio/fitlife.jpg",
+    technologies: ["TikTok", "Video Production", "Trend Analysis"],
+    process: ["Concept Ideation", "Video Production", "Trend Participation", "Community Engagement"],
+    imageUrl: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=80",
     images: [
-      "/images/portfolio/fitlife-1.jpg",
-      "/images/portfolio/fitlife-2.jpg"
+      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80"
     ],
     tags: ["TikTok", "Fitness", "Viral Marketing", "App Launch"],
     featured: false,
@@ -232,9 +238,11 @@ const samplePortfolio = [
       engagement: "+320%",
       revenue: "+40%"
     },
-    imageUrl: "/images/portfolio/localcafe.jpg",
+    technologies: ["Instagram", "Local SEO", "Community Building"],
+    process: ["Local Market Research", "Content Planning", "Community Outreach", "Event Promotion"],
+    imageUrl: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80",
     images: [
-      "/images/portfolio/localcafe-1.jpg"
+      "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=800&q=80"
     ],
     tags: ["Instagram", "Local Business", "Community", "Food & Beverage"],
     featured: false,
@@ -294,11 +302,11 @@ Our strategy focused on three key areas:
       author: "Jessica Martinez",
       position: "CEO, ShopElite"
     },
-    imageUrl: "/images/case-studies/shopelite.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
     images: [
-      "/images/case-studies/shopelite-1.jpg",
-      "/images/case-studies/shopelite-2.jpg",
-      "/images/case-studies/shopelite-3.jpg"
+      "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1556740749-88091ecf686c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1556742059-47b93231f536?auto=format&fit=crop&w=800&q=80"
     ],
     tags: ["E-commerce", "Instagram", "Influencer Marketing", "Paid Ads"],
     featured: true,
@@ -353,10 +361,10 @@ Our LinkedIn strategy emphasized:
       author: "David Park",
       position: "CMO, CloudTech Solutions"
     },
-    imageUrl: "/images/case-studies/cloudtech.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80",
     images: [
-      "/images/case-studies/cloudtech-1.jpg",
-      "/images/case-studies/cloudtech-2.jpg"
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80"
     ],
     tags: ["LinkedIn", "SaaS", "B2B", "Thought Leadership", "Lead Generation"],
     featured: true,
@@ -410,10 +418,10 @@ Our TikTok-first strategy included:
       author: "Maria Rodriguez",
       position: "Owner, TasteBuds Grill"
     },
-    imageUrl: "/images/case-studies/tastebuds.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80",
     images: [
-      "/images/case-studies/tastebuds-1.jpg",
-      "/images/case-studies/tastebuds-2.jpg"
+      "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80"
     ],
     tags: ["TikTok", "Restaurant", "Viral Marketing", "Food & Beverage"],
     featured: false,

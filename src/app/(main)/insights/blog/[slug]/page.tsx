@@ -6,6 +6,7 @@ import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   BookOpen,
   Calendar,
@@ -154,10 +155,22 @@ const BlogPostPage = ({ params }: BlogPostPageProps) => {
         <Container>
           <div className="max-w-4xl mx-auto">
             {/* Featured Image */}
-            <div className="relative mb-12 rounded-3xl overflow-hidden shadow-2xl">
-              <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-200 flex items-center justify-center">
-                <BookOpen className="w-24 h-24 text-blue-600" />
-              </div>
+            <div className="relative mb-12 rounded-3xl overflow-hidden shadow-2xl group">
+              {post.imageUrl ? (
+                <div className="aspect-video relative w-full overflow-hidden bg-gray-100">
+                  <Image
+                    src={post.imageUrl}
+                    alt={post.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    priority
+                  />
+                </div>
+              ) : (
+                <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-200 flex items-center justify-center">
+                  <BookOpen className="w-24 h-24 text-blue-600" />
+                </div>
+              )}
               <div className="absolute top-6 left-6">
                 <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full text-sm font-semibold shadow-lg">
                   Featured Article

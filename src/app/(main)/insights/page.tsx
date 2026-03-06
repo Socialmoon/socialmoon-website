@@ -29,6 +29,7 @@ import Image from 'next/image';
 
 type TeamMember = {
   id: number;
+  _id?: string | number;
   name: string;
   role: string;
   bio: string;
@@ -548,7 +549,7 @@ const InsightsPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
               {aboutData?.team?.map((member, index) => (
-                <div key={member.id} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div key={member._id || member.id || index} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
                   {/* Glow effect */}
                   <div className={`absolute -inset-1 bg-gradient-to-r ${
                     index % 3 === 0 ? 'from-blue-600 via-purple-600 to-pink-600' :
@@ -849,160 +850,52 @@ const InsightsPage = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-              {caseStudies.map((study, index) => (
-                <div key={study.id} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
-                  {/* Enhanced premium glow effect */}
-                  <div className={`absolute -inset-1 bg-gradient-to-r ${
-                    index % 3 === 0 ? 'from-blue-600 via-purple-600 to-pink-600' :
-                    index % 3 === 1 ? 'from-green-600 via-teal-600 to-blue-600' :
-                    'from-emerald-600 via-teal-600 to-cyan-600'
-                  } rounded-3xl blur-xl opacity-0 group-hover:opacity-25 transition-all duration-500`}></div>
-
-                  {/* Secondary glow for depth */}
-                  <div className={`absolute -inset-2 bg-gradient-to-r ${
-                    index % 3 === 0 ? 'from-blue-400/20 via-purple-400/20 to-pink-400/20' :
-                    index % 3 === 1 ? 'from-green-400/20 via-teal-400/20 to-blue-400/20' :
-                    'from-emerald-400/20 via-teal-400/20 to-cyan-400/20'
-                  } rounded-3xl blur-2xl opacity-0 group-hover:opacity-15 transition-all duration-700`}></div>
-
-                  <div className="relative bg-white rounded-3xl shadow-xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-4 overflow-hidden border border-gray-100">
-                    {/* Enhanced service header with gradient and client avatar */}
-                    <div className={`bg-gradient-to-br ${
-                      index % 3 === 0 ? 'from-blue-500 via-purple-600 to-indigo-700' :
-                      index % 3 === 1 ? 'from-green-500 via-teal-600 to-cyan-700' :
-                      'from-emerald-500 via-teal-600 to-blue-700'
-                    } p-6 text-white relative overflow-hidden`}>
-                      {/* Animated background pattern */}
-                      <div className="absolute inset-0 opacity-10">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-16 translate-x-16"></div>
-                        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/15 rounded-full translate-y-12 -translate-x-12"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {caseStudies.map((study, index) => {
+                const palettes = [
+                  { border: 'border-blue-500', tag: 'bg-blue-50 text-blue-600 border border-blue-100', result: 'text-blue-600 bg-blue-50' },
+                  { border: 'border-emerald-500', tag: 'bg-emerald-50 text-emerald-600 border border-emerald-100', result: 'text-emerald-600 bg-emerald-50' },
+                  { border: 'border-violet-500', tag: 'bg-violet-50 text-violet-600 border border-violet-100', result: 'text-violet-600 bg-violet-50' },
+                ];
+                const p = palettes[index % palettes.length];
+                return (
+                  <Link
+                    key={study._id || study.id || index}
+                    href={`/case-studies/${study.slug}`}
+                    className={`group flex flex-col bg-white rounded-2xl overflow-hidden border-t-4 ${p.border} border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}
+                  >
+                    <div className="p-6 flex flex-col flex-1 gap-4">
+                      {/* Top row: company + industry */}
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <h3 className="font-bold text-gray-900 text-base leading-tight">{study.company}</h3>
+                          <p className="text-gray-400 text-xs mt-0.5">{study.industry}</p>
+                        </div>
+                        <span className={`flex-shrink-0 text-xs font-medium px-2.5 py-1 rounded-full ${p.tag}`}>
+                          {study.service}
+                        </span>
                       </div>
 
-                      <div className="relative">
-                        {/* Clean Header */}
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center space-x-3">
-                            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                              <span className="text-sm font-bold text-white">
-                                {study.company.charAt(0)}
-                              </span>
-                            </div>
-                            <div>
-                              <h3 className="text-base font-bold text-white">{study.company}</h3>
-                              <p className="text-white/70 text-xs">{study.industry}</p>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-lg font-bold text-white">{study.results}</div>
-                            <div className="text-xs text-white/70">{study.duration}</div>
-                          </div>
-                        </div>
+                      {/* Title */}
+                      <p className="text-gray-700 text-sm font-medium leading-snug line-clamp-2">{study.title}</p>
 
-                        {/* Simple Service Badge */}
-                        <div className="mb-3">
-                          <span className="inline-block px-2 py-1 bg-white/20 rounded-md text-xs font-medium text-white">
-                            {study.service}
-                          </span>
-                        </div>
+                      {/* Challenge excerpt */}
+                      <p className="text-gray-400 text-sm leading-relaxed line-clamp-2 flex-1">{study.challenge}</p>
 
-                        {/* Clean Testimonial */}
-                        <div className="bg-white/5 rounded-lg p-3 border border-white/10">
-                          <p className="text-white/90 text-sm leading-relaxed">
-                            "{study.testimonial}"
-                          </p>
-                          <p className="text-white/60 text-xs mt-2 font-medium">
-                            — {study.clientName}
-                          </p>
+                      {/* Result + CTA */}
+                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <div>
+                          <p className="text-xs text-gray-400 mb-0.5">Result</p>
+                          <p className={`text-sm font-bold ${p.result} px-2 py-0.5 rounded-md inline-block`}>{study.results}</p>
+                        </div>
+                        <div className="flex items-center gap-1 text-xs font-semibold text-gray-400 group-hover:text-gray-700 transition-colors">
+                          Read more <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
                         </div>
                       </div>
                     </div>
-
-                    {/* Enhanced service details with metrics */}
-                    <div className="p-6">
-                      {/* Approach badges */}
-                      <div className="mb-4">
-                        <h4 className="text-sm font-semibold text-gray-900 mb-2">Approach:</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {study.approach.slice(0, 3).map((item: string, idx: number) => (
-                            <span key={idx} className={`px-3 py-1 rounded-full text-xs font-medium ${
-                              index % 3 === 0 ? 'bg-blue-100 text-blue-700' :
-                              index % 3 === 1 ? 'bg-green-100 text-green-700' :
-                              'bg-emerald-100 text-emerald-700'
-                            }`}>
-                              {item}
-                            </span>
-                          ))}
-                          {study.approach.length > 3 && (
-                            <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">
-                              +{study.approach.length - 3} more
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Metrics visualization */}
-                      {study.metrics && study.metrics.length > 0 && (
-                        <div className="mb-6">
-                          <h4 className="text-sm font-semibold text-gray-900 mb-3">Key Metrics:</h4>
-                          <div className="space-y-3">
-                            {study.metrics.slice(0, 2).map((metric: { before: string; after: string; improvement: string }, idx: number) => (
-                              <div key={idx} className="bg-gray-50 rounded-xl p-3">
-                                <div className="flex justify-between items-center mb-2">
-                                  <span className="text-xs font-medium text-gray-600">{metric.before}</span>
-                                  <span className="text-xs font-medium text-gray-600">{metric.after}</span>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                  <div className="flex-1 bg-gray-200 rounded-full h-2">
-                                    <div className={`h-2 rounded-full transition-all duration-1000 ${
-                                      index % 3 === 0 ? 'bg-gradient-to-r from-blue-500 to-purple-500' :
-                                      index % 3 === 1 ? 'bg-gradient-to-r from-green-500 to-teal-500' :
-                                      'bg-gradient-to-r from-emerald-500 to-cyan-500'
-                                    }`} style={{ width: '75%' }}></div>
-                                  </div>
-                                  <span className={`text-xs font-bold ${
-                                    index % 3 === 0 ? 'text-blue-600' :
-                                    index % 3 === 1 ? 'text-green-600' :
-                                    'text-emerald-600'
-                                  }`}>
-                                    {metric.improvement}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Enhanced CTA */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                          <div className={`w-2 h-2 rounded-full ${
-                            index % 3 === 0 ? 'bg-blue-500' :
-                            index % 3 === 1 ? 'bg-green-500' :
-                            'bg-emerald-500'
-                          } animate-pulse`}></div>
-                          <span className="text-xs text-gray-500 font-medium">Success Story</span>
-                        </div>
-                        <Link href={`/case-studies/${study.slug}`}>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className={`group/btn border-2 transition-all duration-300 ${
-                              index % 3 === 0 ? 'border-blue-300 hover:border-blue-400 hover:bg-blue-50' :
-                              index % 3 === 1 ? 'border-green-300 hover:border-green-400 hover:bg-green-50' :
-                              'border-emerald-300 hover:border-emerald-400 hover:bg-emerald-50'
-                            }`}
-                          >
-                            <span className="font-medium">View Details</span>
-                            <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-2 transition-transform duration-300" />
-                          </Button>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           </Container>
         </Section>
