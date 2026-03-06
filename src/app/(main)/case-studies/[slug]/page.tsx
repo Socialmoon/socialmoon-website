@@ -111,7 +111,7 @@ const CaseStudyDetailPage = () => {
     <div className="min-h-screen bg-white">
 
       {/* Hero */}
-      <div className="relative bg-gray-950 text-white pt-32 pb-24 px-4 overflow-hidden">
+      <div className="relative bg-gray-950 text-white pt-20 pb-16 px-4 sm:pt-24 sm:pb-20 md:pt-32 md:pb-24 overflow-hidden">
         {caseStudy.images && caseStudy.images.length > 0 && (
           <div className="absolute inset-0 opacity-20 transition-opacity duration-1000">
             <Image
@@ -172,7 +172,7 @@ const CaseStudyDetailPage = () => {
       {/* Metrics bar */}
       {caseStudy.metrics && Object.keys(caseStudy.metrics).length > 0 && (
         <div className="relative -mt-12 z-20 max-w-5xl mx-auto px-4">
-          <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl p-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl p-4 sm:p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {Object.entries(caseStudy.metrics).slice(0, 4).map(([key, value], i) => (
               <div key={i} className="text-center">
                 <p className="text-3xl md:text-4xl font-bold text-white mb-2">{value}</p>
@@ -311,15 +311,15 @@ const CaseStudyDetailPage = () => {
             <h3 className="text-xl font-bold text-gray-900 mb-1">Ready for similar results?</h3>
             <p className="text-gray-500 text-sm">Let's talk about what we can do for your brand.</p>
           </div>
-          <div className="flex gap-3 flex-shrink-0">
-            <Link href="/contact">
-              <Button className="bg-gray-900 hover:bg-gray-800 text-white px-6">
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto md:flex-shrink-0">
+            <Link href="/contact" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto bg-gray-900 hover:bg-gray-800 text-white px-6">
                 Get in touch
                 <ArrowLeft className="w-4 h-4 ml-2 rotate-180" />
               </Button>
             </Link>
-            <Link href="/insights">
-              <Button variant="outline" className="px-6">
+            <Link href="/insights" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full sm:w-auto px-6">
                 More stories
               </Button>
             </Link>

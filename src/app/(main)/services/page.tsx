@@ -124,7 +124,7 @@ const ServicesPage = () => {
               Comprehensive Digital Solutions
             </div>
 
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent leading-tight">
               Our Services
             </h1>
 
@@ -154,35 +154,35 @@ const ServicesPage = () => {
       <Section className="py-12 bg-white border-b border-gray-100 shadow-sm">
         <Container>
           <div className="flex justify-center">
-            <div className="bg-gray-100 p-2 rounded-2xl shadow-lg border border-gray-200">
-              <div className="flex space-x-2">
+            <div className="bg-gray-100 p-2 rounded-2xl shadow-lg border border-gray-200 w-full max-w-fit">
+              <div className="flex flex-wrap gap-2 justify-center">
                 <button
                   onClick={() => {
                     setActiveView('overview');
                     setSelectedService(null);
                   }}
-                  className={`flex items-center px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500/50 ${
+                  className={`flex items-center px-5 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-sm sm:text-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500/50 ${
                     activeView === 'overview'
                       ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl transform scale-105'
                       : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50 hover:scale-105'
                   }`}
                 >
-                  <Zap className="w-5 h-5 mr-3" />
+                  <Zap className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
                   All Services
-                  <span className="ml-2 text-sm opacity-75">Overview</span>
+                  <span className="ml-1 sm:ml-2 text-xs sm:text-sm opacity-75">Overview</span>
                 </button>
                 {selectedService && (
                   <button
                     onClick={() => setActiveView('detail')}
-                    className={`flex items-center px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-500/50 ${
+                    className={`flex items-center px-5 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-sm sm:text-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-500/50 ${
                       activeView === 'detail'
                         ? 'bg-gradient-to-r from-green-600 to-teal-600 text-white shadow-xl transform scale-105'
                         : 'text-gray-600 hover:text-green-600 hover:bg-green-50 hover:scale-105'
                     }`}
                   >
-                    <Target className="w-5 h-5 mr-3" />
+                    <Target className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
                     Service Details
-                    <span className="ml-2 text-sm opacity-75">{selectedService.title}</span>
+                    <span className="ml-1 sm:ml-2 text-xs sm:text-sm opacity-75 max-w-[120px] sm:max-w-none truncate">{selectedService.title}</span>
                   </button>
                 )}
               </div>
@@ -349,27 +349,27 @@ const ServicesPage = () => {
                   Service Details
                 </div>
 
-                <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent">
                   {selectedService.title}
                 </h1>
 
-                <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
+                <p className="text-lg sm:text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
                   {selectedService.description}
                 </p>
 
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl p-8 border border-blue-200/50 shadow-lg">
-                  <div className="flex items-center justify-center space-x-8">
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl p-6 sm:p-8 border border-blue-200/50 shadow-lg">
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8">
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-blue-600 mb-2">Starting from ${selectedService.price}/month</div>
+                      <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600 mb-2">Starting from ${selectedService.price}/month</div>
                     </div>
-                    <div className="h-16 w-px bg-gray-300"></div>
+                    <div className="hidden sm:block h-16 w-px bg-gray-300"></div>
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-green-600 mb-2">24/7</div>
+                      <div className="text-3xl sm:text-4xl font-bold text-green-600 mb-2">24/7</div>
                       <div className="text-gray-600">Support</div>
                     </div>
-                    <div className="h-16 w-px bg-gray-300"></div>
+                    <div className="hidden sm:block h-16 w-px bg-gray-300"></div>
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-purple-600 mb-2">30</div>
+                      <div className="text-3xl sm:text-4xl font-bold text-purple-600 mb-2">30</div>
                       <div className="text-gray-600">Day Setup</div>
                     </div>
                   </div>
@@ -725,21 +725,21 @@ const ServicesPage = () => {
               <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
                 Join hundreds of brands that have transformed their Instagram presence with our expert strategies and creative content.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/contact?service=instagram">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch sm:items-center w-full max-w-xl mx-auto sm:max-w-none">
+                <Link href="/contact?service=instagram" className="w-full sm:w-auto">
                   <Button
                     size="lg"
-                    className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-1"
+                    className="w-full sm:w-auto bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-8 py-4 text-base sm:text-lg font-semibold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-1"
                   >
                     Start Instagram Growth
                     <ArrowRight className="ml-3 h-5 w-5" />
                   </Button>
                 </Link>
-                <Link href="/portfolio">
+                <Link href="/portfolio" className="w-full sm:w-auto">
                   <Button
                     size="lg"
                     variant="outline"
-                    className="border-pink-300 text-pink-700 hover:bg-pink-50 px-8 py-4 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1"
+                    className="w-full sm:w-auto border-pink-300 text-pink-700 hover:bg-pink-50 px-8 py-4 text-base sm:text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1"
                   >
                     View Instagram Portfolio
                   </Button>
@@ -1007,18 +1007,18 @@ const ServicesPage = () => {
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Link href="/contact">
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-6 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 border-0 focus:outline-none focus:ring-4 focus:ring-blue-500/50 active:scale-95">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch sm:items-center w-full max-w-xl mx-auto sm:max-w-none">
+              <Link href="/contact" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-5 sm:px-12 sm:py-6 text-base sm:text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 border-0 focus:outline-none focus:ring-4 focus:ring-blue-500/50 active:scale-95">
                   Book Free Consultation
-                  <MessageSquare className="ml-4 h-6 w-6 transition-transform hover:scale-110" />
+                  <MessageSquare className="ml-3 h-5 w-5 sm:ml-4 sm:h-6 sm:w-6 transition-transform hover:scale-110" />
                 </Button>
               </Link>
 
-              <Link href="/portfolio">
-                <Button size="lg" variant="outline" className="border-2 border-indigo-300 text-indigo-700 hover:bg-indigo-50 px-12 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-indigo-300/50 active:scale-95">
+              <Link href="/portfolio" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto border-2 border-indigo-300 text-indigo-700 hover:bg-indigo-50 px-8 py-5 sm:px-12 sm:py-6 text-base sm:text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-indigo-300/50 active:scale-95">
                   View Our Portfolio
-                  <ArrowRight className="ml-4 h-6 w-6 transition-transform hover:translate-x-2" />
+                  <ArrowRight className="ml-3 h-5 w-5 sm:ml-4 sm:h-6 sm:w-6 transition-transform hover:translate-x-2" />
                 </Button>
               </Link>
             </div>

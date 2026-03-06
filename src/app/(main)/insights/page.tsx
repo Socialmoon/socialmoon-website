@@ -125,7 +125,7 @@ const InsightsPage = () => {
               Insights & Knowledge
             </div>
 
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent leading-tight">
               Insights Hub
             </h1>
 
@@ -157,71 +157,71 @@ const InsightsPage = () => {
         <Container>
           <div className="flex justify-center">
             <div className="bg-gray-100 p-2 rounded-2xl shadow-lg border border-gray-200">
-              <div className="flex space-x-2">
+              <div className="flex flex-wrap gap-2 justify-center">
                 <button
                   onClick={() => setActiveView('overview')}
-                  className={`flex items-center px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 ${
+                  className={`flex items-center px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 ${
                     activeView === 'overview'
                       ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl transform scale-105'
                       : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
                   }`}
                 >
-                  <Lightbulb className="w-4 h-4 mr-2" />
+                  <Lightbulb className="w-4 h-4 mr-1.5 sm:mr-2" />
                   Overview
                 </button>
                 <button
                   onClick={() => setActiveView('about')}
-                  className={`flex items-center px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 ${
+                  className={`flex items-center px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 ${
                     activeView === 'about'
                       ? 'bg-gradient-to-r from-green-600 to-teal-600 text-white shadow-xl transform scale-105'
                       : 'text-gray-600 hover:text-green-600 hover:bg-green-50'
                   }`}
                 >
-                  <Award className="w-4 h-4 mr-2" />
+                  <Award className="w-4 h-4 mr-1.5 sm:mr-2" />
                   About Us
                 </button>
                 <button
                   onClick={() => setActiveView('team')}
-                  className={`flex items-center px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 ${
+                  className={`flex items-center px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 ${
                     activeView === 'team'
                       ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-xl transform scale-105'
                       : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50'
                   }`}
                 >
-                  <Users className="w-4 h-4 mr-2" />
+                  <Users className="w-4 h-4 mr-1.5 sm:mr-2" />
                   Our Team
                 </button>
                 <button
                   onClick={() => setActiveView('blog')}
-                  className={`flex items-center px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 ${
+                  className={`flex items-center px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 ${
                     activeView === 'blog'
                       ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-xl transform scale-105'
                       : 'text-gray-600 hover:text-indigo-600 hover:bg-indigo-50'
                   }`}
                 >
-                  <BookOpen className="w-4 h-4 mr-2" />
+                  <BookOpen className="w-4 h-4 mr-1.5 sm:mr-2" />
                   Blog
                 </button>
                 <button
                   onClick={() => setActiveView('case-studies')}
-                  className={`flex items-center px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 ${
+                  className={`flex items-center px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 ${
                     activeView === 'case-studies'
                       ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-xl transform scale-105'
                       : 'text-gray-600 hover:text-emerald-600 hover:bg-emerald-50'
                   }`}
                 >
-                  <Award className="w-4 h-4 mr-2" />
+                  <Award className="w-4 h-4 mr-1.5 sm:mr-2" />
                   Case Studies
                 </button>
                 <button
                   onClick={() => setActiveView('careers')}
-                  className={`flex items-center px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 ${
+                  className={`flex items-center px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 ${
                     activeView === 'careers'
                       ? 'bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-xl transform scale-105'
                       : 'text-gray-600 hover:text-orange-600 hover:bg-orange-50'
                   }`}
                 >
-                  <Users className="w-4 h-4 mr-2" />
+                  <Users className="w-4 h-4 mr-1.5 sm:mr-2" />
                   Careers
                 </button>
               </div>
