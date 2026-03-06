@@ -50,12 +50,18 @@ export async function PUT(request: NextRequest) {
   try {
     // Check authentication
     const auth = await AuthUtils.getAuthFromRequest(request);
-    AuthUtils.requireSuperAdmin(auth);
+    AuthUtils.requireAdmin(auth);
 
     const { username, newPassword } = await request.json();
     if (!username || !newPassword) {
       return NextResponse.json({ error: 'Username and new password are required' }, { status: 400 });
     }
+
+    // Regular admins can only change their own password
+    if (auth!.role !== 'superadmin' && auth!.username !== username) {
+      return NextResponse.json({ error: 'You can only change your own password' }, { status: 403 });
+    }
+
     const success = await AdminService.updatePassword(username, newPassword);
     if (!success) {
       return NextResponse.json({ error: 'Admin not found' }, { status: 404 });

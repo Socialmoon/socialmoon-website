@@ -12,6 +12,17 @@ export class AdminService {
     }
   }
 
+  static async getAllAdmins() {
+    const admins = await this.getAdmins();
+    // Normalize and sanitize admin data (remove password, normalize role)
+    return admins.map((admin: any) => ({
+      id: admin.id,
+      username: admin.username,
+      role: admin.role === 'superadmin' ? 'superadmin' : 'admin',
+      createdAt: admin.createdAt,
+    }));
+  }
+
   static async getAdminByUsername(username: string) {
     try {
       const admins = await FirebaseDB.getCollection('admins');
@@ -22,12 +33,13 @@ export class AdminService {
     }
   }
 
-  static async createAdmin(data: any) {
+  static async createAdmin(username: string, password: string, role: string = 'admin') {
     try {
-      const hashedPassword = await bcrypt.hash(data.password, 10);
+      const hashedPassword = await bcrypt.hash(password, 10);
       const adminData = {
-        ...data,
+        username,
         password: hashedPassword,
+        role,
         createdAt: new Date().toISOString()
       };
       
@@ -35,29 +47,6 @@ export class AdminService {
     } catch (error) {
       console.error('Error creating admin:', error);
       throw new Error('Failed to create admin');
-    }
-  }
-
-  static async updateAdmin(id: string, data: any) {
-    try {
-      if (data.password) {
-        data.password = await bcrypt.hash(data.password, 10);
-      }
-      
-      return await FirebaseDB.updateDocument('admins', id, data);
-    } catch (error) {
-      console.error('Error updating admin:', error);
-      throw new Error('Failed to update admin');
-    }
-  }
-
-  static async deleteAdmin(id: string) {
-    try {
-      await FirebaseDB.deleteDocument('admins', id);
-      return { message: 'Admin deleted successfully' };
-    } catch (error) {
-      console.error('Error deleting admin:', error);
-      throw new Error('Failed to delete admin');
     }
   }
 
@@ -85,6 +74,51 @@ export class AdminService {
     } catch (error) {
       console.error('Error fetching admin role:', error);
       return null;
+    }
+  }
+
+  static async updatePassword(username: string, newPassword: string) {
+    try {
+      const admin = await this.getAdminByUsername(username);
+      if (!admin) {
+        return false;
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      await FirebaseDB.updateDocument('admins', admin.id, { password: hashedPassword });
+      return true;
+    } catch (error) {
+      console.error('Error updating password:', error);
+      return false;
+    }
+  }
+
+  static async updateRole(username: string, role: string) {
+    try {
+      const admin = await this.getAdminByUsername(username);
+      if (!admin) {
+        return false;
+      }
+
+      await FirebaseDB.updateDocument('admins', admin.id, { role });
+      return true;
+    } catch (error) {
+      console.error('Error updating role:', error);
+      return false;
+    }
+  }
+
+  static async deleteAdmin(usernameOrId: string) {
+    try {
+      // Try to find admin by username first
+      const admin = await this.getAdminByUsername(usernameOrId);
+      const id = admin ? admin.id : usernameOrId;
+      
+      await FirebaseDB.deleteDocument('admins', id);
+      return true;
+    } catch (error) {
+      console.error('Error deleting admin:', error);
+      return false;
     }
   }
 }
