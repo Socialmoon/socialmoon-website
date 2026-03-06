@@ -36,8 +36,9 @@ type TeamMember = {
 };
 
 type BlogPost = {
-  id: number;
+  id?: number;
   title: string;
+  slug?: string;
   content: string;
   author: string;
   date: string;
@@ -566,13 +567,23 @@ const InsightsPage = () => {
                     <div className="p-8">
                       <div className="text-center mb-6">
                         <div className="w-24 h-24 mx-auto mb-4 rounded-2xl overflow-hidden bg-gray-200 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                          <Image
-                            src={member.imageUrl}
-                            alt={member.name}
-                            width={96}
-                            height={96}
-                            className="w-full h-full object-cover"
-                          />
+                          {member.imageUrl ? (
+                            <Image
+                              src={member.imageUrl}
+                              alt={member.name}
+                              width={96}
+                              height={96}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className={`w-full h-full flex items-center justify-center text-3xl font-bold text-white bg-gradient-to-br ${
+                              index % 3 === 0 ? 'from-blue-500 to-purple-500' :
+                              index % 3 === 1 ? 'from-green-500 to-teal-500' :
+                              'from-purple-500 to-pink-500'
+                            }`}>
+                              {member.name.split(' ').map(n => n[0]).join('')}
+                            </div>
+                          )}
                         </div>
                         <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">{member.name}</h3>
                         <p className={`text-base font-semibold mb-4 ${
@@ -685,7 +696,7 @@ const InsightsPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10">
               {blogData?.posts?.map((post, index) => (
-                <div key={post.id} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div key={post.slug || index} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
                   {/* Animated glow effect */}
                   <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
@@ -734,7 +745,7 @@ const InsightsPage = () => {
 
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-gray-500 font-medium">By {post.author}</span>
-                        <Link href={`/insights/blog/${post.id}`}>
+                        <Link href={`/insights/blog/${post.slug || post.id || 'post'}`}>
                           <Button variant="outline" size="sm" className="group/btn border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300">
                             Read More
                             <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-2 transition-transform duration-300" />

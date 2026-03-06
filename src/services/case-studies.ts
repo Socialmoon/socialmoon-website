@@ -1,71 +1,57 @@
-import { connectToDatabase } from '@/database';
-import CaseStudy, { ICaseStudy } from '@/models/CaseStudy';
+import { FirebaseDB } from '@/lib/firebase/database';
 
 export class CaseStudiesService {
   static async getCaseStudies() {
     try {
-      await connectToDatabase();
-      const caseStudies = await CaseStudy.find().sort({ createdAt: -1 });
+      const caseStudies = await FirebaseDB.getDocument('caseStudies', 'main');
+      
+      if (!caseStudies) {
+        return {
+          title: 'Case Studies',
+          caseStudies: []
+        };
+      }
+      
       return {
-        title: 'Case Studies',
-        caseStudies: caseStudies.map(study => ({
-          id: study.id,
-          slug: study.slug,
-          title: study.title,
-          company: study.company,
-          industry: study.industry,
-          service: study.service,
-          duration: study.duration,
-          results: study.results,
-          challenge: study.challenge,
-          solution: study.solution,
-          approach: study.approach,
-          metrics: study.metrics.map((metric: any) => ({
-            before: metric.before,
-            after: metric.after,
-            improvement: metric.improvement,
-          })),
-          testimonial: study.testimonial,
-          clientName: study.clientName,
-          clientPosition: study.clientPosition,
-          images: study.images,
-        }))
+        title: caseStudies.title || 'Case Studies',
+        caseStudies: caseStudies.caseStudies || []
       };
     } catch (error) {
       console.error('Error fetching case studies:', error);
-      throw new Error('Failed to fetch case studies');
+      return {
+        title: 'Case Studies',
+        caseStudies: []
+      };
     }
   }
 
-  static async updateCaseStudies(data: { title: string; caseStudies: ICaseStudy[] }) {
+  static async createCaseStudy(data: any) {
     try {
-      await connectToDatabase();
+      const caseStudiesDoc = await FirebaseDB.getDocument('caseStudies', 'main');
+      const caseStudies = caseStudiesDoc?.caseStudies || [];
+      caseStudies.push(data);
+      
+      await FirebaseDB.setDocument('caseStudies', 'main', {
+        title: caseStudiesDoc?.title || 'Case Studies',
+        caseStudies,
+        updatedAt: new Date().toISOString()
+      });
+      
+      return data;
+    } catch (error) {
+      console.error('Error creating case study:', error);
+      throw new Error('Failed to create case study');
+    }
+  }
 
-      // Clear existing case studies
-      await CaseStudy.deleteMany({});
-
-      // Insert new case studies
-      const caseStudiesToInsert = data.caseStudies.map(study => ({
-        id: study.id,
-        slug: study.slug,
-        title: study.title,
-        company: study.company,
-        industry: study.industry,
-        service: study.service,
-        duration: study.duration,
-        results: study.results,
-        challenge: study.challenge,
-        solution: study.solution,
-        approach: study.approach,
-        metrics: study.metrics,
-        testimonial: study.testimonial,
-        clientName: study.clientName,
-        clientPosition: study.clientPosition,
-        images: study.images,
-      }));
-
-      await CaseStudy.insertMany(caseStudiesToInsert);
-
+  static async updateCaseStudies(data: any) {
+    try {
+      await FirebaseDB.setDocument('caseStudies', 'main', {
+        title: data.title,
+        caseStudies: data.caseStudies,
+        updatedAt: new Date().toISOString()
+      });
+      
       return { message: 'Case studies updated successfully' };
     } catch (error) {
       console.error('Error updating case studies:', error);
@@ -75,54 +61,36 @@ export class CaseStudiesService {
 
   static async getCaseStudyBySlug(slug: string) {
     try {
-      await connectToDatabase();
-      const caseStudy = await CaseStudy.findOne({ slug });
-      if (!caseStudy) return null;
-      return {
-        id: caseStudy.id,
-        slug: caseStudy.slug,
-        title: caseStudy.title,
-        company: caseStudy.company,
-        industry: caseStudy.industry,
-        service: caseStudy.service,
-        duration: caseStudy.duration,
-        results: caseStudy.results,
-        challenge: caseStudy.challenge,
-        solution: caseStudy.solution,
-        approach: caseStudy.approach,
-        metrics: caseStudy.metrics.map((metric: any) => ({
-          before: metric.before,
-          after: metric.after,
-          improvement: metric.improvement,
-        })),
-        testimonial: caseStudy.testimonial,
-        clientName: caseStudy.clientName,
-        clientPosition: caseStudy.clientPosition,
-        images: caseStudy.images,
-      };
+      const caseStudiesDoc = await FirebaseDB.getDocument('caseStudies', 'main');
+      if (caseStudiesDoc && caseStudiesDoc.caseStudies) {
+        return caseStudiesDoc.caseStudies.find((cs: any) => cs.slug === slug);
+      }
+      return null;
     } catch (error) {
       console.error('Error fetching case study:', error);
       throw new Error('Failed to fetch case study');
     }
   }
 
-  static async createCaseStudy(caseStudyData: Partial<ICaseStudy>) {
+  static async updateCaseStudy(id: string, data: any) {
     try {
-      await connectToDatabase();
-      const caseStudy = new CaseStudy(caseStudyData);
-      await caseStudy.save();
-      return caseStudy;
-    } catch (error) {
-      console.error('Error creating case study:', error);
-      throw new Error('Failed to create case study');
-    }
-  }
-
-  static async updateCaseStudy(id: string, caseStudyData: Partial<ICaseStudy>) {
-    try {
-      await connectToDatabase();
-      const caseStudy = await CaseStudy.findOneAndUpdate({ id }, caseStudyData, { new: true });
-      return caseStudy;
+      const caseStudiesDoc = await FirebaseDB.getDocument('caseStudies', 'main');
+      const caseStudies = caseStudiesDoc?.caseStudies || [];
+      
+      const index = caseStudies.findIndex((cs: any) => cs.id === id || cs.slug === id);
+      if (index === -1) {
+        throw new Error('Case study not found');
+      }
+      
+      caseStudies[index] = { ...caseStudies[index], ...data };
+      
+      await FirebaseDB.setDocument('caseStudies', 'main', {
+        title: caseStudiesDoc?.title || 'Case Studies',
+        caseStudies,
+        updatedAt: new Date().toISOString()
+      });
+      
+      return caseStudies[index];
     } catch (error) {
       console.error('Error updating case study:', error);
       throw new Error('Failed to update case study');
@@ -131,8 +99,17 @@ export class CaseStudiesService {
 
   static async deleteCaseStudy(id: string) {
     try {
-      await connectToDatabase();
-      await CaseStudy.findOneAndDelete({ id });
+      const caseStudiesDoc = await FirebaseDB.getDocument('caseStudies', 'main');
+      const caseStudies = caseStudiesDoc?.caseStudies || [];
+      
+      const filteredCaseStudies = caseStudies.filter((cs: any) => cs.id !== id && cs.slug !== id);
+      
+      await FirebaseDB.setDocument('caseStudies', 'main', {
+        title: caseStudiesDoc?.title || 'Case Studies',
+        caseStudies: filteredCaseStudies,
+        updatedAt: new Date().toISOString()
+      });
+      
       return { message: 'Case study deleted successfully' };
     } catch (error) {
       console.error('Error deleting case study:', error);

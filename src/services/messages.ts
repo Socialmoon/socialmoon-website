@@ -1,58 +1,55 @@
-import { connectToDatabase } from '@/database';
-import Message, { IMessage } from '@/models/Message';
+import { FirebaseDB } from '@/lib/firebase/database';
+import { orderBy as firestoreOrderBy } from 'firebase/firestore';
 
 export class MessagesService {
   static async getMessages() {
     try {
-      await connectToDatabase();
-      const messages = await Message.find().sort({ timestamp: -1 });
-      return messages.map(message => ({
-        id: message.id,
-        name: message.name,
-        email: message.email,
-        subject: message.subject,
-        message: message.message,
-        timestamp: message.timestamp,
-        status: message.status,
-      }));
+      const messages = await FirebaseDB.getCollection('messages', [
+        firestoreOrderBy('timestamp', 'desc')
+      ]);
+      return messages;
     } catch (error) {
       console.error('Error fetching messages:', error);
-      throw new Error('Failed to fetch messages');
+      return [];
     }
   }
 
-  static async createMessage(messageData: Partial<IMessage>) {
+  static async createMessage(data: any) {
     try {
-      await connectToDatabase();
-      const message = new Message({
-        ...messageData,
-        id: Date.now(), // Simple ID generation
-        timestamp: new Date(),
-        status: 'unread',
-      });
-      await message.save();
-      return { message: 'Message sent successfully' };
+      const messageData = {
+        ...data,
+        timestamp: new Date().toISOString(),
+        read: false
+      };
+      
+      return await FirebaseDB.addDocument('messages', messageData);
     } catch (error) {
       console.error('Error creating message:', error);
-      throw new Error('Failed to send message');
+      throw new Error('Failed to create message');
     }
   }
 
-  static async updateMessageStatus(id: number, status: 'unread' | 'read' | 'replied') {
+  static async markAsRead(id: string) {
     try {
-      await connectToDatabase();
-      const message = await Message.findOneAndUpdate({ id }, { status }, { new: true });
-      return message;
+      return await FirebaseDB.updateDocument('messages', id, { read: true });
+    } catch (error) {
+      console.error('Error marking message as read:', error);
+      throw new Error('Failed to mark message as read');
+    }
+  }
+
+  static async updateMessageStatus(id: string, status: string) {
+    try {
+      return await FirebaseDB.updateDocument('messages', id, { status, read: status !== 'unread' });
     } catch (error) {
       console.error('Error updating message status:', error);
       throw new Error('Failed to update message status');
     }
   }
 
-  static async deleteMessage(id: number) {
+  static async deleteMessage(id: string) {
     try {
-      await connectToDatabase();
-      await Message.findOneAndDelete({ id });
+      await FirebaseDB.deleteDocument('messages', id);
       return { message: 'Message deleted successfully' };
     } catch (error) {
       console.error('Error deleting message:', error);

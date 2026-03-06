@@ -1,48 +1,44 @@
-import { Subscriber } from '@/models/Subscriber';
-import fs from 'fs';
-import path from 'path';
+import { FirebaseDB } from '@/lib/firebase/database';
 
-const SUBSCRIBERS_FILE = path.join(process.cwd(), 'subscribers.json');
-
-const readSubscribers = (): Subscriber[] => {
-  try {
-    if (!fs.existsSync(SUBSCRIBERS_FILE)) {
+export class SubscribersService {
+  static async getSubscribers() {
+    try {
+      const subscribers = await FirebaseDB.getCollection('subscribers');
+      return subscribers;
+    } catch (error) {
+      console.error('Error fetching subscribers:', error);
       return [];
     }
-    const data = fs.readFileSync(SUBSCRIBERS_FILE, 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    console.error('Error reading subscribers:', error);
-    return [];
   }
-};
 
-const writeSubscribers = (subscribers: Subscriber[]): void => {
-  try {
-    fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(subscribers, null, 2));
-  } catch (error) {
-    console.error('Error writing subscribers:', error);
+  static async addSubscriber(email: string) {
+    try {
+      const subscribers = await FirebaseDB.getCollection('subscribers');
+      const exists = subscribers.some((sub: any) => sub.email === email);
+      
+      if (exists) {
+        return { message: 'Email already subscribed', alreadyExists: true };
+      }
+      
+      await FirebaseDB.addDocument('subscribers', {
+        email,
+        subscribedAt: new Date().toISOString()
+      });
+      
+      return { message: 'Successfully subscribed!' };
+    } catch (error) {
+      console.error('Error adding subscriber:', error);
+      throw new Error('Failed to add subscriber');
+    }
   }
-};
 
-export const getSubscribers = (): Subscriber[] => {
-  return readSubscribers();
-};
-
-export const addSubscriber = (email: string): Subscriber => {
-  const subscribers = readSubscribers();
-  const newSubscriber: Subscriber = {
-    id: Date.now(),
-    email,
-    timestamp: new Date().toISOString(),
-  };
-  subscribers.push(newSubscriber);
-  writeSubscribers(subscribers);
-  return newSubscriber;
-};
-
-export const deleteSubscriber = (id: number): void => {
-  const subscribers = readSubscribers();
-  const filtered = subscribers.filter(sub => sub.id !== id);
-  writeSubscribers(filtered);
-};
+  static async deleteSubscriber(id: string) {
+    try {
+      await FirebaseDB.deleteDocument('subscribers', id);
+      return { message: 'Subscriber deleted successfully' };
+    } catch (error) {
+      console.error('Error deleting subscriber:', error);
+      throw new Error('Failed to delete subscriber');
+    }
+  }
+}

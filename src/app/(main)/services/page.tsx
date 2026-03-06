@@ -16,7 +16,10 @@ type Service = {
   id: number;
   title: string;
   description: string;
-  price: number;
+  price: string | number;
+  icon?: string;
+  popular?: boolean;
+  features?: string[];
 };
 
 type ServicesPageContent = {
@@ -37,22 +40,43 @@ const ServicesPage = () => {
       try {
         const servicesRes = await fetch('/api/services');
         const services = await servicesRes.json();
-        const servicesString = JSON.stringify(services);
-
+        
+        // Even if status is not OK, the API returns valid structure with default data
         // Only update if data has changed or it's the initial load
-        if (!isPolling || servicesString !== previousDataRef.current) {
-          setContent(services);
-          previousDataRef.current = servicesString;
+        if (!isPolling || JSON.stringify(services) !== previousDataRef.current) {
+          // Validate that we have valid services data
+          if (services && services.title && Array.isArray(services.services)) {
+            setContent(services);
+            previousDataRef.current = JSON.stringify(services);
+          } else if (!isPolling) {
+            // Set default content if data structure is invalid
+            setContent({
+              title: 'Our Services',
+              services: []
+            });
+          }
         }
 
         // Also fetch case studies if not polling or if we need to refresh
         if (!isPolling) {
-          const caseStudiesRes = await fetch('/api/case-studies');
-          const caseStudiesData = await caseStudiesRes.json();
-          setCaseStudies(caseStudiesData.caseStudies || []);
+          try {
+            const caseStudiesRes = await fetch('/api/case-studies');
+            const caseStudiesData = await caseStudiesRes.json();
+            setCaseStudies(caseStudiesData.caseStudies || []);
+          } catch (error) {
+            console.error('Error fetching case studies:', error);
+            setCaseStudies([]);
+          }
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching services data:', error);
+        if (!isPolling) {
+          // Set default content on error
+          setContent({
+            title: 'Our Services',
+            services: []
+          });
+        }
       } finally {
         if (!isPolling) {
           setLoading(false);
@@ -201,123 +225,109 @@ const ServicesPage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10">
-            {content.services.map((service, index) => {
-              const serviceIcons = [Zap, Users, MessageSquare, Target, Code, Smartphone];
-              const IconComponent = serviceIcons[index] || Star;
+            {content.services?.map((service, index) => {
+              const serviceIcons = [Zap, TrendingUp, Users, Target, BarChart3, Rocket];
+              const IconComponent = serviceIcons[index % 6] || Star;
               const gradients = [
-                'from-blue-500 to-purple-600',
-                'from-green-500 to-teal-600',
-                'from-purple-500 to-pink-600',
-                'from-orange-500 to-red-600',
-                'from-indigo-500 to-blue-600',
-                'from-emerald-500 to-cyan-600'
+                'from-blue-600 via-blue-500 to-cyan-500',
+                'from-purple-600 via-pink-500 to-rose-500',
+                'from-green-600 via-emerald-500 to-teal-500',
+                'from-orange-600 via-amber-500 to-yellow-500',
+                'from-indigo-600 via-purple-500 to-pink-500',
+                'from-cyan-600 via-teal-500 to-green-500'
               ];
-              const gradient = gradients[index] || 'from-gray-500 to-gray-600';
+              const gradient = gradients[index % 6] || 'from-gray-600 to-gray-500';
 
-              // Enhanced features based on service type
-              const getServiceFeatures = (serviceTitle: string) => {
-                switch (serviceTitle) {
-                  case 'Social Media Management':
-                    return [
-                      { icon: Users, text: 'Community management' },
-                      { icon: BarChart3, text: 'Performance analytics' },
-                      { icon: TrendingUp, text: 'Growth optimization' },
-                      { icon: Clock, text: 'Monthly reporting' }
-                    ];
-                  case 'Content Creation':
-                    return [
-                      { icon: Lightbulb, text: 'Creative strategy' },
-                      { icon: Code, text: 'Graphic design' },
-                      { icon: MessageSquare, text: 'Copywriting' },
-                      { icon: Target, text: 'Brand alignment' }
-                    ];
-                  case 'Social Media Advertising':
-                    return [
-                      { icon: Target, text: 'Audience targeting' },
-                      { icon: BarChart3, text: 'Campaign tracking' },
-                      { icon: TrendingUp, text: 'ROI optimization' },
-                      { icon: Zap, text: 'A/B testing' }
-                    ];
-                  case 'Web Development':
-                    return [
-                      { icon: Globe, text: 'Responsive design' },
-                      { icon: Rocket, text: 'Performance optimized' },
-                      { icon: Shield, text: 'SEO ready' },
-                      { icon: Code, text: 'Modern stack' }
-                    ];
-                  case 'App Development':
-                    return [
-                      { icon: Smartphone, text: 'Cross-platform' },
-                      { icon: Code, text: 'Native performance' },
-                      { icon: Lightbulb, text: 'UX focused' },
-                      { icon: Shield, text: 'Secure & scalable' }
-                    ];
-                  default:
-                    return [
-                      { icon: CheckCircle, text: 'Professional service' },
-                      { icon: Users, text: 'Expert team' },
-                      { icon: TrendingUp, text: 'Results driven' },
-                      { icon: Award, text: 'Quality guaranteed' }
-                    ];
-                }
-              };
+              // Popular badge for featured services
+              const isPopular = service.popular || (index === 1 || index === 2 || index === 4);
 
-              const features = getServiceFeatures(service.title);
+              // Enhanced features with icons
+              const serviceFeatures = service.features || [
+                'Professional service delivery',
+                'Dedicated account manager',
+                'Monthly progress reports',
+                'Priority support',
+                'Flexible scheduling'
+              ];
 
               return (
                 <div key={service.id} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
-                  {/* Premium glow effect */}
-                  <div className={`absolute -inset-1 bg-gradient-to-r ${gradient} rounded-3xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
+                  {/* Animated gradient border */}
+                  <div className={`absolute -inset-0.5 bg-gradient-to-r ${gradient} rounded-3xl opacity-75 group-hover:opacity-100 blur group-hover:blur-md transition-all duration-500 animate-pulse`}></div>
 
-                  <div className="relative bg-white rounded-3xl shadow-xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-3 overflow-hidden border border-gray-100">
-                    {/* Service header with gradient */}
-                    <div className={`bg-gradient-to-r ${gradient} p-6 text-white relative overflow-hidden`}>
-                      <div className="absolute inset-0 bg-black/10"></div>
-                      <div className="relative flex items-center justify-between mb-4">
-                        <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-sm">
-                          <IconComponent className="w-8 h-8" />
-                        </div>
-                        <div className="text-right">
-                          <div className="text-3xl font-bold">Starting from ${service.price}/month</div>
+                  <div className="relative bg-white rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden h-full flex flex-col">
+                    {/* Popular Badge */}
+                    {isPopular && (
+                      <div className="absolute top-4 right-4 z-10">
+                        <div className={`bg-gradient-to-r ${gradient} text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg flex items-center space-x-1`}>
+                          <Star className="w-3 h-3 fill-current" />
+                          <span>POPULAR</span>
                         </div>
                       </div>
-                      <h3 className="text-2xl font-bold mb-2 leading-tight">{service.title}</h3>
-                      <p className="text-white/90 leading-relaxed">{service.description}</p>
+                    )}
+
+                    {/* Service Icon Header */}
+                    <div className={`relative bg-gradient-to-br ${gradient} p-8 text-white overflow-hidden`}>
+                      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLW9wYWNpdHk9IjAuMSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-30"></div>
+                      
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-6">
+                          <div className="p-4 bg-white/20 backdrop-blur-sm rounded-2xl group-hover:scale-110 transition-transform duration-300 shadow-xl">
+                            <IconComponent className="w-10 h-10 text-white" />
+                          </div>
+                        </div>
+                        
+                        <h3 className="text-2xl font-bold mb-3 leading-tight">{service.title}</h3>
+                        <p className="text-white/95 text-sm leading-relaxed">{service.description}</p>
+                      </div>
                     </div>
 
-                    {/* Features list */}
-                    <div className="p-6">
-                      <div className="space-y-4 mb-8">
-                        {features.map((feature, featureIndex) => (
-                          <div key={featureIndex} className="flex items-center space-x-3 group/feature">
-                            <div className="p-2 bg-gray-100 rounded-lg group-hover/feature:bg-blue-100 transition-colors duration-300">
-                              <feature.icon className="w-4 h-4 text-gray-600 group-hover/feature:text-blue-600 transition-colors duration-300" />
+                    {/* Pricing Section */}
+                    <div className="px-8 py-6 bg-gradient-to-br from-gray-50 to-white border-b border-gray-100">
+                      <div className="flex items-baseline justify-center">
+                        <span className="text-gray-600 text-sm font-medium mr-2">from</span>
+                        <span className={`text-4xl font-bold bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}>
+                          {service.price}
+                        </span>
+                        {service.price && !(typeof service.price === 'string' && service.price.includes('$')) && <span className="text-gray-600 text-sm font-medium ml-1">/mo</span>}
+                      </div>
+                    </div>
+
+                    {/* Features Section */}
+                    <div className="px-8 py-8 flex-grow">
+                      <div className="space-y-4">
+                        {serviceFeatures.slice(0, 5).map((feature: string, featureIndex: number) => (
+                          <div key={featureIndex} className="flex items-start space-x-3 group/feature">
+                            <div className={`flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center mt-0.5 group-hover/feature:scale-110 transition-transform duration-300`}>
+                              <CheckCircle className="w-4 h-4 text-white" />
                             </div>
-                            <span className="text-gray-700 font-medium">{feature.text}</span>
+                            <span className="text-gray-700 text-sm leading-relaxed font-medium">{feature}</span>
                           </div>
                         ))}
                       </div>
+                    </div>
 
-                      {/* CTA Button */}
+                    {/* Action Buttons */}
+                    <div className="px-8 pb-8 mt-auto space-y-3">
                       <Button
-                        className={`w-full py-4 text-lg font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 bg-gradient-to-r ${gradient} text-white border-0 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-500/50`}
+                        className={`w-full py-6 text-base font-bold rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 bg-gradient-to-r ${gradient} text-white border-0 shadow-xl hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/50 group/btn`}
                         onClick={() => window.open('/contact', '_self')}
                       >
-                        Get Started
-                        <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                        <span>Get Started</span>
+                        <ArrowRight className="ml-2 h-5 w-5 inline-block transition-transform group-hover/btn:translate-x-2" />
                       </Button>
 
-                      {/* Learn More Button */}
                       <Button
                         variant="outline"
-                        className="w-full mt-3 py-3 text-base font-semibold rounded-2xl border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-300/50 active:scale-95"
+                        className="w-full py-4 text-sm font-semibold rounded-2xl border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-gray-300/50 active:scale-95 group/btn2"
                         onClick={() => {
                           setSelectedService(service);
                           setActiveView('detail');
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                       >
-                        Learn More
-                        <Target className="ml-2 h-4 w-4 transition-transform group-hover:rotate-12" />
+                        <span className="text-gray-700">View Details</span>
+                        <Target className="ml-2 h-4 w-4 inline-block text-gray-600 transition-transform group-hover/btn2:rotate-12" />
                       </Button>
                     </div>
                   </div>
@@ -764,7 +774,7 @@ const ServicesPage = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12">
             {caseStudies.map((study, index) => (
-              <div key={study.id} className="group relative" style={{ animationDelay: `${index * 0.2}s` }}>
+              <div key={study.slug || index} className="group relative" style={{ animationDelay: `${index * 0.2}s` }}>
                 <div className={`absolute -inset-2 bg-gradient-to-r ${
                   index === 0
                     ? 'from-blue-600 via-purple-600 to-pink-600'
@@ -807,7 +817,15 @@ const ServicesPage = () => {
                       <div className="text-gray-600">in {study.duration}</div>
                     </div>
 
-                    <p className="text-gray-700 italic text-lg leading-relaxed mb-6">"{study.testimonial}"</p>
+                    {study.testimonial && (
+                      <div className="mb-6">
+                        <p className="text-gray-700 italic text-lg leading-relaxed mb-4">"{study.testimonial.quote}"</p>
+                        <div className="text-sm">
+                          <p className="font-semibold text-gray-900">{study.testimonial.author}</p>
+                          <p className="text-gray-600">{study.testimonial.position}</p>
+                        </div>
+                      </div>
+                    )}
 
                     <Link href={`/case-studies/${study.slug}`}>
                       <Button variant="outline" size="lg" className="w-full group/btn border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50 transition-all duration-500 py-4 rounded-2xl">

@@ -274,7 +274,7 @@ const AddServiceForm = () => {
                       {formData.title || 'Service Title'}
                     </h3>
                     <p className="text-2xl font-bold text-blue-600 mt-2">
-                      ${formData.price > 0 ? formData.price.toFixed(2) : '0.00'}
+                      ${typeof formData.price === 'number' && formData.price > 0 ? formData.price.toFixed(2) : '0.00'}
                     </p>
                     <p className="text-gray-600 mt-3 line-clamp-4">
                       {formData.description || 'Service description will appear here...'}

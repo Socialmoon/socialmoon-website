@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 type Project = {
   id: number;
   title: string;
+  slug?: string;
   description: string;
   imageUrl: string;
   link: string;
@@ -117,8 +118,8 @@ const PortfolioAdminPage = () => {
           </Card>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {content.projects.map((project) => (
-              <Card key={project.id} className="hover:shadow-lg transition-shadow">
+            {content.projects.map((project, index) => (
+              <Card key={project.slug || index} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
                   {project.imageUrl && (
                     <img

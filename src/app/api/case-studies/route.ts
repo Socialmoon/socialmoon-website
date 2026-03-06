@@ -7,8 +7,13 @@ export async function GET() {
     return NextResponse.json(data);
   } catch (error) {
     console.error('Error in GET /api/case-studies:', error);
+    // Return a valid structure even on error
     return NextResponse.json(
-      { error: 'Failed to fetch case studies' },
+      { 
+        title: 'Case Studies',
+        caseStudies: [],
+        error: 'Failed to fetch case studies' 
+      },
       { status: 500 }
     );
   }

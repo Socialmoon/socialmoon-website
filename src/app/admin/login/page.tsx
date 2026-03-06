@@ -32,7 +32,12 @@ const LoginPage = () => {
         localStorage.setItem('adminToken', data.token);
         localStorage.setItem('adminUsername', data.username);
         localStorage.setItem('adminRole', data.role);
-        router.push('/admin/dashboard');
+        
+        // Small delay to ensure localStorage is persisted
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // Force navigation and refresh
+        window.location.href = '/admin/dashboard';
       } else {
         setError(data.error || 'Invalid username or password. Please try again.');
       }

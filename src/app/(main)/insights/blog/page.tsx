@@ -14,8 +14,9 @@ import {
 } from 'lucide-react';
 
 type BlogPost = {
-  id: number;
+  id?: number;
   title: string;
+  slug?: string;
   content: string;
   author: string;
   date: string;
@@ -62,7 +63,7 @@ const BlogPage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  if (loading) {
+  if (loading || !blogData) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
         <div className="flex items-center space-x-2">
@@ -113,7 +114,7 @@ const BlogPage = () => {
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10">
             {blogData?.posts?.map((post, index) => (
-              <div key={post.id} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
+              <div key={post.slug || index} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
                 {/* Animated glow effect */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
@@ -162,7 +163,7 @@ const BlogPage = () => {
 
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-500 font-medium">By {post.author}</span>
-                      <Link href={`/insights/blog/${post.id}`}>
+                      <Link href={`/insights/blog/${post.slug || post.id || index}`}>
                         <Button variant="outline" size="sm" className="group/btn border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300">
                           Read More
                           <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-2 transition-transform duration-300" />

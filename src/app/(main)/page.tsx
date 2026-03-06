@@ -27,7 +27,29 @@ const HomePage = () => {
   useEffect(() => {
     fetch('/api/home')
       .then((res) => res.json())
-      .then((data) => setContent(data));
+      .then((data) => {
+        // Only set content if we have valid data with a title
+        if (data && data.title) {
+          setContent(data);
+        } else {
+          console.error('Invalid home data received:', data);
+          // Set default content if API fails
+          setContent({
+            title: 'Welcome to SocialMoon',
+            description: 'Your one-stop solution for social media management.',
+            features: []
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching home content:', error);
+        // Set default content on error
+        setContent({
+          title: 'Welcome to SocialMoon',
+          description: 'Your one-stop solution for social media management.',
+          features: []
+        });
+      });
   }, []);
 
   if (!content) {
@@ -97,7 +119,7 @@ const HomePage = () => {
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent leading-tight">
-            {content.title.split('SocialMoon')[0]}
+            {content.title?.split('SocialMoon')[0] || 'Welcome to '}
             <Image
               src="/1.png"
               alt="SocialMoon Logo"
@@ -233,7 +255,7 @@ const HomePage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            {content.features.map((feature, index) => (
+            {content.features?.map((feature, index) => (
               <div key={index} className="group relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <FeatureCard

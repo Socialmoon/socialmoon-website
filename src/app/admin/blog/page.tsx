@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 type Post = {
   id: number;
   title: string;
+  slug?: string;
   content: string;
   author: string;
   date: string;
@@ -115,8 +116,8 @@ const BlogAdminPage = () => {
           </Card>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {content.posts.map((post) => (
-              <Card key={post.id} className="hover:shadow-lg transition-shadow">
+            {content.posts?.map((post, index) => (
+              <Card key={post.slug || index} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <CardTitle className="text-lg line-clamp-2">{post.title}</CardTitle>
                   <div className="text-sm text-gray-600">

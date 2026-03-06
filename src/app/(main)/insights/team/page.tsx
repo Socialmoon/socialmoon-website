@@ -12,11 +12,13 @@ import {
 import Image from 'next/image';
 
 type TeamMember = {
-  id: number;
+  id?: number;
   name: string;
-  role: string;
+  role?: string;
+  position?: string;
   bio: string;
-  imageUrl: string;
+  imageUrl?: string;
+  image?: string;
 };
 
 type AboutData = {
@@ -99,69 +101,88 @@ const TeamPage = () => {
 
         <Container className="relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-            {aboutData?.team?.map((member, index) => (
-              <div key={member.id} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
-                {/* Glow effect */}
-                <div className={`absolute -inset-1 bg-gradient-to-r ${
-                  index % 3 === 0 ? 'from-blue-600 via-purple-600 to-pink-600' :
-                  index % 3 === 1 ? 'from-green-600 via-teal-600 to-blue-600' :
-                  'from-purple-600 via-pink-600 to-red-600'
-                } rounded-3xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
+            {aboutData?.team?.map((member, index) => {
+              const memberImage = member.imageUrl || member.image;
+              const memberRole = member.role || member.position;
 
-                <div className="relative bg-white rounded-3xl shadow-xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-4 overflow-hidden border border-gray-100">
-                  {/* Color accent bar */}
-                  <div className={`h-2 bg-gradient-to-r ${
-                    index % 3 === 0 ? 'from-blue-500 to-purple-500' :
-                    index % 3 === 1 ? 'from-green-500 to-teal-500' :
-                    'from-purple-500 to-pink-500'
-                  }`}></div>
+              return (
+                <div key={member.id || index} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
+                  {/* Glow effect */}
+                  <div className={`absolute -inset-1 bg-gradient-to-r ${
+                    index % 3 === 0 ? 'from-blue-600 via-purple-600 to-pink-600' :
+                    index % 3 === 1 ? 'from-green-600 via-teal-600 to-blue-600' :
+                    'from-purple-600 via-pink-600 to-red-600'
+                  } rounded-3xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
 
-                  <div className="p-8">
-                    <div className="text-center mb-6">
-                      <div className="w-24 h-24 mx-auto mb-4 rounded-2xl overflow-hidden bg-gray-200 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <Image
-                          src={member.imageUrl}
-                          alt={member.name}
-                          width={96}
-                          height={96}
-                          className="w-full h-full object-cover"
-                        />
+                  <div className="relative bg-white rounded-3xl shadow-xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-4 overflow-hidden border border-gray-100">
+                    {/* Color accent bar */}
+                    <div className={`h-2 bg-gradient-to-r ${
+                      index % 3 === 0 ? 'from-blue-500 to-purple-500' :
+                      index % 3 === 1 ? 'from-green-500 to-teal-500' :
+                      'from-purple-500 to-pink-500'
+                    }`}></div>
+
+                    <div className="p-8">
+                      <div className="text-center mb-6">
+                        <div className="w-24 h-24 mx-auto mb-4 rounded-2xl overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                          {memberImage && memberImage !== '' ? (
+                            <Image
+                              src={memberImage}
+                              alt={member.name}
+                              width={96}
+                              height={96}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-200 to-purple-200">
+                              <span className="text-3xl font-bold text-white">
+                                {member.name.split(' ').map(n => n[0]).join('')}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">{member.name}</h3>
+                        <p className={`text-base font-semibold mb-4 ${
+                          index % 3 === 0 ? 'text-blue-600' :
+                          index % 3 === 1 ? 'text-green-600' :
+                          'text-purple-600'
+                        }`}>{memberRole}</p>
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">{member.name}</h3>
-                      <p className={`text-base font-semibold mb-4 ${
-                        index % 3 === 0 ? 'text-blue-600' :
-                        index % 3 === 1 ? 'text-green-600' :
-                        'text-purple-600'
-                      }`}>{member.role}</p>
-                    </div>
 
-                    <p className="text-gray-600 leading-relaxed text-center mb-6 group-hover:text-gray-700 transition-colors duration-300">{member.bio}</p>
+                      <p className="text-gray-600 leading-relaxed text-center mb-6 group-hover:text-gray-700 transition-colors duration-300">{member.bio}</p>
 
-                    {/* Social/Expertise badges */}
-                    <div className="flex flex-wrap justify-center gap-2">
-                      {index === 0 && (
-                        <>
-                          <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">Strategy</span>
-                          <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">Analytics</span>
-                        </>
-                      )}
-                      {index === 1 && (
-                        <>
-                          <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Creative</span>
-                          <span className="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-medium">Design</span>
-                        </>
-                      )}
-                      {index === 2 && (
-                        <>
-                          <span className="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-xs font-medium">Marketing</span>
-                          <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium">Growth</span>
-                        </>
-                      )}
+                      {/* Social/Expertise badges */}
+                      <div className="flex flex-wrap justify-center gap-2">
+                        {index === 0 && (
+                          <>
+                            <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">Strategy</span>
+                            <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">Analytics</span>
+                          </>
+                        )}
+                        {index === 1 && (
+                          <>
+                            <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Creative</span>
+                            <span className="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-medium">Design</span>
+                          </>
+                        )}
+                        {index === 2 && (
+                          <>
+                            <span className="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-xs font-medium">Marketing</span>
+                            <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium">Growth</span>
+                          </>
+                        )}
+                        {index > 2 && (
+                          <>
+                            <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-medium">Expert</span>
+                            <span className="px-3 py-1 bg-cyan-100 text-cyan-700 rounded-full text-xs font-medium">Leader</span>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )) || (
+              );
+            }) || (
               <>
                 {/* Enhanced fallback team members */}
                 {[

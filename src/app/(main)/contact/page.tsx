@@ -16,18 +16,39 @@ import {
   CheckCircle,
   ArrowRight,
   Globe,
-  Star
+  Star,
+  Instagram,
+  Linkedin,
+  Twitter,
+  Facebook,
+  MessageCircle
 } from 'lucide-react';
 
 type ContactInfo = {
   email: string;
   phone: string;
   address: string;
+  whatsapp?: string;
+};
+
+type OfficeHours = {
+  weekdays: string;
+  weekends: string;
+  closed: string;
+};
+
+type SocialMedia = {
+  instagram: string;
+  linkedin: string;
+  twitter: string;
+  facebook: string;
 };
 
 type ContactPageContent = {
   title: string;
   contactInfo: ContactInfo;
+  officeHours?: OfficeHours;
+  socialMedia?: SocialMedia;
 };
 
 const ContactPage = () => {
@@ -46,7 +67,59 @@ const ContactPage = () => {
   useEffect(() => {
     fetch('/api/contact')
       .then((res) => res.json())
-      .then((data) => setContent(data));
+      .then((data) => {
+        // Validate that we have valid contact data
+        if (data && data.contactInfo) {
+          setContent(data);
+        } else {
+          console.error('Invalid contact data received:', data);
+          // Set default content if API fails
+          setContent({
+            title: 'Contact Us',
+            contactInfo: {
+              email: 'contact@socialmoon.in',
+              phone: '+91 9118439107',
+              whatsapp: '+91 9118439107',
+              address: 'Lucknow, Uttar Pradesh, India'
+            },
+            officeHours: {
+              weekdays: 'Monday - Friday: 9:00 AM - 6:00 PM IST',
+              weekends: 'Saturday: 10:00 AM - 4:00 PM IST',
+              closed: 'Sunday: Closed'
+            },
+            socialMedia: {
+              instagram: 'https://www.instagram.com/the_social_moon_',
+              linkedin: 'https://www.linkedin.com/company/socialmoon1/',
+              twitter: 'https://x.com/the_social_moon',
+              facebook: 'https://www.facebook.com/profile.php?id=61580131888044'
+            }
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching contact:', error);
+        // Set default content on error
+        setContent({
+          title: 'Contact Us',
+          contactInfo: {
+            email: 'contact@socialmoon.in',
+            phone: '+91 9118439107',
+            whatsapp: '+91 9118439107',
+            address: 'Lucknow, Uttar Pradesh, India'
+          },
+          officeHours: {
+            weekdays: 'Monday - Friday: 9:00 AM - 6:00 PM IST',
+            weekends: 'Saturday: 10:00 AM - 4:00 PM IST',
+            closed: 'Sunday: Closed'
+          },
+          socialMedia: {
+            instagram: 'https://www.instagram.com/the_social_moon_',
+            linkedin: 'https://www.linkedin.com/company/socialmoon1/',
+            twitter: 'https://x.com/the_social_moon',
+            facebook: 'https://www.facebook.com/profile.php?id=61580131888044'
+          }
+        });
+      });
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -158,33 +231,37 @@ const ContactPage = () => {
                 icon: Mail,
                 title: "Email Us",
                 description: "Send us a detailed message about your project",
-                contact: content.contactInfo.email,
+                contact: content.contactInfo?.email || 'contact@socialmoon.in',
                 color: "from-blue-500 to-indigo-500",
-                action: "Send Email"
+                action: "Send Email",
+                link: `mailto:${content.contactInfo?.email || 'contact@socialmoon.in'}`
               },
               {
                 icon: Phone,
                 title: "Call Us",
                 description: "Speak directly with our team for immediate assistance",
-                contact: content.contactInfo.phone,
+                contact: content.contactInfo?.phone || '+91 9118439107',
                 color: "from-green-500 to-teal-500",
-                action: "Call Now"
+                action: "Call Now",
+                link: `tel:${content.contactInfo?.phone || '+919118439107'}`
+              },
+              {
+                icon: MessageCircle,
+                title: "WhatsApp",
+                description: "Chat with us instantly on WhatsApp for quick responses",
+                contact: content.contactInfo?.whatsapp || content.contactInfo?.phone || '+91 9118439107',
+                color: "from-green-600 to-emerald-500",
+                action: "Chat Now",
+                link: `https://wa.me/${(content.contactInfo?.whatsapp || content.contactInfo?.phone || '+919118439107').replace(/[^0-9]/g, '')}`
               },
               {
                 icon: MapPin,
                 title: "Visit Us",
                 description: "Meet us in person at our office location",
-                contact: content.contactInfo.address,
+                contact: content.contactInfo?.address || 'Lucknow, Uttar Pradesh, India',
                 color: "from-purple-500 to-pink-500",
-                action: "Get Directions"
-              },
-              {
-                icon: Clock,
-                title: "Business Hours",
-                description: "When you can reach us for consultations",
-                contact: "Mon-Fri: 9AM-6PM\nSat: 10AM-4PM",
-                color: "from-orange-500 to-red-500",
-                action: "Schedule Meeting"
+                action: "Get Directions",
+                link: `https://maps.google.com/?q=${encodeURIComponent(content.contactInfo?.address || 'Lucknow, Uttar Pradesh, India')}`
               }
             ].map((item, index) => (
               <div key={index} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
@@ -198,16 +275,133 @@ const ContactPage = () => {
                   <div className="bg-gray-50 rounded-2xl p-4 mb-6">
                     <p className="text-gray-700 font-medium text-sm whitespace-pre-line">{item.contact}</p>
                   </div>
-                  <Button className={`w-full py-3 text-base font-semibold rounded-2xl transition-all duration-300 bg-gradient-to-r ${item.color} text-white border-0 shadow-lg hover:shadow-xl`}>
-                    {item.action}
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
+                  <a href={item.link} target="_blank" rel="noopener noreferrer">
+                    <Button className={`w-full py-3 text-base font-semibold rounded-2xl transition-all duration-300 bg-gradient-to-r ${item.color} text-white border-0 shadow-lg hover:shadow-xl`}>
+                      {item.action}
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </a>
                 </div>
               </div>
             ))}
           </div>
         </Container>
       </Section>
+
+      {/* Social Media & Team Section */}
+      {content.socialMedia && (
+        <Section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30">
+          <Container>
+            <div className="max-w-5xl mx-auto">
+              <div className="text-center mb-16">
+                <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 text-sm font-semibold mb-6 border border-pink-200/50">
+                  <Users className="w-4 h-4 mr-2" />
+                  Connect With Us
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-pink-900 to-purple-900 bg-clip-text text-transparent">
+                  Follow Our Journey
+                </h2>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                  Stay updated with our latest projects, insights, and industry trends on social media.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  {
+                    name: 'Instagram',
+                    icon: Instagram,
+                    url: content.socialMedia.instagram,
+                    color: 'from-pink-500 to-purple-500',
+                    bgColor: 'from-pink-50 to-purple-50',
+                    borderColor: 'border-pink-200',
+                    handle: '@the_social_moon_'
+                  },
+                  {
+                    name: 'LinkedIn',
+                    icon: Linkedin,
+                    url: content.socialMedia.linkedin,
+                    color: 'from-blue-600 to-blue-400',
+                    bgColor: 'from-blue-50 to-blue-50',
+                    borderColor: 'border-blue-200',
+                    handle: 'socialmoon1'
+                  },
+                  {
+                    name: 'Twitter',
+                    icon: Twitter,
+                    url: content.socialMedia.twitter,
+                    color: 'from-sky-500 to-blue-500',
+                    bgColor: 'from-sky-50 to-blue-50',
+                    borderColor: 'border-sky-200',
+                    handle: '@the_social_moon'
+                  },
+                  {
+                    name: 'Facebook',
+                    icon: Facebook,
+                    url: content.socialMedia.facebook,
+                    color: 'from-blue-700 to-indigo-600',
+                    bgColor: 'from-blue-50 to-indigo-50',
+                    borderColor: 'border-blue-200',
+                    handle: 'Social Moon'
+                  }
+                ].map((social, index) => (
+                  <a
+                    key={index}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block"
+                  >
+                    <div className={`relative bg-gradient-to-br ${social.bgColor} rounded-3xl p-8 border ${social.borderColor} shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3`}>
+                      <div className={`absolute -inset-1 bg-gradient-to-r ${social.color} rounded-3xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
+                      <div className="relative text-center">
+                        <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${social.color} text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                          <social.icon className="w-8 h-8" />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors duration-300">{social.name}</h3>
+                        <p className="text-gray-600 text-sm font-medium group-hover:text-gray-700 transition-colors duration-300">{social.handle}</p>
+                        <div className="mt-4 flex items-center justify-center text-sm font-semibold text-gray-500 group-hover:text-gray-700 transition-colors duration-300">
+                          Follow Us
+                          <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                ))}
+              </div>
+
+              {/* Office Hours Card */}
+              {content.officeHours && (
+                <div className="mt-12 bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 md:p-12 shadow-xl border border-gray-200">
+                  <div className="text-center">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r from-green-500 to-teal-500 text-white mb-6 shadow-lg">
+                      <Clock className="w-8 h-8" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Office Hours</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                      <div className="bg-green-50 rounded-2xl p-6 border border-green-200">
+                        <p className="text-green-900 font-semibold mb-2">Weekdays</p>
+                        <p className="text-green-700 text-sm">{content.officeHours.weekdays.split(': ')[1]}</p>
+                      </div>
+                      <div className="bg-teal-50 rounded-2xl p-6 border border-teal-200">
+                        <p className="text-teal-900 font-semibold mb-2">Weekends</p>
+                        <p className="text-teal-700 text-sm">{content.officeHours.weekends.split(': ')[1]}</p>
+                      </div>
+                      <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                        <p className="text-gray-900 font-semibold mb-2">Closed</p>
+                        <p className="text-gray-700 text-sm">{content.officeHours.closed.split(': ')[1]}</p>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 mt-6 text-sm">
+                      💡 For urgent matters outside business hours, send us an email and we'll respond as soon as possible.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </Container>
+        </Section>
+      )}
 
       {/* Contact Form Section */}
       <Section className="py-32 bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30">

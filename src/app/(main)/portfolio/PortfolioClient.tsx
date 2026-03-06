@@ -32,7 +32,7 @@ export const PortfolioClient: React.FC<PortfolioClientProps> = ({ content }) => 
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project: Project) => (
-            <Link key={project.id} href={`/portfolio/${project.slug}`}>
+            <Link key={project.slug} href={`/portfolio/${project.slug}`}>
               <div className="group cursor-pointer h-full">
                 <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 h-96">
                   {/* Video Preview */}
@@ -78,7 +78,9 @@ export const PortfolioClient: React.FC<PortfolioClientProps> = ({ content }) => 
                 <div className="mt-6">
                   <p className="text-sm font-semibold text-blue-600 mb-2">{project.category}</p>
                   <p className="text-gray-700 font-medium mb-3">{project.client}</p>
-                  <p className="text-gray-600 text-sm">{project.results}</p>
+                  <p className="text-gray-600 text-sm">
+                    {Array.isArray(project.results) ? project.results[0] : project.results}
+                  </p>
                 </div>
               </div>
             </Link>

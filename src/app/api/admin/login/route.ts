@@ -58,8 +58,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Authenticate admin
-    const isAuthenticated = await AdminService.authenticateAdmin(sanitizedUsername, password);
+    // First check if admin exists in database
+    let isAuthenticated = await AdminService.authenticateAdmin(sanitizedUsername, password);
+    let role = await AdminService.getAdminRole(sanitizedUsername);
+
+    // Fallback to environment variables if no admin in database
+    if (!isAuthenticated && process.env.ADMIN_USERNAME && process.env.ADMIN_PASSWORD) {
+      if (sanitizedUsername === process.env.ADMIN_USERNAME.toLowerCase() && 
+          password === process.env.ADMIN_PASSWORD) {
+        isAuthenticated = true;
+        role = 'superadmin';
+      }
+    }
 
     if (!isAuthenticated) {
       return NextResponse.json(
@@ -68,8 +78,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get admin role
-    const role = await AdminService.getAdminRole(sanitizedUsername);
     if (!role) {
       return NextResponse.json(
         { error: 'Admin role not found' },

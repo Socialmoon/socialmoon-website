@@ -15,8 +15,9 @@ import {
 } from 'lucide-react';
 
 type BlogPost = {
-  id: number;
+  id?: number;
   title: string;
+  slug?: string;
   content: string;
   author: string;
   date: string;
@@ -48,8 +49,18 @@ const BlogPostPage = ({ params }: BlogPostPageProps) => {
         const blog = await blogRes.json();
         setBlogData(blog);
 
-        // Find the post by ID (slug is the ID)
-        const foundPost = blog.posts.find((p: BlogPost) => p.id.toString() === slug);
+        // Find the post by slug or ID
+        const foundPost = blog.posts?.find((p: BlogPost) => {
+          // First try to match by slug property
+          if (p.slug) {
+            return p.slug === slug;
+          }
+          // Fall back to matching by ID
+          if (p.id !== undefined) {
+            return p.id.toString() === slug;
+          }
+          return false;
+        });
         setPost(foundPost || null);
       } catch (error) {
         console.error('Error fetching data:', error);

@@ -1,97 +1,90 @@
-import { connectToDatabase } from '@/database';
-import Admin, { IAdmin } from '@/models/Admin';
+import { FirebaseDB } from '@/lib/firebase/database';
+import bcrypt from 'bcryptjs';
 
 export class AdminService {
-  static async createAdmin(username: string, password: string, role: 'admin' | 'superadmin' = 'admin'): Promise<IAdmin> {
+  static async getAdmins() {
     try {
-      await connectToDatabase();
-      const admin = new Admin({ username, password, role });
-      await admin.save();
-      return admin;
+      const admins = await FirebaseDB.getCollection('admins');
+      return admins;
+    } catch (error) {
+      console.error('Error fetching admins:', error);
+      return [];
+    }
+  }
+
+  static async getAdminByUsername(username: string) {
+    try {
+      const admins = await FirebaseDB.getCollection('admins');
+      return admins.find((admin: any) => admin.username === username);
+    } catch (error) {
+      console.error('Error fetching admin:', error);
+      return null;
+    }
+  }
+
+  static async createAdmin(data: any) {
+    try {
+      const hashedPassword = await bcrypt.hash(data.password, 10);
+      const adminData = {
+        ...data,
+        password: hashedPassword,
+        createdAt: new Date().toISOString()
+      };
+      
+      return await FirebaseDB.addDocument('admins', adminData);
     } catch (error) {
       console.error('Error creating admin:', error);
       throw new Error('Failed to create admin');
     }
   }
 
-  static async findAdminByUsername(username: string): Promise<IAdmin | null> {
+  static async updateAdmin(id: string, data: any) {
     try {
-      await connectToDatabase();
-      return await Admin.findOne({ username });
+      if (data.password) {
+        data.password = await bcrypt.hash(data.password, 10);
+      }
+      
+      return await FirebaseDB.updateDocument('admins', id, data);
     } catch (error) {
-      console.error('Error finding admin:', error);
-      throw new Error('Failed to find admin');
+      console.error('Error updating admin:', error);
+      throw new Error('Failed to update admin');
     }
   }
 
-  static async authenticateAdmin(username: string, password: string): Promise<boolean> {
+  static async deleteAdmin(id: string) {
     try {
-      await connectToDatabase();
-      const admin = await Admin.findOne({ username });
-      if (!admin) return false;
+      await FirebaseDB.deleteDocument('admins', id);
+      return { message: 'Admin deleted successfully' };
+    } catch (error) {
+      console.error('Error deleting admin:', error);
+      throw new Error('Failed to delete admin');
+    }
+  }
 
-      return await admin.comparePassword(password);
+  static async authenticateAdmin(username: string, password: string) {
+    try {
+      const admin = await this.getAdminByUsername(username);
+      
+      if (!admin) {
+        return false;
+      }
+
+      // Compare password with hashed password
+      const isPasswordValid = await bcrypt.compare(password, admin.password);
+      return isPasswordValid;
     } catch (error) {
       console.error('Error authenticating admin:', error);
       return false;
     }
   }
 
-  static async getAllAdmins(): Promise<IAdmin[]> {
+  static async getAdminRole(username: string) {
     try {
-      await connectToDatabase();
-      return await Admin.find().select('-password');
+      const admin = await this.getAdminByUsername(username);
+      return admin ? admin.role || 'admin' : null;
     } catch (error) {
-      console.error('Error getting admins:', error);
-      throw new Error('Failed to get admins');
-    }
-  }
-
-  static async updatePassword(username: string, newPassword: string): Promise<boolean> {
-    try {
-      await connectToDatabase();
-      const admin = await Admin.findOne({ username });
-      if (!admin) return false;
-
-      admin.password = newPassword; // Will be hashed by pre-save hook
-      await admin.save();
-      return true;
-    } catch (error) {
-      console.error('Error updating password:', error);
-      throw new Error('Failed to update password');
-    }
-  }
-
-  static async updateRole(username: string, role: 'admin' | 'superadmin'): Promise<boolean> {
-    try {
-      await connectToDatabase();
-      const result = await Admin.findOneAndUpdate({ username }, { role }, { new: true });
-      return !!result;
-    } catch (error) {
-      console.error('Error updating role:', error);
-      throw new Error('Failed to update role');
-    }
-  }
-
-  static async getAdminRole(username: string): Promise<'admin' | 'superadmin' | null> {
-    try {
-      await connectToDatabase();
-      const admin = await Admin.findOne({ username }).select('role');
-      return admin ? admin.role : null;
-    } catch (error) {
-      console.error('Error getting admin role:', error);
+      console.error('Error fetching admin role:', error);
       return null;
-    }
-  }
-
-  static async deleteAdmin(username: string): Promise<boolean> {
-    try {
-      await connectToDatabase();
-      const result = await Admin.findOneAndDelete({ username });
-      return !!result;
-    } catch (error) {
-      console.error('Error deleting admin:', error);
-      throw new Error('Failed to delete admin');
     }
   }
 }

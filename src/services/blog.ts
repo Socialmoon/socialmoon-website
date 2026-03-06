@@ -1,58 +1,39 @@
-import { connectToDatabase } from '@/database';
-import Blog, { IBlog } from '@/models/Blog';
+import { FirebaseDB } from '@/lib/firebase/database';
 
 export class BlogService {
   static async getBlog() {
     try {
-      await connectToDatabase();
-      const blog = await Blog.findOne().sort({ createdAt: -1 });
+      const blog = await FirebaseDB.getDocument('blog', 'main');
+      
       if (!blog) {
         // Return default data if none exists
         return {
           title: 'Our Blog',
-          posts: [
-            {
-              id: 1,
-              title: 'The Future of Social Media',
-              content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
-              author: 'John Doe',
-              date: '2025-10-20',
-              imageUrl: 'https://via.placeholder.com/300'
-            },
-            {
-              id: 2,
-              title: 'How to Create Engaging Content',
-              content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
-              author: 'Jane Smith',
-              date: '2025-10-15',
-              imageUrl: 'https://via.placeholder.com/300'
-            }
-          ]
+          posts: []
         };
       }
       return {
         title: blog.title,
-        posts: blog.posts,
+        posts: blog.posts || [],
       };
     } catch (error) {
       console.error('Error fetching blog:', error);
-      throw new Error('Failed to fetch blog');
+     // Return default data on error
+      return {
+        title: 'Our Blog',
+        posts: []
+      };
     }
   }
 
-  static async updateBlog(data: IBlog) {
+  static async updateBlog(data: any) {
     try {
-      await connectToDatabase();
-
-      // Update or create blog document
-      const blog = await Blog.findOneAndUpdate(
-        {},
-        {
-          title: data.title,
-          posts: data.posts,
-        },
-        { upsert: true, new: true }
-      );
+      // Update or create blog document in Firebase
+      await FirebaseDB.setDocument('blog', 'main', {
+        title: data.title,
+        posts: data.posts,
+        updatedAt: new Date().toISOString()
+      });
 
       return { message: 'Blog updated successfully' };
     } catch (error) {

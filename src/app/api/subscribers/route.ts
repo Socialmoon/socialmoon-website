@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSubscribers, addSubscriber, deleteSubscriber } from '@/services/subscribers';
+import { SubscribersService } from '@/services/subscribers';
 
 export async function GET() {
   try {
-    const subscribers = getSubscribers();
+    const subscribers = await SubscribersService.getSubscribers();
     return NextResponse.json(subscribers);
   } catch (error) {
     console.error('Error fetching subscribers:', error);
@@ -17,8 +17,8 @@ export async function POST(request: NextRequest) {
     if (!email) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
-    const subscriber = addSubscriber(email);
-    return NextResponse.json(subscriber, { status: 201 });
+    const result = await SubscribersService.addSubscriber(email);
+    return NextResponse.json(result, { status: 201 });
   } catch (error) {
     console.error('Error adding subscriber:', error);
     return NextResponse.json({ error: 'Failed to add subscriber' }, { status: 500 });
@@ -31,7 +31,7 @@ export async function DELETE(request: NextRequest) {
     if (!id) {
       return NextResponse.json({ error: 'ID is required' }, { status: 400 });
     }
-    deleteSubscriber(id);
+    await SubscribersService.deleteSubscriber(id);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting subscriber:', error);

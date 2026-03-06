@@ -18,11 +18,15 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const result = await MessagesService.createMessage(body);
-    return NextResponse.json(result);
+    return NextResponse.json({ 
+      message: 'Message sent successfully!',
+      success: true,
+      data: result 
+    });
   } catch (error) {
     console.error('Error in POST /api/messages:', error);
     return NextResponse.json(
-      { error: 'Failed to send message' },
+      { message: 'Failed to send message', error: true },
       { status: 500 }
     );
   }
@@ -33,7 +37,7 @@ export async function PUT(request: Request) {
     const body = await request.json();
     // For messages, PUT is used to update status
     if (body.id && body.status) {
-      const result = await MessagesService.updateMessageStatus(body.id, body.status);
+      const result = await MessagesService.markAsRead(body.id);
       return NextResponse.json(result);
     }
     return NextResponse.json(

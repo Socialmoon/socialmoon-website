@@ -203,9 +203,20 @@ const PortfolioDetailPage = () => {
           <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 md:p-12">
             <div className="text-center">
               <Target className="w-16 h-16 text-blue-200 mx-auto mb-6" />
-              <p className="text-xl md:text-2xl font-semibold leading-relaxed">
-                {project.results}
-              </p>
+              <div className="text-xl md:text-2xl font-semibold leading-relaxed">
+                {Array.isArray(project.results) ? (
+                  <ul className="space-y-2 text-left max-w-2xl mx-auto">
+                    {project.results.map((result: string, idx: number) => (
+                      <li key={idx} className="flex items-start gap-2">
+                        <span className="text-green-300 mt-1">✓</span>
+                        <span>{result}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>{project.results}</p>
+                )}
+              </div>
             </div>
           </div>
         </Container>

@@ -7,8 +7,13 @@ export async function GET() {
     return NextResponse.json(data);
   } catch (error) {
     console.error('Error in GET /api/blog:', error);
+    // Return a valid structure even on error
     return NextResponse.json(
-      { error: 'Failed to fetch blog' },
+      { 
+        title: 'Blog',
+        posts: [],
+        error: 'Failed to fetch blog' 
+      },
       { status: 500 }
     );
   }

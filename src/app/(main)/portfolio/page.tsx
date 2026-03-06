@@ -31,18 +31,8 @@ const PortfolioPage = () => {
         const response = await fetch('/api/portfolio');
         const portfolioData = await response.json();
 
-        // Add additional data to projects for enhanced display
-        const enhancedProjects = portfolioData.projects.map((project: any, index: number) => ({
-          ...project,
-          slug: ['techcorp-social-media-transformation', 'fashion-forward-content-creation', 'startup-xyz-advertising-campaign', 'ecommerce-web-development', 'fitness-app-development', 'restaurant-brand-strategy'][index % 6],
-          category: ['Social Media Marketing', 'Content Creation', 'Brand Strategy', 'Web Development', 'App Development', 'Social Media Marketing'][index % 6],
-          client: ['TechCorp', 'FashionForward', 'StartupXYZ', 'ECommerce Plus', 'FitLife App', 'Restaurant Chain'][index % 6],
-          results: ['300% engagement increase', '200% follower growth', '150% lead generation', '400% website traffic boost', '100,000+ app downloads', '250% brand awareness'][index % 6],
-          duration: ['6 months', '4 months', '3 months', '8 months', '12 months', '5 months'][index % 6],
-          videoUrl: `/videos/project-${(index % 6) + 1}.mp4` // Sample video URLs
-        }));
-
-        const enhancedContent = { ...portfolioData, projects: enhancedProjects };
+        // Use real data from database
+        const enhancedContent = portfolioData;
         const contentString = JSON.stringify(enhancedContent);
 
         // Only update if data has changed or it's the initial load
@@ -123,7 +113,7 @@ const PortfolioPage = () => {
       </Hero>
 
       {/* Projects by Category Section */}
-      <CategoryProjectsSection projects={content.projects} />
+      <CategoryProjectsSection projects={content.projects || []} />
 
       {/* Platform Expertise Section */}
       <PlatformExpertiseSection />
@@ -147,10 +137,10 @@ const PortfolioPage = () => {
           {/* Instagram Projects Showcase - Phone Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {content.projects
-              .filter((project: any) => project.category === 'Social Media Marketing' || project.category === 'Content Creation')
+              ?.filter((project: any) => project.category === 'Social Media Marketing' || project.category === 'Content Creation')
               .slice(0, 6) // Show first 6 Instagram projects
               .map((project: any) => (
-                <Link key={project.id} href={`/portfolio/${project.slug}`}>
+                <Link key={project.slug} href={`/portfolio/${project.slug}`}>
                   <div className="group cursor-pointer h-full flex justify-center">
                     {/* Phone Frame Container */}
                     <div className="relative">
@@ -214,7 +204,11 @@ const PortfolioPage = () => {
                                     </div>
                                     <span className="text-white font-semibold text-xs">{project.client}</span>
                                   </div>
-                                  <div className="text-white/80 text-xs">❤️ {project.results.split(' ')[0]}</div>
+                                  <div className="text-white/80 text-xs">
+                                    ❤️ {Array.isArray(project.results) 
+                                      ? project.results[0]?.split(' ').slice(0, 2).join(' ')
+                                      : project.results?.split(' ').slice(0, 2).join(' ')}
+                                  </div>
                                 </div>
 
                                 <h4 className="text-white font-bold text-sm mb-1">{project.title}</h4>

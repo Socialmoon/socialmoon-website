@@ -32,7 +32,7 @@ const ContactAdminPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && !localStorage.getItem('isAdmin')) {
+    if (typeof window !== 'undefined' && !localStorage.getItem('adminToken')) {
       router.push('/admin/login');
       return;
     }

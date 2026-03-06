@@ -1,11 +1,10 @@
-import { connectToDatabase } from '@/database';
-import Contact, { IContact } from '@/models/Contact';
+import { FirebaseDB } from '@/lib/firebase/database';
 
 export class ContactService {
   static async getContact() {
     try {
-      await connectToDatabase();
-      const contact = await Contact.findOne().sort({ createdAt: -1 });
+      const contact = await FirebaseDB.getDocument('contact', 'main');
+      
       if (!contact) {
         // Return default data if none exists
         return {
@@ -17,29 +16,31 @@ export class ContactService {
           }
         };
       }
-      return {
-        title: contact.title,
-        contactInfo: contact.contactInfo,
-      };
+      
+      // Return the entire contact document
+      return contact;
     } catch (error) {
       console.error('Error fetching contact:', error);
-      throw new Error('Failed to fetch contact');
+      // Return default data on error
+      return {
+        title: 'Contact Us',
+        contactInfo: {
+          email: 'contact@socialmoon.com',
+          phone: '+1 234 567 890',
+          address: '123 Social Moon Street, Moon City, 12345'
+        }
+      };
     }
   }
 
-  static async updateContact(data: IContact) {
+  static async updateContact(data: any) {
     try {
-      await connectToDatabase();
-
-      // Update or create contact document
-      const contact = await Contact.findOneAndUpdate(
-        {},
-        {
-          title: data.title,
-          contactInfo: data.contactInfo,
-        },
-        { upsert: true, new: true }
-      );
+      // Update or create contact document in Firebase
+      await FirebaseDB.setDocument('contact', 'main', {
+        title: data.title,
+        contactInfo: data.contactInfo,
+        updatedAt: new Date().toISOString()
+      });
 
       return { message: 'Contact updated successfully' };
     } catch (error) {

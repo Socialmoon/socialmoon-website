@@ -26,11 +26,11 @@ interface CategoryProjectsSectionProps {
 export const CategoryProjectsSection: React.FC<CategoryProjectsSectionProps> = ({ projects }) => {
   const [activeCategory, setActiveCategory] = useState('All');
 
-  const categories = ['All', 'Social Media Marketing', 'Content Creation', 'Brand Strategy', 'Web Development', 'App Development'];
+  const categories = ['All', 'Full-Stack Development', 'AI/ML Development'];
 
   const filteredProjects = activeCategory === 'All'
-    ? projects
-    : projects.filter(project => project.category === activeCategory);
+    ? (projects || [])
+    : (projects || []).filter(project => project.category === activeCategory);
 
   return (
     <Section className="py-20 bg-gradient-to-br from-white via-gray-50/50 to-blue-50/30">
@@ -54,11 +54,10 @@ export const CategoryProjectsSection: React.FC<CategoryProjectsSectionProps> = (
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`px-6 py-3 rounded-2xl font-semibold text-sm transition-all duration-300 ${
-                activeCategory === category
+              className={`px-6 py-3 rounded-2xl font-semibold text-sm transition-all duration-300 ${activeCategory === category
                   ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl transform scale-105'
                   : 'bg-white text-gray-600 hover:text-blue-600 hover:bg-blue-50 hover:scale-105 border border-gray-200'
-              }`}
+                }`}
             >
               {category}
             </button>
@@ -68,7 +67,7 @@ export const CategoryProjectsSection: React.FC<CategoryProjectsSectionProps> = (
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project) => (
-            <Link key={project.id} href={`/portfolio/${project.slug}`}>
+            <Link key={project.slug} href={`/portfolio/${project.slug}`}>
               <div className="group cursor-pointer h-full">
                 <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 h-80">
                   {/* Video Preview */}
@@ -107,13 +106,17 @@ export const CategoryProjectsSection: React.FC<CategoryProjectsSectionProps> = (
                     <h4 className="text-xl font-bold text-white mb-2">{project.title}</h4>
                     <p className="text-gray-200 mb-2 line-clamp-2">{project.description}</p>
                     <div className="text-blue-400 font-semibold text-sm mb-2">{project.client}</div>
-                    <div className="text-green-400 font-semibold text-sm">{project.results}</div>
+                    <div className="text-green-400 font-semibold text-sm">
+                      {Array.isArray(project.results) ? project.results[0] : project.results}
+                    </div>
                   </div>
                 </div>
                 <div className="mt-4">
                   <p className="text-sm font-semibold text-blue-600 mb-2">{project.category}</p>
                   <p className="text-gray-700 font-medium mb-1">{project.client}</p>
-                  <p className="text-gray-600 text-sm">{project.results} • {project.duration}</p>
+                  <p className="text-gray-600 text-sm">
+                    {Array.isArray(project.results) ? project.results[0] : project.results} • {project.duration}
+                  </p>
                 </div>
               </div>
             </Link>

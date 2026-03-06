@@ -7,8 +7,14 @@ export async function GET() {
     return NextResponse.json(data);
   } catch (error) {
     console.error('Error in GET /api/home:', error);
+    // Return a valid structure even on error
     return NextResponse.json(
-      { error: 'Failed to fetch home' },
+      { 
+        title: 'Welcome to SocialMoon',
+        description: 'Your one-stop solution for social media management.',
+        features: [],
+        error: 'Failed to fetch home' 
+      },
       { status: 500 }
     );
   }

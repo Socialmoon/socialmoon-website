@@ -7,8 +7,17 @@ export async function GET() {
     return NextResponse.json(data);
   } catch (error) {
     console.error('Error in GET /api/contact:', error);
+    // Return a valid structure even on error
     return NextResponse.json(
-      { error: 'Failed to fetch contact' },
+      { 
+        title: 'Contact Us',
+        contactInfo: {
+          email: 'contact@socialmoon.com',
+          phone: '+1 234 567 890',
+          address: '123 Social Moon Street, Moon City, 12345'
+        },
+        error: 'Failed to fetch contact' 
+      },
       { status: 500 }
     );
   }

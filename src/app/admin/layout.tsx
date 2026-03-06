@@ -14,23 +14,52 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const [caseStudiesDropdownOpen, setCaseStudiesDropdownOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
+  // Handle mounting to avoid SSR issues with localStorage
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    // Only run auth check after component is mounted (client-side only)
+    if (!isMounted) return;
+
     // Check authentication
     const checkAuth = () => {
-      const token = localStorage.getItem('adminToken');
-      if (pathname !== '/admin/login' && !token) {
-        router.push('/admin/login');
-      } else {
-        setIsAuthenticated(!!token);
+      // Skip auth check for login page
+      if (pathname === '/admin/login') {
+        setIsAuthenticated(false);
+        setIsLoading(false);
+        return;
       }
-      setIsLoading(false);
+
+      try {
+        const token = localStorage.getItem('adminToken');
+        
+        if (!token) {
+          console.log('No token found, redirecting to login');
+          setIsAuthenticated(false);
+          setIsLoading(false);
+          router.replace('/admin/login');
+          return;
+        }
+
+        console.log('Token found, user authenticated');
+        setIsAuthenticated(true);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error checking auth:', error);
+        setIsAuthenticated(false);
+        setIsLoading(false);
+        router.replace('/admin/login');
+      }
     };
 
     checkAuth();
-  }, [pathname, router]);
+  }, [pathname, router, isMounted]);
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');

@@ -17,7 +17,11 @@ import {
 
 type AboutData = {
   title: string;
-  companyDescription: string;
+  mission?: string;
+  story?: string;
+  companyDescription?: string;
+  values?: Array<{ title: string; description: string }>;
+  stats?: Array<{ value: string; label: string }>;
 };
 
 const AboutPage = () => {
@@ -102,19 +106,34 @@ const AboutPage = () => {
 
                   <h3 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h3>
                   <p className="text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
-                    {aboutData?.companyDescription || 'SocialMoon is a leading social media agency dedicated to helping businesses transform their online presence and achieve remarkable results through strategic digital marketing.'}
+                    {aboutData?.mission || aboutData?.companyDescription || 'Our mission is to empower brands to build authentic connections with their audience through innovative social media strategies and creative excellence.'}
                   </p>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                    {[
-                      { icon: Target, title: "Strategic Excellence", desc: "Data-driven strategies that deliver measurable results" },
-                      { icon: Heart, title: "Client-Centric", desc: "Your success is our ultimate priority and passion" },
-                      { icon: Zap, title: "Innovation First", desc: "Cutting-edge solutions for modern digital challenges" }
-                    ].map((value, index) => (
-                      <div key={index} className="text-center bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50">
-                        <value.icon className="w-8 h-8 text-blue-600 mx-auto mb-4" />
+                  {aboutData?.story && (
+                    <div className="mt-12">
+                      <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Story</h3>
+                      <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto whitespace-pre-line">
+                        {aboutData.story}
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+                    {(aboutData?.values || [
+                      { title: "Strategic Excellence", description: "Data-driven strategies that deliver measurable results" },
+                      { title: "Client-Centric", description: "Your success is our ultimate priority and passion" },
+                      { title: "Innovation First", description: "Cutting-edge solutions for modern digital challenges" },
+                      { title: "Creative Excellence", description: "Beautiful designs that capture attention and drive engagement" }
+                    ]).map((value, index) => (
+                      <div key={index} className="text-center bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white mb-4">
+                          {index === 0 && <Target className="w-6 h-6" />}
+                          {index === 1 && <Heart className="w-6 h-6" />}
+                          {index === 2 && <Zap className="w-6 h-6" />}
+                          {index === 3 && <Award className="w-6 h-6" />}
+                        </div>
                         <h4 className="font-bold text-gray-900 mb-2">{value.title}</h4>
-                        <p className="text-gray-600 text-sm leading-relaxed">{value.desc}</p>
+                        <p className="text-gray-600 text-sm leading-relaxed">{value.description}</p>
                       </div>
                     ))}
                   </div>
@@ -125,23 +144,35 @@ const AboutPage = () => {
 
           {/* Enhanced Stats Section */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
-            {[
-              { number: "500+", label: "Projects Completed", icon: Target, color: "from-blue-500 to-indigo-500" },
-              { number: "98%", label: "Client Satisfaction", icon: Heart, color: "from-green-500 to-teal-500" },
-              { number: "50+", label: "Industries Served", icon: Globe, color: "from-purple-500 to-pink-500" },
-              { number: "24/7", label: "Support Provided", icon: Clock, color: "from-orange-500 to-red-500" }
-            ].map((stat, index) => (
-              <div key={index} className="group relative" style={{ animationDelay: `${index * 0.15}s` }}>
-                <div className={`absolute -inset-1 bg-gradient-to-r ${stat.color} rounded-3xl blur-xl opacity-10 group-hover:opacity-20 transition-opacity duration-500`}></div>
-                <div className="relative text-center bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-100">
-                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${stat.color} text-white mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                    <stat.icon className="w-8 h-8" />
+            {(aboutData?.stats || [
+              { value: "500+", label: "Projects Completed" },
+              { value: "98%", label: "Client Satisfaction" },
+              { value: "50+", label: "Industries Served" },
+              { value: "24/7", label: "Support Provided" }
+            ]).map((stat, index) => {
+              const icons = [Target, Heart, Globe, Clock];
+              const colors = [
+                "from-blue-500 to-indigo-500",
+                "from-green-500 to-teal-500",
+                "from-purple-500 to-pink-500",
+                "from-orange-500 to-red-500"
+              ];
+              const StatIcon = icons[index % icons.length];
+              const color = colors[index % colors.length];
+
+              return (
+                <div key={index} className="group relative" style={{ animationDelay: `${index * 0.15}s` }}>
+                  <div className={`absolute -inset-1 bg-gradient-to-r ${color} rounded-3xl blur-xl opacity-10 group-hover:opacity-20 transition-opacity duration-500`}></div>
+                  <div className="relative text-center bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-100">
+                    <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${color} text-white mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <StatIcon className="w-8 h-8" />
+                    </div>
+                    <div className="text-4xl md:text-5xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">{stat.value}</div>
+                    <div className="text-gray-600 font-medium text-base group-hover:text-blue-700 transition-colors duration-300">{stat.label}</div>
                   </div>
-                  <div className="text-4xl md:text-5xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">{stat.number}</div>
-                  <div className="text-gray-600 font-medium text-base group-hover:text-blue-700 transition-colors duration-300">{stat.label}</div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </Container>
       </Section>

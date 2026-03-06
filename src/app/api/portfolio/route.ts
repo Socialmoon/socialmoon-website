@@ -7,8 +7,13 @@ export async function GET() {
     return NextResponse.json(data);
   } catch (error) {
     console.error('Error in GET /api/portfolio:', error);
+    // Return a valid structure even on error
     return NextResponse.json(
-      { error: 'Failed to fetch portfolio' },
+      { 
+        title: 'Portfolio',
+        projects: [],
+        error: 'Failed to fetch portfolio' 
+      },
       { status: 500 }
     );
   }

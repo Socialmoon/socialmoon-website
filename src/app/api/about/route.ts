@@ -7,8 +7,14 @@ export async function GET() {
     return NextResponse.json(data);
   } catch (error) {
     console.error('Error in GET /api/about:', error);
+    // Return a valid structure even on error
     return NextResponse.json(
-      { error: 'Failed to fetch about' },
+      { 
+        title: 'About Us',
+        description: '',
+        teamMembers: [],
+        error: 'Failed to fetch about' 
+      },
       { status: 500 }
     );
   }

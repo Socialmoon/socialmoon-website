@@ -9,7 +9,7 @@ type Service = {
   id: number;
   title: string;
   description: string;
-  price: number;
+  price: number | string;
 };
 
 type ServicesPageContent = {
@@ -113,12 +113,16 @@ const ServicesAdminPage = () => {
           </Card>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {content.services.map((service) => (
+            {content.services?.map((service) => (
               <Card key={service.id} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <CardTitle className="text-lg line-clamp-2">{service.title}</CardTitle>
                   <div className="text-2xl font-bold text-blue-600">
-                    ${service.price.toFixed(2)}
+                    {typeof service.price === 'number' 
+                      ? `$${service.price.toFixed(2)}`
+                      : typeof service.price === 'string' && !isNaN(Number(service.price))
+                      ? `$${Number(service.price).toFixed(2)}`
+                      : service.price || 'Price not set'}
                   </div>
                 </CardHeader>
                 <CardContent>

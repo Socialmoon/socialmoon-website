@@ -73,7 +73,7 @@ export const InstagramProjectsSection: React.FC<InstagramProjectsSectionProps> =
         {/* Instagram Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project) => (
-            <Link key={project.id} href={`/portfolio/${project.slug}`}>
+            <Link key={project.slug} href={`/portfolio/${project.slug}`}>
               <div className="group cursor-pointer h-full">
                 <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-50 to-purple-50 border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 h-80">
                   {/* Video Preview */}
@@ -115,7 +115,9 @@ export const InstagramProjectsSection: React.FC<InstagramProjectsSectionProps> =
                     <h4 className="text-xl font-bold text-white mb-2">{project.title}</h4>
                     <p className="text-gray-200 mb-2 line-clamp-2">{project.description}</p>
                     <div className="text-pink-400 font-semibold text-sm mb-2">{project.client}</div>
-                    <div className="text-green-400 font-semibold text-sm">{project.results}</div>
+                    <div className="text-green-400 font-semibold text-sm">
+                      {Array.isArray(project.results) ? project.results[0] : project.results}
+                    </div>
                   </div>
                 </div>
 
@@ -125,7 +127,9 @@ export const InstagramProjectsSection: React.FC<InstagramProjectsSectionProps> =
                     <div className="w-3 h-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-500"></div>
                   </div>
                   <p className="text-gray-700 font-medium mb-1">{project.client}</p>
-                  <p className="text-gray-600 text-sm">{project.results} • {project.duration}</p>
+                  <p className="text-gray-600 text-sm">
+                    {Array.isArray(project.results) ? project.results[0] : project.results} • {project.duration}
+                  </p>
                 </div>
               </div>
             </Link>
