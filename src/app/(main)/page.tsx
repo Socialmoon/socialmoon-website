@@ -277,7 +277,7 @@ const HomePage = () => {
               { name: "boAt", url: "https://www.google.com/s2/favicons?domain=boat-lifestyle.com&sz=128" },
               { name: "Mamaearth", url: "https://www.google.com/s2/favicons?domain=mamaearth.in&sz=128" },
               { name: "Sugar", url: "https://www.google.com/s2/favicons?domain=sugarcosmetics.com&sz=128" },
-              { name: "Sleepy Owl", url: "https://www.google.com/s2/favicons?domain=sleepyowlcoffee.com&sz=128" },
+              { name: "Sleepy Owl", url: "https://sleepyowlcoffee.com/cdn/shop/files/Sleepy_Owl_Logo.png?v=1680077397" },
               { name: "Chumbak", url: "https://www.google.com/s2/favicons?domain=chumbak.com&sz=128" },
               { name: "Wakefit", url: "https://www.google.com/s2/favicons?domain=wakefit.co&sz=128" }
             ].map((brand, index) => (
