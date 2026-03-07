@@ -109,45 +109,119 @@ const InsightsPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
-      {/* Enhanced Hero Section */}
-      <Hero className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-50 pt-20 md:pt-24 pb-16">
-        {/* Premium Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-100/60 to-indigo-100/60 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-purple-100/60 to-pink-100/60 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-blue-200/30 to-purple-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+      {/* Enhanced Hero Section — Editorial Magazine */}
+      <Hero className="relative overflow-hidden bg-[#faf9f6] pt-16 pb-12 md:pt-24 md:pb-16">
+        {/* Giant watermark */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none" aria-hidden="true">
+          <span className="text-[18vw] font-black text-gray-900/[0.04] tracking-tighter whitespace-nowrap">INSIGHTS</span>
         </div>
+        <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-indigo-100/40 rounded-full blur-3xl pointer-events-none" />
 
         <Container className="relative z-10">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-sm font-semibold mb-8 border border-blue-200/50 shadow-lg">
-              <Lightbulb className="w-4 h-4 mr-2" />
-              Insights & Knowledge
+          <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-20">
+
+            {/* Left — editorial column */}
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-10">
+                <div className="h-px w-10 bg-gray-400" />
+                <span className="text-[11px] font-bold text-gray-400 tracking-[0.25em] uppercase">Vol. 01 · 2026</span>
+                <div className="h-px flex-1 bg-gray-200" />
+              </div>
+
+              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-gray-900 leading-[0.88] tracking-tighter mb-8">
+                Stories.
+                <br />
+                <span className="font-light italic text-indigo-500">Ideas.</span>
+                <br />
+                People.
+              </h1>
+
+              <p className="text-gray-500 text-base sm:text-lg leading-relaxed mb-7 max-w-md border-l-[3px] border-indigo-400 pl-5">
+                Meet our team, explore our marketing strategies, and get inspired by the campaigns behind our results.
+              </p>
+
+              <div className="flex flex-wrap gap-2 mb-9">
+                {['Strategy', 'Social Media', 'Content', 'Brand Growth', 'Case Studies'].map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1.5 rounded-full bg-white border border-gray-200 text-gray-600 text-xs font-semibold hover:border-indigo-300 hover:text-indigo-600 hover:bg-indigo-50 cursor-pointer transition-all shadow-sm"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => setActiveView('blog')}
+                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-gray-900 text-white font-bold text-sm hover:bg-gray-800 transition-all shadow-lg hover:-translate-y-0.5"
+                >
+                  Read the Blog <ArrowRight className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setActiveView('about')}
+                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl border border-gray-200 text-gray-700 font-semibold text-sm hover:bg-gray-100 transition-all"
+                >
+                  About Us
+                </button>
+              </div>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent leading-tight">
-              Insights Hub
-            </h1>
-
-            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
-              Discover our story, meet our team, and explore the latest insights from the world of digital marketing.
-            </p>
-
-            {/* Quick Stats Preview */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-              {[
-                { number: "500+", label: "Projects Completed", icon: Target },
-                { number: "98%", label: "Client Satisfaction", icon: Heart },
-                { number: "50+", label: "Industries Served", icon: Globe },
-                { number: "24/7", label: "Knowledge Sharing", icon: BookOpen }
-              ].map((stat, index) => (
-                <div key={index} className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                  <stat.icon className="h-8 w-8 text-blue-600 mx-auto mb-4" />
-                  <div className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{stat.number}</div>
-                  <div className="text-gray-600 font-medium text-sm">{stat.label}</div>
+            {/* Right — featured card + quick nav */}
+            <div className="w-full lg:w-[360px] flex-shrink-0 space-y-3">
+              {/* Featured article */}
+              <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl p-6 text-white shadow-2xl">
+                <div className="flex items-center gap-2 mb-4">
+                  <Zap className="w-3.5 h-3.5 text-indigo-200" />
+                  <span className="text-indigo-200 text-[11px] font-bold uppercase tracking-wider">Featured Read</span>
                 </div>
-              ))}
+                <h3 className="text-lg font-bold leading-snug mb-5">
+                  How We Grew a Brand&apos;s Instagram by 300% in 90 Days
+                </h3>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold flex-shrink-0">SM</div>
+                  <div>
+                    <div className="text-white text-xs font-semibold">SocialMoon Team</div>
+                    <div className="text-indigo-200 text-[11px]">5 min read</div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 ml-auto opacity-60" />
+                </div>
+              </div>
+
+              {/* Stats row */}
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { n: '100+', l: 'Articles' },
+                  { n: '50+', l: 'Clients' },
+                  { n: '5+', l: 'Years' },
+                ].map((s) => (
+                  <div key={s.l} className="bg-white rounded-2xl p-4 text-center shadow-sm border border-gray-100">
+                    <div className="text-xl font-black text-gray-900">{s.n}</div>
+                    <div className="text-gray-400 text-[11px] font-medium">{s.l}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Quick section nav */}
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { icon: Award, label: 'About Us', action: () => setActiveView('about') },
+                  { icon: Users, label: 'Our Team', action: () => setActiveView('team') },
+                  { icon: Trophy, label: 'Case Studies', action: () => setActiveView('case-studies') },
+                  { icon: MessageSquare, label: 'Contact', action: () => window.open('/contact', '_self') },
+                ].map((item, i) => (
+                  <button
+                    key={i}
+                    onClick={item.action}
+                    className="flex items-center gap-2.5 p-3.5 rounded-xl bg-white border border-gray-200 shadow-sm hover:border-indigo-200 hover:bg-indigo-50 transition-all text-left"
+                  >
+                    <item.icon className="w-4 h-4 text-indigo-500 flex-shrink-0" />
+                    <span className="text-sm font-semibold text-gray-700">{item.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
+
           </div>
         </Container>
       </Hero>

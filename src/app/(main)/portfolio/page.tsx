@@ -72,42 +72,90 @@ const PortfolioPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
       {/* Hero Section */}
-      <Hero className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-50 pt-20 md:pt-24 pb-16">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-100/60 to-indigo-100/60 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-purple-100/60 to-pink-100/60 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-blue-200/30 to-purple-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
-        </div>
+      <Hero className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50/40 pt-16 pb-0 md:pt-20 md:pb-0">
+        {/* Soft dot grid */}
+        <div className="absolute inset-0 opacity-[0.4]" style={{ backgroundImage: 'radial-gradient(circle, #cbd5e1 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+        {/* Color blobs */}
+        <div className="absolute -top-24 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-blue-100/80 via-violet-100/40 to-transparent rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-indigo-100/50 rounded-full blur-3xl pointer-events-none" />
+        {/* Fade to white */}
+        <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none" />
 
-        <Container className="relative z-10">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-sm font-semibold mb-8 border border-blue-200/50 shadow-lg">
-              <Award className="w-4 h-4 mr-2" />
-              Showcase & Success Stories
+        <Container className="relative z-10 pb-20">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+
+            {/* Left */}
+            <div className="flex-1 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-blue-100 text-blue-600 text-xs font-semibold mb-7 shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse flex-shrink-0" />
+                500+ projects delivered
+              </div>
+
+              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-gray-900 leading-[0.92] tracking-tighter mb-6">
+                Work that
+                <span className="block bg-gradient-to-r from-blue-600 via-violet-600 to-pink-500 bg-clip-text text-transparent pb-1">
+                  moves the needle.
+                </span>
+              </h1>
+
+              <p className="text-gray-400 text-base sm:text-lg max-w-md mx-auto lg:mx-0 leading-relaxed mb-8">
+                Real campaigns. Measurable results. From social media and content to paid ads and brand building.
+              </p>
+
+              <div className="flex flex-wrap gap-5 justify-center lg:justify-start mb-9">
+                {[
+                  { v: '500+', l: 'Projects' },
+                  { v: '98%', l: 'Satisfaction' },
+                  { v: '50+', l: 'Industries' },
+                ].map((s) => (
+                  <div key={s.l} className="text-center lg:text-left">
+                    <div className="text-2xl font-black text-gray-900">{s.v}</div>
+                    <div className="text-xs text-gray-400 font-medium">{s.l}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                <button
+                  onClick={() => window.open('/contact', '_self')}
+                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-gray-900 text-white font-bold text-sm hover:bg-gray-800 transition-all shadow-lg hover:-translate-y-0.5"
+                >
+                  Start a Project <ArrowRight className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => document.getElementById('portfolio-grid')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl border border-gray-200 text-gray-600 font-semibold text-sm hover:bg-gray-50 hover:border-gray-300 transition-all"
+                >
+                  Browse Work
+                </button>
+              </div>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent leading-tight">
-              Our Work
-            </h1>
-
-            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
-              Discover our portfolio of successful digital marketing campaigns and development projects
-            </p>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 max-w-4xl mx-auto">
-              {[
-                { number: "500+", label: "Projects Delivered", icon: Target },
-                { number: "98%", label: "Client Satisfaction", icon: Star },
-                { number: "50+", label: "Industries Served", icon: Award },
-                { number: "24/7", label: "Ongoing Support", icon: Users }
-              ].map((stat, index) => (
-                <div key={index} className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                  <stat.icon className="h-8 w-8 text-blue-600 mx-auto mb-4" />
-                  <div className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{stat.number}</div>
-                  <div className="text-gray-600 font-medium text-sm">{stat.label}</div>
-                </div>
-              ))}
+            {/* Right — staggered light tiles */}
+            <div className="w-full lg:w-[400px] flex-shrink-0">
+              <div className="grid grid-cols-3 gap-2.5">
+                {[
+                  { icon: Target, label: 'Social\nMedia', count: '200+', color: 'from-blue-500 to-indigo-600', bg: 'bg-blue-50', border: 'border-blue-100', offset: '' },
+                  { icon: Star, label: 'Content\nCreation', count: '150+', color: 'from-purple-500 to-pink-600', bg: 'bg-purple-50', border: 'border-purple-100', offset: 'lg:translate-y-5' },
+                  { icon: Play, label: 'Video\n& Reels', count: '80+', color: 'from-rose-500 to-orange-500', bg: 'bg-rose-50', border: 'border-rose-100', offset: '' },
+                  { icon: Award, label: 'Brand\nIdentity', count: '60+', color: 'from-amber-400 to-orange-500', bg: 'bg-amber-50', border: 'border-amber-100', offset: 'lg:-translate-y-3' },
+                  { icon: Users, label: 'Influencer\nCampaigns', count: '40+', color: 'from-green-500 to-teal-500', bg: 'bg-green-50', border: 'border-green-100', offset: 'lg:translate-y-6' },
+                  { icon: CheckCircle, label: 'Paid\nAds', count: '90+', color: 'from-cyan-500 to-blue-600', bg: 'bg-cyan-50', border: 'border-cyan-100', offset: 'lg:translate-y-1' },
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    className={`group ${item.bg} border ${item.border} rounded-2xl p-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-default ${item.offset}`}
+                  >
+                    <div className={`inline-flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br ${item.color} text-white mb-3 shadow-md group-hover:scale-110 transition-transform duration-300`}>
+                      <item.icon className="w-4 h-4" />
+                    </div>
+                    <div className="text-xl font-black text-gray-900 leading-none mb-1">{item.count}</div>
+                    <div className="text-gray-400 text-[10px] font-medium whitespace-pre-line leading-tight">{item.label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
+
           </div>
         </Container>
       </Hero>

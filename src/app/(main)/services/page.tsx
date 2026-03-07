@@ -9,8 +9,38 @@ import Link from 'next/link';
 import {
   CheckCircle, Star, Zap, Users, MessageSquare, Target, BarChart3, ArrowRight,
   Lightbulb, Trophy, Award, Clock, Rocket, Code, Smartphone,
-  TrendingUp, Shield, Heart, Globe
+  TrendingUp, Shield, Heart, Globe,
+  Video, Megaphone, PieChart, UserCheck, BrainCircuit, Search, Mail
 } from 'lucide-react';
+import { FaInstagram, FaLinkedin, FaTiktok, FaYoutube, FaFacebook, FaTwitter, FaWhatsapp } from 'react-icons/fa';
+
+const getServiceIcon = (title: string): { type: 'lucide' | 'brand'; icon: any } => {
+  const t = title.toLowerCase();
+  if (t.includes('instagram')) return { type: 'brand', icon: FaInstagram };
+  if (t.includes('linkedin')) return { type: 'brand', icon: FaLinkedin };
+  if (t.includes('tiktok')) return { type: 'brand', icon: FaTiktok };
+  if (t.includes('youtube')) return { type: 'brand', icon: FaYoutube };
+  if (t.includes('facebook')) return { type: 'brand', icon: FaFacebook };
+  if (t.includes('twitter') || t.includes('x ')) return { type: 'brand', icon: FaTwitter };
+  if (t.includes('whatsapp')) return { type: 'brand', icon: FaWhatsapp };
+  if (t.includes('influencer')) return { type: 'lucide', icon: UserCheck };
+  if (t.includes('paid') || t.includes('ads') || t.includes('advertising')) return { type: 'lucide', icon: Megaphone };
+  if (t.includes('content') || t.includes('creation')) return { type: 'lucide', icon: Zap };
+  if (t.includes('community') || t.includes('management')) return { type: 'lucide', icon: Users };
+  if (t.includes('analytics') || t.includes('reporting')) return { type: 'lucide', icon: PieChart };
+  if (t.includes('strategy') || t.includes('consulting')) return { type: 'lucide', icon: BrainCircuit };
+  if (t.includes('seo') || t.includes('search')) return { type: 'lucide', icon: Search };
+  if (t.includes('email')) return { type: 'lucide', icon: Mail };
+  if (t.includes('growth')) return { type: 'lucide', icon: TrendingUp };
+  if (t.includes('brand')) return { type: 'lucide', icon: Globe };
+  if (t.includes('video') || t.includes('reel') || t.includes('viral')) return { type: 'lucide', icon: Video };
+  return { type: 'lucide', icon: Rocket };
+};
+
+const ServiceIcon = ({ title, className }: { title: string; className?: string }) => {
+  const { type, icon: Icon } = getServiceIcon(title);
+  return <Icon className={className} />;
+};
 
 type Service = {
   id: number;
@@ -31,7 +61,7 @@ const ServicesPage = () => {
   const [content, setContent] = useState<ServicesPageContent | null>(null);
   const [caseStudies, setCaseStudies] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeView, setActiveView] = useState<'overview' | 'detail'>('overview');
+  const [activeView, setActiveView] = useState<'overview' | 'detail' | 'pricing'>('overview');
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const previousDataRef = useRef<string | null>(null);
 
@@ -104,48 +134,93 @@ const ServicesPage = () => {
     );
   }
 
-  const serviceIcons = [Zap, Users, MessageSquare, Target, BarChart3];
+  // serviceIcons resolved per service title via getServiceIcon()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
-      {/* Enhanced Hero Section */}
-      <Hero className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-50 pt-20 md:pt-24 pb-16">
-        {/* Premium Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-100/60 to-indigo-100/60 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-purple-100/60 to-pink-100/60 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-blue-200/30 to-purple-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
-        </div>
+      {/* Hero Section */}
+      <Hero className="relative overflow-hidden bg-white pt-10 pb-12 md:pt-16 md:pb-16">
+        {/* Background blobs */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-50 rounded-full blur-3xl opacity-60 -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-50 rounded-full blur-3xl opacity-60 translate-y-1/2 -translate-x-1/3 pointer-events-none"></div>
 
         <Container className="relative z-10">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-sm font-semibold mb-8 border border-blue-200/50 shadow-lg">
-              <Zap className="w-4 h-4 mr-2" />
-              Comprehensive Digital Solutions
+          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+
+            {/* Left — Text */}
+            <div className="w-full lg:w-1/2 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs sm:text-sm font-semibold mb-5">
+                <Zap className="w-4 h-4" />
+                Comprehensive Digital Solutions
+              </div>
+
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-[1.1] tracking-tight mb-5">
+                Services that{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 pb-1 inline-block">
+                  drive growth.
+                </span>
+              </h1>
+
+              <p className="text-base sm:text-lg text-gray-500 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                From social media management to content creation and paid ads — we deliver end-to-end digital marketing that gets real results for your brand.
+              </p>
+
+              {/* Stats row */}
+              <div className="flex flex-wrap justify-center lg:justify-start gap-6 mb-8">
+                {[
+                  { value: '50+', label: 'Clients Served' },
+                  { value: '3x', label: 'Avg. Engagement Growth' },
+                  { value: '24/7', label: 'Support' },
+                ].map((stat) => (
+                  <div key={stat.label} className="text-center lg:text-left">
+                    <div className="text-2xl font-extrabold text-gray-900">{stat.value}</div>
+                    <div className="text-xs text-gray-500 font-medium">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                <Button
+                  size="lg"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-7 py-5 text-base font-semibold rounded-xl shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-0.5"
+                  onClick={() => window.open('/contact', '_self')}
+                >
+                  Get Started
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-gray-200 text-gray-700 hover:bg-gray-50 px-7 py-5 text-base font-semibold rounded-xl transition-all"
+                  onClick={() => window.open('/portfolio', '_self')}
+                >
+                  View Our Work
+                </Button>
+              </div>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent leading-tight">
-              Our Services
-            </h1>
-
-            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
-              From social media management to custom development, we provide comprehensive digital solutions to help your business thrive in the modern world.
-            </p>
-
-            {/* Service Highlights */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+            {/* Right — Service cards grid */}
+            <div className="w-full lg:w-1/2 grid grid-cols-2 gap-4">
               {[
-                { icon: Users, label: "Expert Team" },
-                { icon: TrendingUp, label: "Proven Results" },
-                { icon: Shield, label: "24/7 Support" },
-                { icon: Heart, label: "Client Focused" }
-              ].map((item, index) => (
-                <div key={index} className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                  <item.icon className="h-8 w-8 text-blue-600 mx-auto mb-4" />
-                  <div className="text-gray-900 font-semibold text-sm">{item.label}</div>
+                { icon: TrendingUp, title: 'Social Media Management', color: 'from-blue-500 to-blue-600', bg: 'bg-blue-50' },
+                { icon: Target, title: 'Paid Ads & Campaigns', color: 'from-purple-500 to-purple-600', bg: 'bg-purple-50' },
+                { icon: MessageSquare, title: 'Content Creation', color: 'from-pink-500 to-rose-500', bg: 'bg-pink-50' },
+                { icon: BarChart3, title: 'Analytics & Strategy', color: 'from-green-500 to-teal-500', bg: 'bg-green-50' },
+                { icon: Globe, title: 'Brand Building', color: 'from-orange-500 to-amber-500', bg: 'bg-orange-50' },
+                { icon: Rocket, title: 'Growth Marketing', color: 'from-indigo-500 to-violet-500', bg: 'bg-indigo-50' },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className={`group ${i === 4 ? 'col-span-1' : ''} ${item.bg} rounded-2xl p-5 border border-white shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-default`}
+                >
+                  <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br ${item.color} text-white mb-3 shadow-md group-hover:scale-110 transition-transform duration-300`}>
+                    <item.icon className="w-5 h-5" />
+                  </div>
+                  <p className="text-sm font-semibold text-gray-800 leading-snug">{item.title}</p>
                 </div>
               ))}
             </div>
+
           </div>
         </Container>
       </Hero>
@@ -171,6 +246,19 @@ const ServicesPage = () => {
                   All Services
                   <span className="ml-1 sm:ml-2 text-xs sm:text-sm opacity-75">Overview</span>
                 </button>
+                {/* Pricing tab — temporarily hidden
+                <button
+                  onClick={() => setActiveView('pricing')}
+                  className={`flex items-center px-5 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-sm sm:text-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-amber-500/50 ${
+                    activeView === 'pricing'
+                      ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-xl transform scale-105'
+                      : 'text-gray-600 hover:text-amber-600 hover:bg-amber-50 hover:scale-105'
+                  }`}
+                >
+                  <Award className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
+                  Pricing
+                </button>
+                */}
                 {selectedService && (
                   <button
                     onClick={() => setActiveView('detail')}
@@ -194,10 +282,14 @@ const ServicesPage = () => {
             <p className={`text-lg transition-all duration-500 ${
               activeView === 'overview'
                 ? 'text-blue-700 font-medium'
+                : activeView === 'pricing'
+                ? 'text-amber-600 font-medium'
                 : 'text-green-700 font-medium'
             }`}>
               {activeView === 'overview'
                 ? 'Explore our comprehensive range of digital services and solutions'
+                : activeView === 'pricing'
+                ? 'Choose a plan that fits your goals — start free, scale anytime'
                 : `Learn more about ${selectedService?.title} and how it can benefit your business`
               }
             </p>
@@ -208,135 +300,114 @@ const ServicesPage = () => {
       {/* Dynamic Content Section */}
       {activeView === 'overview' ? (
         <div className="overview-content">
-          {/* Premium Services Grid */}
-          <Section className="py-32 bg-gradient-to-br from-white via-gray-50/50 to-blue-50/30">
-        <Container>
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 text-sm font-semibold mb-6 border border-blue-200/50">
-              <Target className="w-4 h-4 mr-2" />
-              Service Packages
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900 bg-clip-text text-transparent">
-              Choose Your Perfect Package
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Select the service package that best fits your business needs and start your journey to digital excellence.
-            </p>
-          </div>
+          {/* Services Grid */}
+          <Section className="py-16 md:py-20 bg-white">
+            <Container>
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-sm font-semibold mb-4">
+                  <Target className="w-4 h-4" />
+                  Service Packages
+                </div>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3 pb-1">
+                  Choose Your Perfect{' '}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Package</span>
+                </h2>
+                <p className="text-gray-500 text-base md:text-lg max-w-2xl mx-auto">
+                  Flexible plans designed to grow with you — from startups to established brands.
+                </p>
+              </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10">
-            {content.services?.map((service, index) => {
-              const serviceIcons = [Zap, TrendingUp, Users, Target, BarChart3, Rocket];
-              const IconComponent = serviceIcons[index % 6] || Star;
-              const gradients = [
-                'from-blue-600 via-blue-500 to-cyan-500',
-                'from-purple-600 via-pink-500 to-rose-500',
-                'from-green-600 via-emerald-500 to-teal-500',
-                'from-orange-600 via-amber-500 to-yellow-500',
-                'from-indigo-600 via-purple-500 to-pink-500',
-                'from-cyan-600 via-teal-500 to-green-500'
-              ];
-              const gradient = gradients[index % 6] || 'from-gray-600 to-gray-500';
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+                {content.services?.map((service, index) => {
+                  const palettes = [
+                    { gradient: 'from-blue-500 to-indigo-600', light: 'bg-blue-50', border: 'border-blue-100', ring: 'ring-blue-500' },
+                    { gradient: 'from-purple-500 to-pink-600', light: 'bg-purple-50', border: 'border-purple-100', ring: 'ring-purple-500' },
+                    { gradient: 'from-green-500 to-teal-600', light: 'bg-green-50', border: 'border-green-100', ring: 'ring-green-500' },
+                    { gradient: 'from-orange-500 to-amber-600', light: 'bg-orange-50', border: 'border-orange-100', ring: 'ring-orange-500' },
+                    { gradient: 'from-indigo-500 to-violet-600', light: 'bg-indigo-50', border: 'border-indigo-100', ring: 'ring-indigo-500' },
+                    { gradient: 'from-cyan-500 to-blue-600', light: 'bg-cyan-50', border: 'border-cyan-100', ring: 'ring-cyan-500' },
+                  ];
+                  const palette = palettes[index % 6];
+                  const isPopular = service.popular || index === 1;
 
-              // Popular badge for featured services
-              const isPopular = service.popular || (index === 1 || index === 2 || index === 4);
+                  const serviceFeatures = service.features || [
+                    'Professional service delivery',
+                    'Dedicated account manager',
+                    'Monthly progress reports',
+                    'Priority support',
+                    'Flexible scheduling',
+                  ];
 
-              // Enhanced features with icons
-              const serviceFeatures = service.features || [
-                'Professional service delivery',
-                'Dedicated account manager',
-                'Monthly progress reports',
-                'Priority support',
-                'Flexible scheduling'
-              ];
+                  return (
+                    <div key={service.id} className={`group relative flex flex-col bg-white rounded-3xl border ${palette.border} shadow-md hover:shadow-2xl transition-all duration-400 hover:-translate-y-2 overflow-hidden`}>
 
-              return (
-                <div key={service.id} className="group relative" style={{ animationDelay: `${index * 0.1}s` }}>
-                  {/* Animated gradient border */}
-                  <div className={`absolute -inset-0.5 bg-gradient-to-r ${gradient} rounded-3xl opacity-75 group-hover:opacity-100 blur group-hover:blur-md transition-all duration-500 animate-pulse`}></div>
-
-                  <div className="relative bg-white rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden h-full flex flex-col">
-                    {/* Popular Badge */}
-                    {isPopular && (
-                      <div className="absolute top-4 right-4 z-10">
-                        <div className={`bg-gradient-to-r ${gradient} text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg flex items-center space-x-1`}>
-                          <Star className="w-3 h-3 fill-current" />
-                          <span>POPULAR</span>
+                      {/* Popular badge */}
+                      {isPopular && (
+                        <div className={`absolute top-4 right-4 z-10 bg-gradient-to-r ${palette.gradient} text-white text-[11px] font-bold px-3 py-1 rounded-full flex items-center gap-1 shadow-lg`}>
+                          <Star className="w-3 h-3 fill-white" />
+                          POPULAR
                         </div>
-                      </div>
-                    )}
+                      )}
 
-                    {/* Service Icon Header */}
-                    <div className={`relative bg-gradient-to-br ${gradient} p-8 text-white overflow-hidden`}>
-                      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLW9wYWNpdHk9IjAuMSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-30"></div>
-                      
-                      <div className="relative">
-                        <div className="flex items-center justify-between mb-6">
-                          <div className="p-4 bg-white/20 backdrop-blur-sm rounded-2xl group-hover:scale-110 transition-transform duration-300 shadow-xl">
-                            <IconComponent className="w-10 h-10 text-white" />
-                          </div>
+                      {/* Card top — icon + title */}
+                      <div className={`p-6 ${palette.light} border-b ${palette.border}`}>
+                        <div className={`inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br ${palette.gradient} text-white shadow-lg mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                          <ServiceIcon title={service.title} className="w-6 h-6" />
                         </div>
-                        
-                        <h3 className="text-2xl font-bold mb-3 leading-tight">{service.title}</h3>
-                        <p className="text-white/95 text-sm leading-relaxed">{service.description}</p>
+                        <h3 className="text-xl font-bold text-gray-900 mb-2 leading-snug">{service.title}</h3>
+                        <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">{service.description}</p>
                       </div>
-                    </div>
 
-                    {/* Pricing Section */}
-                    <div className="px-8 py-6 bg-gradient-to-br from-gray-50 to-white border-b border-gray-100">
-                      <div className="flex items-baseline justify-center">
-                        <span className="text-gray-600 text-sm font-medium mr-2">from</span>
-                        <span className={`text-4xl font-bold bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}>
+                      {/* Price */}
+                      <div className="px-6 py-4 border-b border-gray-100 flex items-baseline gap-1">
+                        <span className="text-gray-400 text-sm">Starting from</span>
+                        <span className={`text-2xl font-extrabold bg-gradient-to-r ${palette.gradient} bg-clip-text text-transparent ml-1`}>
                           {service.price}
                         </span>
-                        {service.price && !(typeof service.price === 'string' && service.price.includes('$')) && <span className="text-gray-600 text-sm font-medium ml-1">/mo</span>}
+                        {service.price && !(typeof service.price === 'string' && service.price.includes('$')) && (
+                          <span className="text-gray-400 text-sm">/mo</span>
+                        )}
                       </div>
-                    </div>
 
-                    {/* Features Section */}
-                    <div className="px-8 py-8 flex-grow">
-                      <div className="space-y-4">
-                        {serviceFeatures.slice(0, 5).map((feature: string, featureIndex: number) => (
-                          <div key={featureIndex} className="flex items-start space-x-3 group/feature">
-                            <div className={`flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center mt-0.5 group-hover/feature:scale-110 transition-transform duration-300`}>
-                              <CheckCircle className="w-4 h-4 text-white" />
+                      {/* Features */}
+                      <div className="px-6 py-5 flex-grow space-y-3">
+                        {serviceFeatures.slice(0, 5).map((feature: string, fi: number) => (
+                          <div key={fi} className="flex items-start gap-3">
+                            <div className={`flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-br ${palette.gradient} flex items-center justify-center mt-0.5`}>
+                              <CheckCircle className="w-3 h-3 text-white" />
                             </div>
-                            <span className="text-gray-700 text-sm leading-relaxed font-medium">{feature}</span>
+                            <span className="text-gray-600 text-sm leading-relaxed">{feature}</span>
                           </div>
                         ))}
                       </div>
-                    </div>
 
-                    {/* Action Buttons */}
-                    <div className="px-8 pb-8 mt-auto space-y-3">
-                      <Button
-                        className={`w-full py-6 text-base font-bold rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 bg-gradient-to-r ${gradient} text-white border-0 shadow-xl hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/50 group/btn`}
-                        onClick={() => window.open('/contact', '_self')}
-                      >
-                        <span>Get Started</span>
-                        <ArrowRight className="ml-2 h-5 w-5 inline-block transition-transform group-hover/btn:translate-x-2" />
-                      </Button>
-
-                      <Button
-                        variant="outline"
-                        className="w-full py-4 text-sm font-semibold rounded-2xl border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-gray-300/50 active:scale-95 group/btn2"
-                        onClick={() => {
-                          setSelectedService(service);
-                          setActiveView('detail');
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                      >
-                        <span className="text-gray-700">View Details</span>
-                        <Target className="ml-2 h-4 w-4 inline-block text-gray-600 transition-transform group-hover/btn2:rotate-12" />
-                      </Button>
+                      {/* Actions */}
+                      <div className="px-6 pb-6 pt-2 space-y-2 mt-auto">
+                        <Button
+                          className={`w-full py-5 text-sm font-bold rounded-xl bg-gradient-to-r ${palette.gradient} text-white border-0 shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-200`}
+                          onClick={() => window.open('/contact', '_self')}
+                        >
+                          Get Started
+                          <ArrowRight className="ml-2 w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          className={`w-full py-4 text-sm font-semibold rounded-xl border ${palette.border} text-gray-600 hover:${palette.light} transition-all duration-200`}
+                          onClick={() => {
+                            setSelectedService(service);
+                            setActiveView('detail');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                        >
+                          View Details
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </Container>
-      </Section>
+                  );
+                })}
+              </div>
+            </Container>
+          </Section>
         </div>
       ) : selectedService && activeView === 'detail' ? (
         <Section className="py-32 bg-gradient-to-br from-white via-gray-50/50 to-blue-50/30">
@@ -382,8 +453,6 @@ const ServicesPage = () => {
                   <h3 className="text-3xl font-bold text-gray-900 mb-8">What's Included</h3>
                   <div className="space-y-6">
                     {(() => {
-                      const serviceIcons = [Zap, Users, MessageSquare, Target, Code, Smartphone];
-                      const IconComponent = serviceIcons[selectedService.id - 1] || Star;
                       const gradients = [
                         'from-blue-500 to-purple-600',
                         'from-green-500 to-teal-600',
@@ -559,6 +628,152 @@ const ServicesPage = () => {
                   Next Service
                   <ArrowRight className="w-5 h-5 ml-2 transition-transform hover:translate-x-1" />
                 </Button>
+              </div>
+            </div>
+          </Container>
+        </Section>
+      ) : activeView === 'pricing' ? (
+        <Section className="py-20 bg-gradient-to-br from-white via-amber-50/30 to-orange-50/30">
+          <Container>
+            <div className="max-w-5xl mx-auto">
+              <div className="text-center mb-14">
+                <div className="inline-flex items-center px-4 py-2 rounded-full bg-amber-100 text-amber-700 text-sm font-semibold mb-6 border border-amber-200">
+                  <Award className="w-4 h-4 mr-2" />
+                  Simple Pricing
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-amber-800 to-orange-800 bg-clip-text text-transparent">
+                  Plans for every stage
+                </h2>
+                <p className="text-gray-500 text-lg max-w-2xl mx-auto">
+                  Start free with any one basic service — no credit card needed. See real results before you commit.
+                </p>
+              </div>
+
+              {/* Free trial banner */}
+              <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-3xl p-6 sm:p-8 text-white mb-10 flex flex-col sm:flex-row items-center gap-6 shadow-xl">
+                <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center">
+                  <CheckCircle className="w-9 h-9 text-white" />
+                </div>
+                <div className="flex-1 text-center sm:text-left">
+                  <p className="text-xl font-bold mb-1">Try one basic service for free</p>
+                  <p className="text-green-100 text-sm leading-relaxed">
+                    Pick any single service from our catalogue and run it at no cost. Experience the quality of our work firsthand — upgrade anytime.
+                  </p>
+                </div>
+                <button
+                  onClick={() => window.open('/contact', '_self')}
+                  className="flex-shrink-0 px-8 py-3 rounded-xl bg-white text-green-700 font-bold text-sm hover:bg-green-50 transition shadow-lg whitespace-nowrap"
+                >
+                  Claim Free Trial
+                </button>
+              </div>
+
+              {/* Plan cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                  {
+                    name: 'Basic',
+                    price: 'Free',
+                    sub: '14-day trial · 1 service',
+                    gradient: 'from-gray-500 to-gray-600',
+                    bg: 'bg-white',
+                    border: 'border-gray-200',
+                    badge: null,
+                    perks: [
+                      '1 social media platform',
+                      '4 posts per month',
+                      'Basic performance report',
+                      'Email support',
+                    ],
+                    missing: ['Dedicated account manager', 'Custom strategy', 'Priority support'],
+                    cta: 'Start Free',
+                    ctaStyle: 'border-2 border-gray-300 text-gray-700 hover:border-blue-400 hover:bg-blue-50',
+                  },
+                  {
+                    name: 'Standard',
+                    price: 'From $10',
+                    sub: 'per month',
+                    gradient: 'from-blue-600 to-indigo-600',
+                    bg: 'bg-gradient-to-b from-blue-600 to-indigo-700',
+                    border: 'border-blue-500',
+                    badge: 'MOST POPULAR',
+                    perks: [
+                      '3 social media platforms',
+                      'Up to 20 posts per month',
+                      'Monthly analytics report',
+                      'Dedicated account manager',
+                      'Content calendar',
+                      'Chat & email support',
+                    ],
+                    missing: [],
+                    cta: 'Get Started',
+                    ctaStyle: 'bg-white text-blue-700 hover:bg-blue-50 font-bold shadow-lg',
+                  },
+                  {
+                    name: 'Pro',
+                    price: 'Custom',
+                    sub: 'tailored quote',
+                    gradient: 'from-purple-500 to-pink-600',
+                    bg: 'bg-white',
+                    border: 'border-purple-200',
+                    badge: null,
+                    perks: [
+                      'Unlimited platforms',
+                      'Unlimited posts per month',
+                      'Advanced ROI analytics',
+                      'Dedicated strategy team',
+                      'A/B testing & optimisation',
+                      'Priority 24/7 support',
+                      'Custom integrations',
+                    ],
+                    missing: [],
+                    cta: 'Contact Us',
+                    ctaStyle: 'border-2 border-purple-400 text-purple-700 hover:bg-purple-50',
+                  },
+                ].map((plan) => {
+                  const isBlue = plan.name === 'Standard';
+                  return (
+                    <div
+                      key={plan.name}
+                      className={`relative flex flex-col rounded-3xl ${plan.bg} border ${plan.border} shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
+                    >
+                      {plan.badge && (
+                        <div className="absolute top-4 right-4 bg-white/20 text-white text-[10px] font-bold px-3 py-1 rounded-full">
+                          {plan.badge}
+                        </div>
+                      )}
+                      <div className="p-7 flex-1">
+                        <p className={`text-sm font-bold uppercase tracking-widest mb-3 ${isBlue ? 'text-blue-200' : 'text-gray-400'}`}>{plan.name}</p>
+                        <div className="mb-5">
+                          <span className={`text-4xl font-extrabold ${isBlue ? 'text-white' : 'text-gray-900'}`}>{plan.price}</span>
+                          <span className={`text-sm ml-2 ${isBlue ? 'text-blue-200' : 'text-gray-400'}`}>{plan.sub}</span>
+                        </div>
+                        <ul className="space-y-2.5 mb-4">
+                          {plan.perks.map((p) => (
+                            <li key={p} className={`flex items-center gap-2 text-sm ${isBlue ? 'text-blue-50' : 'text-gray-600'}`}>
+                              <CheckCircle className={`w-4 h-4 flex-shrink-0 ${isBlue ? 'text-blue-300' : 'text-green-400'}`} />
+                              {p}
+                            </li>
+                          ))}
+                          {plan.missing.map((p) => (
+                            <li key={p} className="flex items-center gap-2 text-sm text-gray-300">
+                              <div className="w-4 h-4 rounded-full border border-gray-200 flex-shrink-0" />
+                              {p}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="px-7 pb-7">
+                        <button
+                          onClick={() => window.open('/contact', '_self')}
+                          className={`w-full py-3 rounded-xl text-sm transition-all duration-200 ${plan.ctaStyle}`}
+                        >
+                          {plan.cta}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </Container>
@@ -772,71 +987,136 @@ const ServicesPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12">
-            {caseStudies.map((study, index) => (
-              <div key={study.slug || index} className="group relative" style={{ animationDelay: `${index * 0.2}s` }}>
-                <div className={`absolute -inset-2 bg-gradient-to-r ${
-                  index === 0
-                    ? 'from-blue-600 via-purple-600 to-pink-600'
-                    : 'from-green-600 via-teal-600 to-blue-600'
-                } rounded-3xl blur-2xl opacity-15 group-hover:opacity-25 transition-opacity duration-700`}></div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+            {caseStudies.map((study, index) => {
+              const palettes = [
+                {
+                  bar: 'from-blue-500 via-indigo-500 to-violet-500',
+                  iconBg: 'bg-blue-100',
+                  iconText: 'text-blue-600',
+                  badge: 'bg-blue-50 text-blue-700 border-blue-200',
+                  stat: 'text-blue-600',
+                  glow: 'from-blue-400/20 to-indigo-400/20',
+                  btn: 'hover:border-blue-500 hover:bg-blue-50',
+                  duration: 'bg-blue-50 text-blue-700',
+                },
+                {
+                  bar: 'from-purple-500 via-pink-500 to-rose-500',
+                  iconBg: 'bg-purple-100',
+                  iconText: 'text-purple-600',
+                  badge: 'bg-purple-50 text-purple-700 border-purple-200',
+                  stat: 'text-purple-600',
+                  glow: 'from-purple-400/20 to-pink-400/20',
+                  btn: 'hover:border-purple-500 hover:bg-purple-50',
+                  duration: 'bg-purple-50 text-purple-700',
+                },
+                {
+                  bar: 'from-green-500 via-teal-500 to-cyan-500',
+                  iconBg: 'bg-green-100',
+                  iconText: 'text-green-600',
+                  badge: 'bg-green-50 text-green-700 border-green-200',
+                  stat: 'text-green-600',
+                  glow: 'from-green-400/20 to-teal-400/20',
+                  btn: 'hover:border-green-500 hover:bg-green-50',
+                  duration: 'bg-green-50 text-green-700',
+                },
+              ];
+              const p = palettes[index % 3];
+              const initials = study.company
+                ? study.company.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()
+                : '??';
 
-                <div className="relative bg-white border-0 shadow-2xl hover:shadow-3xl transition-all duration-700 transform hover:-translate-y-4 hover:rotate-1 overflow-hidden rounded-3xl">
-                  <div className={`h-2 bg-gradient-to-r ${
-                    index === 0
-                      ? 'from-blue-500 via-purple-500 to-pink-500'
-                      : 'from-green-500 via-teal-500 to-blue-500'
-                  }`}></div>
+              return (
+                <div key={study.slug || index} className="group relative flex flex-col bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-400 hover:-translate-y-2 overflow-hidden border border-gray-100">
+                  {/* Colour bar */}
+                  <div className={`h-1.5 bg-gradient-to-r ${p.bar}`} />
 
-                  <div className="p-8">
-                    <div className="flex items-start justify-between mb-6">
-                      <div className="flex items-center space-x-4">
-                        <div className={`p-3 rounded-2xl ${
-                          index === 0
-                            ? 'bg-blue-100 text-blue-600'
-                            : 'bg-green-100 text-green-600'
-                        } shadow-lg`}>
-                          <BarChart3 className="w-6 h-6" />
+                  <div className="p-7 flex flex-col flex-1">
+                    {/* Header: avatar + company + industry tag */}
+                    <div className="flex items-start justify-between mb-5">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-12 h-12 rounded-2xl ${p.iconBg} ${p.iconText} flex items-center justify-center text-sm font-extrabold shadow-sm flex-shrink-0`}>
+                          {initials}
                         </div>
                         <div>
-                          <h3 className="text-xl font-bold text-gray-900">{study.company}</h3>
-                          <p className="text-gray-600">{study.industry}</p>
+                          <h3 className="text-base font-bold text-gray-900 leading-tight">{study.company}</h3>
+                          <p className="text-gray-400 text-xs mt-0.5">{study.industry}</p>
                         </div>
                       </div>
-                      <div className={`px-3 py-1 rounded-full text-xs font-bold ${
-                        index === 0
-                          ? 'bg-blue-100 text-blue-700'
-                          : 'bg-green-100 text-green-700'
-                      }`}>
+                      <div className={`flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold border ${p.badge}`}>
                         {study.service}
                       </div>
                     </div>
 
-                    <div className="mb-6">
-                      <div className="text-3xl font-bold text-green-600 mb-2">{study.results}</div>
-                      <div className="text-gray-600">in {study.duration}</div>
+                    {/* Key result headline */}
+                    <div className="mb-4">
+                      <p className={`text-2xl font-extrabold ${p.stat} leading-tight`}>{study.results}</p>
+                      <div className="flex items-center gap-2 mt-1.5">
+                        <Clock className="w-3.5 h-3.5 text-gray-400" />
+                        <span className="text-gray-400 text-xs">achieved in {study.duration}</span>
+                      </div>
                     </div>
 
-                    {study.testimonial && (
-                      <div className="mb-6">
-                        <p className="text-gray-700 italic text-lg leading-relaxed mb-4">"{study.testimonial.quote}"</p>
-                        <div className="text-sm">
-                          <p className="font-semibold text-gray-900">{study.testimonial.author}</p>
-                          <p className="text-gray-600">{study.testimonial.position}</p>
-                        </div>
+                    {/* Metrics grid */}
+                    {study.metrics && study.metrics.length > 0 && (
+                      <div className="grid grid-cols-2 gap-2 mb-5">
+                        {study.metrics.slice(0, 4).map((m: { before: string; after: string; improvement: string }, i: number) => (
+                          <div key={i} className="bg-gray-50 rounded-xl px-3 py-2.5 border border-gray-100">
+                            <p className={`text-sm font-extrabold ${p.stat}`}>{m.improvement}</p>
+                            <p className="text-gray-400 text-[11px] mt-0.5 leading-tight">{m.before} → {m.after}</p>
+                          </div>
+                        ))}
                       </div>
                     )}
 
-                    <Link href={`/case-studies/${study.slug}`}>
-                      <Button variant="outline" size="lg" className="w-full group/btn border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50 transition-all duration-500 py-4 rounded-2xl">
-                        <span className="font-bold">View Full Case Study</span>
-                        <ArrowRight className="w-5 h-5 ml-3 group-hover/btn:translate-x-2 transition-transform duration-300" />
+                    {/* Testimonial */}
+                    {study.testimonial && (
+                      <div className="flex-1 mb-5">
+                        {(() => {
+                          const t = study.testimonial;
+                          const isObj = typeof t === 'object' && t !== null;
+                          const quote = isObj ? t.quote : t;
+                          const authorName = isObj ? t.author : study.clientName;
+                          const authorPos = isObj ? t.position : study.clientPosition;
+                          const initials2 = authorName
+                            ? authorName.split(' ').map((w: string) => w[0]).join('').slice(0, 2)
+                            : '?';
+                          return (
+                            <div className={`${p.iconBg.replace('100', '50')} rounded-2xl p-4 border ${p.badge.split(' ')[2]}`}>
+                              <p className="text-gray-600 italic text-sm leading-relaxed mb-3">
+                                &ldquo;{quote}&rdquo;
+                              </p>
+                              <div className="flex items-center gap-2.5">
+                                <div className={`w-8 h-8 rounded-full ${p.iconBg} ${p.iconText} flex items-center justify-center text-xs font-bold flex-shrink-0`}>
+                                  {initials2}
+                                </div>
+                                <div>
+                                  <p className="text-gray-900 text-xs font-bold leading-tight">{authorName}</p>
+                                  <p className="text-gray-400 text-[11px]">{authorPos}</p>
+                                </div>
+                                <div className="ml-auto flex gap-0.5">
+                                  {[...Array(5)].map((_, i) => (
+                                    <Star key={i} className="w-3 h-3 text-amber-400 fill-amber-400" />
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    )}
+
+                    {/* CTA */}
+                    <Link href={`/case-studies/${study.slug}`} className="mt-auto">
+                      <Button variant="outline" className={`w-full py-4 rounded-2xl border-2 border-gray-200 text-gray-700 font-semibold text-sm transition-all duration-300 group/btn ${p.btn}`}>
+                        View Full Case Study
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform duration-200" />
                       </Button>
                     </Link>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </Container>
       </Section>

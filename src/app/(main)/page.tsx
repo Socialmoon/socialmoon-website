@@ -261,44 +261,97 @@ const HomePage = () => {
       </Hero>
 
       {/* Brands Section */}
-      <Section className="py-16 bg-gradient-to-r from-white to-blue-100 border-b border-blue-200">
-        <Container>
-          <div className="text-center mb-8">
-            <p className="text-lg font-semibold text-gray-600 uppercase tracking-wider">
-              Trusted by leading Indian companies
-            </p>
-          </div>
+      <Section className="py-16 overflow-hidden bg-white border-y border-gray-100">
+        {/* Keyframe styles injected inline */}
+        <style>{`
+          @keyframes marquee-left  { from { transform: translateX(0) }  to { transform: translateX(-50%) } }
+          @keyframes marquee-right { from { transform: translateX(-50%) } to { transform: translateX(0) } }
+          .animate-marquee-left  { animation: marquee-left  28s linear infinite; }
+          .animate-marquee-right { animation: marquee-right 32s linear infinite; }
+          .animate-marquee-left:hover,
+          .animate-marquee-right:hover { animation-play-state: paused; }
+        `}</style>
 
-          <div className="grid grid-cols-4 md:grid-cols-8 gap-4 md:gap-6">
-            {/* Indian small brand logos */}
+        <Container>
+          <div className="text-center mb-10">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 mb-1">Powering India&apos;s fastest-growing brands</p>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-gray-900">Brands that trust <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">SocialMoon</span></h3>
+          </div>
+        </Container>
+
+        {/* Row 1 — scrolls left */}
+        <div className="relative mb-4">
+          <div className="flex gap-4 animate-marquee-left whitespace-nowrap w-max">
             {[
-              { name: "Bewakoof", url: "https://www.google.com/s2/favicons?domain=bewakoof.com&sz=128" },
-              { name: "Lenskart", url: "https://www.google.com/s2/favicons?domain=lenskart.com&sz=128" },
-              { name: "boAt", url: "https://www.google.com/s2/favicons?domain=boat-lifestyle.com&sz=128" },
-              { name: "Mamaearth", url: "https://www.google.com/s2/favicons?domain=mamaearth.in&sz=128" },
-              { name: "Sugar", url: "https://www.google.com/s2/favicons?domain=sugarcosmetics.com&sz=128" },
-              { name: "Sleepy Owl", url: "https://sleepyowlcoffee.com/cdn/shop/files/Sleepy_Owl_Logo.png?v=1680077397" },
-              { name: "Chumbak", url: "https://www.google.com/s2/favicons?domain=chumbak.com&sz=128" },
-              { name: "Wakefit", url: "https://www.google.com/s2/favicons?domain=wakefit.co&sz=128" }
-            ].map((brand, index) => (
-              <div key={index} className="flex items-center justify-center">
-                <Image
-                  src={brand.url}
-                  alt={`${brand.name} logo`}
-                  width={60}
-                  height={30}
-                  className="object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
-                />
+              { name: "Bewakoof",   url: "https://www.google.com/s2/favicons?domain=bewakoof.com&sz=128",        color: "from-orange-50 to-yellow-50",  border: "border-orange-100"  },
+              { name: "Lenskart",   url: "https://www.google.com/s2/favicons?domain=lenskart.com&sz=128",        color: "from-red-50 to-orange-50",     border: "border-red-100"     },
+              { name: "boAt",       url: "https://www.google.com/s2/favicons?domain=boat-lifestyle.com&sz=128",  color: "from-gray-50 to-slate-50",     border: "border-gray-200"    },
+              { name: "Mamaearth",  url: "https://www.google.com/s2/favicons?domain=mamaearth.in&sz=128",        color: "from-green-50 to-emerald-50",  border: "border-green-100"   },
+              { name: "Sugar",      url: "https://www.google.com/s2/favicons?domain=sugarcosmetics.com&sz=128",  color: "from-pink-50 to-rose-50",      border: "border-pink-100"    },
+              { name: "Wakefit",    url: "https://www.google.com/s2/favicons?domain=wakefit.co&sz=128",          color: "from-blue-50 to-indigo-50",    border: "border-blue-100"    },
+              { name: "Chumbak",    url: "https://www.google.com/s2/favicons?domain=chumbak.com&sz=128",         color: "from-violet-50 to-purple-50",  border: "border-violet-100"  },
+              { name: "Nykaa",      url: "https://www.google.com/s2/favicons?domain=nykaa.com&sz=128",           color: "from-pink-50 to-fuchsia-50",   border: "border-pink-200"    },
+              // duplicate for seamless loop
+              { name: "Bewakoof",   url: "https://www.google.com/s2/favicons?domain=bewakoof.com&sz=128",        color: "from-orange-50 to-yellow-50",  border: "border-orange-100"  },
+              { name: "Lenskart",   url: "https://www.google.com/s2/favicons?domain=lenskart.com&sz=128",        color: "from-red-50 to-orange-50",     border: "border-red-100"     },
+              { name: "boAt",       url: "https://www.google.com/s2/favicons?domain=boat-lifestyle.com&sz=128",  color: "from-gray-50 to-slate-50",     border: "border-gray-200"    },
+              { name: "Mamaearth",  url: "https://www.google.com/s2/favicons?domain=mamaearth.in&sz=128",        color: "from-green-50 to-emerald-50",  border: "border-green-100"   },
+              { name: "Sugar",      url: "https://www.google.com/s2/favicons?domain=sugarcosmetics.com&sz=128",  color: "from-pink-50 to-rose-50",      border: "border-pink-100"    },
+              { name: "Wakefit",    url: "https://www.google.com/s2/favicons?domain=wakefit.co&sz=128",          color: "from-blue-50 to-indigo-50",    border: "border-blue-100"    },
+              { name: "Chumbak",    url: "https://www.google.com/s2/favicons?domain=chumbak.com&sz=128",         color: "from-violet-50 to-purple-50",  border: "border-violet-100"  },
+              { name: "Nykaa",      url: "https://www.google.com/s2/favicons?domain=nykaa.com&sz=128",           color: "from-pink-50 to-fuchsia-50",   border: "border-pink-200"    },
+            ].map((brand, i) => (
+              <div key={i} className={`inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-gradient-to-r ${brand.color} border ${brand.border} shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-default`}>
+                <div className="w-8 h-8 rounded-xl bg-white shadow-sm flex items-center justify-center border border-gray-100 flex-shrink-0">
+                  <Image src={brand.url} alt={brand.name} width={24} height={24} className="object-contain rounded" />
+                </div>
+                <span className="text-gray-700 font-semibold text-sm">{brand.name}</span>
               </div>
             ))}
           </div>
+          {/* Edge fades */}
+          <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+          <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+        </div>
 
-          <div className="text-center mt-8">
-            <p className="text-sm text-gray-500 font-medium">
-              Join 10,000+ companies already using SocialMoon
-            </p>
+        {/* Row 2 — scrolls right */}
+        <div className="relative">
+          <div className="flex gap-4 animate-marquee-right whitespace-nowrap w-max">
+            {[
+              { name: "Zomato",     url: "https://www.google.com/s2/favicons?domain=zomato.com&sz=128",         color: "from-red-50 to-rose-50",       border: "border-red-100"     },
+              { name: "Meesho",     url: "https://www.google.com/s2/favicons?domain=meesho.com&sz=128",         color: "from-purple-50 to-violet-50",  border: "border-purple-100"  },
+              { name: "Cred",       url: "https://www.google.com/s2/favicons?domain=cred.club&sz=128",          color: "from-slate-50 to-gray-50",     border: "border-slate-200"   },
+              { name: "Zepto",      url: "https://www.google.com/s2/favicons?domain=zeptonow.com&sz=128",       color: "from-yellow-50 to-amber-50",   border: "border-yellow-100"  },
+              { name: "Delhivery",  url: "https://www.google.com/s2/favicons?domain=delhivery.com&sz=128",      color: "from-red-50 to-orange-50",     border: "border-red-100"     },
+              { name: "Razorpay",   url: "https://www.google.com/s2/favicons?domain=razorpay.com&sz=128",       color: "from-blue-50 to-sky-50",       border: "border-blue-100"    },
+              { name: "Ola",        url: "https://www.google.com/s2/favicons?domain=olacabs.com&sz=128",        color: "from-green-50 to-lime-50",     border: "border-green-100"   },
+              { name: "PhonePe",    url: "https://www.google.com/s2/favicons?domain=phonepe.com&sz=128",        color: "from-violet-50 to-indigo-50",  border: "border-violet-100"  },
+              // duplicate for seamless loop
+              { name: "Zomato",     url: "https://www.google.com/s2/favicons?domain=zomato.com&sz=128",         color: "from-red-50 to-rose-50",       border: "border-red-100"     },
+              { name: "Meesho",     url: "https://www.google.com/s2/favicons?domain=meesho.com&sz=128",         color: "from-purple-50 to-violet-50",  border: "border-purple-100"  },
+              { name: "Cred",       url: "https://www.google.com/s2/favicons?domain=cred.club&sz=128",          color: "from-slate-50 to-gray-50",     border: "border-slate-200"   },
+              { name: "Zepto",      url: "https://www.google.com/s2/favicons?domain=zeptonow.com&sz=128",       color: "from-yellow-50 to-amber-50",   border: "border-yellow-100"  },
+              { name: "Delhivery",  url: "https://www.google.com/s2/favicons?domain=delhivery.com&sz=128",      color: "from-red-50 to-orange-50",     border: "border-red-100"     },
+              { name: "Razorpay",   url: "https://www.google.com/s2/favicons?domain=razorpay.com&sz=128",       color: "from-blue-50 to-sky-50",       border: "border-blue-100"    },
+              { name: "Ola",        url: "https://www.google.com/s2/favicons?domain=olacabs.com&sz=128",        color: "from-green-50 to-lime-50",     border: "border-green-100"   },
+              { name: "PhonePe",    url: "https://www.google.com/s2/favicons?domain=phonepe.com&sz=128",        color: "from-violet-50 to-indigo-50",  border: "border-violet-100"  },
+            ].map((brand, i) => (
+              <div key={i} className={`inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-gradient-to-r ${brand.color} border ${brand.border} shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-default`}>
+                <div className="w-8 h-8 rounded-xl bg-white shadow-sm flex items-center justify-center border border-gray-100 flex-shrink-0">
+                  <Image src={brand.url} alt={brand.name} width={24} height={24} className="object-contain rounded" />
+                </div>
+                <span className="text-gray-700 font-semibold text-sm">{brand.name}</span>
+              </div>
+            ))}
           </div>
-        </Container>
+          {/* Edge fades */}
+          <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+          <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+        </div>
+
+        <div className="text-center mt-10">
+          <p className="text-sm text-gray-400 font-medium">Join 10,000+ companies already growing with SocialMoon</p>
+        </div>
       </Section>
 
       {/* Features Section */}

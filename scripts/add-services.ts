@@ -30,7 +30,7 @@ const sampleServices = [
       "KPI setting & performance tracking",
       "Monthly strategy reviews"
     ],
-    price: "Starting at $2,500/month",
+    price: "$10/month",
     popular: false
   },
   {
@@ -46,7 +46,7 @@ const sampleServices = [
       "Content scheduling & posting",
       "Hashtag research & optimization"
     ],
-    price: "Starting at $3,000/month",
+    price: "$20/month",
     popular: true
   },
   {
@@ -62,7 +62,7 @@ const sampleServices = [
       "Growth analytics & reporting",
       "Instagram Shopping setup"
     ],
-    price: "Starting at $2,000/month",
+    price: "$15/month",
     popular: true
   },
   {
@@ -78,7 +78,7 @@ const sampleServices = [
       "Performance tracking & reporting",
       "Long-term partnership building"
     ],
-    price: "Starting at $4,000/campaign",
+    price: "$20/campaign",
     popular: false
   },
   {
@@ -94,7 +94,7 @@ const sampleServices = [
       "Budget management & allocation",
       "Detailed ROI reporting"
     ],
-    price: "Starting at $2,500/month + ad spend",
+    price: "$20/month",
     popular: true
   },
   {
@@ -110,7 +110,7 @@ const sampleServices = [
       "Creator partnerships",
       "Analytics & growth tracking"
     ],
-    price: "Starting at $3,500/month",
+    price: "$15/month",
     popular: false
   },
   {
@@ -126,7 +126,7 @@ const sampleServices = [
       "Employee advocacy programs",
       "LinkedIn Ads management"
     ],
-    price: "Starting at $3,000/month",
+    price: "$20/month",
     popular: false
   },
   {
@@ -142,7 +142,7 @@ const sampleServices = [
       "Sentiment analysis",
       "Monthly community reports"
     ],
-    price: "Starting at $1,800/month",
+    price: "$10/month",
     popular: false
   },
   {
@@ -158,7 +158,7 @@ const sampleServices = [
       "Audience insights analysis",
       "Strategic recommendations"
     ],
-    price: "Starting at $1,500/month",
+    price: "$10/month",
     popular: false
   }
 ];

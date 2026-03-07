@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { Hero } from '@/components/common/Hero';
 import { Container } from '@/components/common/Container';
@@ -170,45 +171,128 @@ const ContactPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
       {/* Enhanced Hero Section */}
-      <Hero className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-50 pt-20 md:pt-24 pb-16">
-        {/* Premium Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-100/60 to-indigo-100/60 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-purple-100/60 to-pink-100/60 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-blue-200/30 to-purple-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
-        </div>
+      <Hero className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-cyan-50/40 pt-16 pb-0 md:pt-20 md:pb-0">
+        {/* Grid pattern */}
+        <div className="absolute inset-0 opacity-[0.35]" style={{ backgroundImage: 'linear-gradient(#e2e8f0 1px, transparent 1px), linear-gradient(90deg, #e2e8f0 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
+        {/* Glows */}
+        <div className="absolute -top-20 right-0 w-[500px] h-[500px] bg-blue-100/60 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/2 -left-20 w-[300px] h-[300px] bg-cyan-100/50 rounded-full blur-3xl pointer-events-none" />
+        {/* Fade to white */}
+        <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none" />
 
-        <Container className="relative z-10">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-sm font-semibold mb-8 border border-blue-200/50 shadow-lg">
-              <MessageSquare className="w-4 h-4 mr-2" />
-              Get In Touch
+        <Container className="relative z-10 pb-16">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+
+            {/* Left */}
+            <div className="flex-1 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-green-200 text-green-600 text-xs font-semibold mb-7 shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse flex-shrink-0" />
+                Online now · We reply in &lt;24h
+              </div>
+
+              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-gray-900 leading-[0.92] tracking-tighter mb-6">
+                Let&apos;s start
+                <span className="block bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent pb-1">
+                  a conversation.
+                </span>
+              </h1>
+
+              <p className="text-gray-400 text-base sm:text-lg max-w-md mx-auto lg:mx-0 leading-relaxed mb-8">
+                Whether you&apos;re starting fresh or scaling up — drop us a line and we&apos;ll make something great together.
+              </p>
+
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                <button
+                  onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-gray-900 text-white font-bold text-sm hover:bg-gray-800 transition-all shadow-lg hover:-translate-y-0.5"
+                >
+                  Send a Message <ArrowRight className="w-4 h-4" />
+                </button>
+                <a
+                  href={`https://wa.me/${(content.contactInfo?.whatsapp || content.contactInfo?.phone || '+919118439107').replace(/[^0-9]/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl border border-gray-200 text-gray-600 font-semibold text-sm hover:bg-gray-50 hover:border-gray-300 transition-all"
+                >
+                  WhatsApp Us
+                </a>
+              </div>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent leading-tight">
-              Let's Start a
-              <span className="block">Conversation</span>
-            </h1>
-
-            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
-              Ready to transform your digital presence? We'd love to hear from you. Get in touch and let's discuss how we can help your business thrive.
-            </p>
-
-            {/* Quick Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-              {[
-                { number: "< 24hrs", label: "Response Time", icon: Clock },
-                { number: "98%", label: "Client Satisfaction", icon: Star },
-                { number: "24/7", label: "Support Available", icon: Users },
-                { number: "Free", label: "Initial Consultation", icon: CheckCircle }
-              ].map((stat, index) => (
-                <div key={index} className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                  <stat.icon className="h-8 w-8 text-blue-600 mx-auto mb-4" />
-                  <div className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{stat.number}</div>
-                  <div className="text-gray-600 font-medium text-sm">{stat.label}</div>
+            {/* Right — Chat bubble mockup */}
+            <div className="w-full lg:w-[400px] flex-shrink-0 lg:ml-8">
+              <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xl">
+                {/* Chat header */}
+                <div className="flex items-center gap-3 pb-4 mb-4 border-b border-gray-100">
+                  <div className="w-10 h-10 rounded-full overflow-hidden bg-white border border-gray-100 flex-shrink-0">
+                    <Image src="/logo.png" alt="SocialMoon" width={40} height={40} className="w-full h-full object-contain" />
+                  </div>
+                  <div className="flex-1 ml-1">
+                    <div className="text-gray-900 font-semibold text-sm">SocialMoon</div>
+                    <span className="flex items-center gap-1.5 text-green-600 text-xs font-medium">
+                      <span style={{display:'inline-block', width:'6px', height:'6px', borderRadius:'50%', backgroundColor:'#22c55e', flexShrink:0}} />
+                      Online
+                    </span>
+                  </div>
+                  <div className="text-gray-400 text-xs">Digital Agency</div>
                 </div>
-              ))}
+
+                {/* Messages */}
+                <div className="space-y-3 mb-4">
+                  <div className="flex items-end gap-2">
+                    <div className="w-7 h-7 rounded-full overflow-hidden bg-white border border-gray-100 flex-shrink-0">
+                      <Image src="/logo.png" alt="SM" width={28} height={28} className="w-full h-full object-contain" />
+                    </div>
+                    <div className="bg-gray-100 rounded-2xl rounded-bl-md px-4 py-3 text-gray-700 text-sm max-w-[82%] leading-relaxed">
+                      Hi there! 👋 Ready to grow your brand on social media?
+                    </div>
+                  </div>
+                  <div className="flex items-end gap-2 justify-end">
+                    <div className="bg-blue-600 rounded-2xl rounded-br-md px-4 py-3 text-white text-sm max-w-[82%] leading-relaxed">
+                      Yes, I need help with Instagram! 🚀
+                    </div>
+                  </div>
+                  <div className="flex items-end gap-2">
+                    <div className="w-7 h-7 rounded-full overflow-hidden bg-white border border-gray-100 flex-shrink-0">
+                      <Image src="/logo.png" alt="SM" width={28} height={28} className="w-full h-full object-contain" />
+                    </div>
+                    <div className="bg-gray-100 rounded-2xl rounded-bl-md px-4 py-3 text-gray-700 text-sm max-w-[82%] leading-relaxed">
+                      Perfect! <span className="text-green-600 font-semibold">First service is on us</span> — no credit card needed ✅
+                    </div>
+                  </div>
+                </div>
+
+                {/* Input */}
+                <div className="flex gap-2 mb-4">
+                  <div className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-400 text-sm">Type your message here...</div>
+                  <button
+                    onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="w-11 h-11 rounded-xl bg-blue-600 hover:bg-blue-700 flex items-center justify-center text-white transition-colors flex-shrink-0 shadow-md"
+                  >
+                    <Send className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Contact chips */}
+                <div className="grid grid-cols-2 gap-2 pt-3 border-t border-gray-100">
+                  {[
+                    { icon: Mail, short: 'Email', val: content.contactInfo?.email || 'socialmoon.in@gmail.com' },
+                    { icon: Phone, short: 'Call', val: content.contactInfo?.phone || '+91 9118439107' },
+                    { icon: MapPin, short: 'Location', val: 'Lucknow, India' },
+                    { icon: Clock, short: 'Hours', val: 'Mon–Fri 9AM–6PM' },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-2 bg-gray-50 border border-gray-100 rounded-xl px-3 py-2.5">
+                      <item.icon className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+                      <div className="min-w-0">
+                        <div className="text-gray-400 text-[10px] font-semibold">{item.short}</div>
+                        <div className="text-gray-600 text-[11px] truncate">{item.val}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
+
           </div>
         </Container>
       </Hero>
