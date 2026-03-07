@@ -77,7 +77,7 @@ const ContactPage = () => {
           setContent({
             title: 'Contact Us',
             contactInfo: {
-              email: 'contact@socialmoon.in',
+              email: 'socialmoon.in@gmail.com',
               phone: '+91 9118439107',
               whatsapp: '+91 9118439107',
               address: 'Lucknow, Uttar Pradesh, India'
@@ -102,7 +102,7 @@ const ContactPage = () => {
         setContent({
           title: 'Contact Us',
           contactInfo: {
-            email: 'contact@socialmoon.in',
+            email: 'socialmoon.in@gmail.com',
             phone: '+91 9118439107',
             whatsapp: '+91 9118439107',
             address: 'Lucknow, Uttar Pradesh, India'
@@ -231,10 +231,10 @@ const ContactPage = () => {
                 icon: Mail,
                 title: "Email Us",
                 description: "Send us a detailed message about your project",
-                contact: content.contactInfo?.email || 'contact@socialmoon.in',
+                contact: content.contactInfo?.email || 'socialmoon.in@gmail.com',
                 color: "from-blue-500 to-indigo-500",
                 action: "Send Email",
-                link: `mailto:${content.contactInfo?.email || 'contact@socialmoon.in'}`
+                link: `https://mail.google.com/mail/?view=cm&to=${content.contactInfo?.email || 'socialmoon.in@gmail.com'}`
               },
               {
                 icon: Phone,

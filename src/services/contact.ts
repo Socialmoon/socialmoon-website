@@ -10,7 +10,7 @@ export class ContactService {
         return {
           title: 'Contact Us',
           contactInfo: {
-            email: 'contact@socialmoon.com',
+            email: 'socialmoon.in@gmail.com',
             phone: '+1 234 567 890',
             address: '123 Social Moon Street, Moon City, 12345'
           }
@@ -25,7 +25,7 @@ export class ContactService {
       return {
         title: 'Contact Us',
         contactInfo: {
-          email: 'contact@socialmoon.com',
+          email: 'socialmoon.in@gmail.com',
           phone: '+1 234 567 890',
           address: '123 Social Moon Street, Moon City, 12345'
         }
