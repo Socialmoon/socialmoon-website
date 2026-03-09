@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { Sparkles } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -47,6 +48,24 @@ const Footer = () => {
             <Link href="/admin/login" className="text-gray-600 hover:text-blue-600 transition-colors text-sm">
               Admin Login
             </Link>
+          </div>
+          <div>
+            <h4 className="text-md font-semibold mb-3 text-blue-600 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" />
+              Luna AI
+            </h4>
+            <p className="text-gray-500 text-xs mb-3 leading-relaxed">
+              Get instant answers about our services, pricing &amp; more — 24/7.
+            </p>
+            <a
+              href="https://luna.socialmoon.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-sm"
+            >
+              <Sparkles className="w-3 h-3" />
+              Chat with Luna
+            </a>
           </div>
         </div>
         <div className="border-t border-blue-200 mt-8 pt-4 text-center text-sm text-gray-600">

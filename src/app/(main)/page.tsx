@@ -354,6 +354,39 @@ const HomePage = () => {
         </div>
       </Section>
 
+      {/* Luna AI Banner */}
+      <Section className="py-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 overflow-hidden relative">
+        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 50%, white 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
+        <Container className="relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 py-8">
+            <div className="flex items-center gap-5">
+              <div className="w-14 h-14 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center flex-shrink-0 shadow-lg">
+                <Sparkles className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-white font-black text-xl leading-tight">Meet Luna</span>
+                  <span className="px-2 py-0.5 rounded-full bg-green-400/20 border border-green-400/40 text-green-300 text-[10px] font-bold uppercase tracking-wider">Live</span>
+                </div>
+                <p className="text-white/70 text-sm">Our AI assistant — instantly answers questions about services, pricing & more.</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 flex-shrink-0">
+              <a
+                href="https://luna.socialmoon.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-blue-700 font-bold text-sm hover:bg-blue-50 transition-all shadow-lg hover:-translate-y-0.5 hover:shadow-xl"
+              >
+                <Sparkles className="w-4 h-4" />
+                Talk to Luna
+              </a>
+              {/* Learn More button removed as requested */}
+            </div>
+          </div>
+        </Container>
+      </Section>
+
       {/* Features Section */}
       <Section className="py-20 bg-gradient-to-br from-blue-50 via-white to-purple-50 relative overflow-hidden">
         {/* Background decorative elements */}

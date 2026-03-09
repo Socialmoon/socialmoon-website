@@ -1,6 +1,7 @@
+
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
-import Chatbot from "@/components/common/Chatbot";
+// import Chatbot from "@/components/common/Chatbot";
 
 export default function RootLayout({
   children,
@@ -12,7 +13,7 @@ export default function RootLayout({
       <Header />
       <main className="min-h-screen">{children}</main>
       <Footer />
-      <Chatbot />
+      {/* <Chatbot /> */}
     </>
   );
 }

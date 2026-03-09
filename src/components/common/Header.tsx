@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { Sparkles } from 'lucide-react';
 
 const Header = () => {
   const pathname = usePathname();
@@ -87,6 +88,18 @@ const Header = () => {
             </li>
           </ul>
         </nav>
+
+        {/* Ask Luna button — desktop */}
+        <a
+          href="https://luna.socialmoon.in"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
+        >
+          <Sparkles className="w-3.5 h-3.5" />
+          Ask Luna
+        </a>
+
         {/* Mobile menu button */}
         <button
           className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -166,6 +179,18 @@ const Header = () => {
                 >
                   Contact Us
                 </Link>
+              </li>
+              <li>
+                <a
+                  href="https://luna.socialmoon.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-3 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 font-semibold hover:from-blue-100 hover:to-purple-100 transition-all duration-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Sparkles className="w-4 h-4" />
+                  Ask Luna AI
+                </a>
               </li>
             </ul>
           </nav>

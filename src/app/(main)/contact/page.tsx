@@ -22,7 +22,8 @@ import {
   Linkedin,
   Twitter,
   Facebook,
-  MessageCircle
+  MessageCircle,
+  Sparkles
 } from 'lucide-react';
 
 type ContactInfo = {
@@ -209,6 +210,15 @@ const ContactPage = () => {
                   Send a Message <ArrowRight className="w-4 h-4" />
                 </button>
                 <a
+                  href="https://luna.socialmoon.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-sm hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:-translate-y-0.5"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  Chat with Luna
+                </a>
+                <a
                   href={`https://wa.me/${(content.contactInfo?.whatsapp || content.contactInfo?.phone || '+919118439107').replace(/[^0-9]/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -222,55 +232,64 @@ const ContactPage = () => {
             {/* Right — Chat bubble mockup */}
             <div className="w-full lg:w-[400px] flex-shrink-0 lg:ml-8">
               <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xl">
-                {/* Chat header */}
+                {/* Chat header — Luna branding */}
                 <div className="flex items-center gap-3 pb-4 mb-4 border-b border-gray-100">
-                  <div className="w-10 h-10 rounded-full overflow-hidden bg-white border border-gray-100 flex-shrink-0">
-                    <Image src="/logo.png" alt="SocialMoon" width={40} height={40} className="w-full h-full object-contain" />
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                    <Sparkles className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1 ml-1">
-                    <div className="text-gray-900 font-semibold text-sm">SocialMoon</div>
+                    <div className="text-gray-900 font-semibold text-sm">Luna</div>
+                    {/*
                     <span className="flex items-center gap-1.5 text-green-600 text-xs font-medium">
                       <span style={{display:'inline-block', width:'6px', height:'6px', borderRadius:'50%', backgroundColor:'#22c55e', flexShrink:0}} />
-                      Online
+                      <span className="ml-2">Always online</span>
                     </span>
+                    */}
                   </div>
-                  <div className="text-gray-400 text-xs">Digital Agency</div>
+                  <div className="text-purple-500 text-xs font-semibold">AI Assistant</div>
                 </div>
 
                 {/* Messages */}
                 <div className="space-y-3 mb-4">
                   <div className="flex items-end gap-2">
-                    <div className="w-7 h-7 rounded-full overflow-hidden bg-white border border-gray-100 flex-shrink-0">
-                      <Image src="/logo.png" alt="SM" width={28} height={28} className="w-full h-full object-contain" />
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="w-3.5 h-3.5 text-white" />
                     </div>
                     <div className="bg-gray-100 rounded-2xl rounded-bl-md px-4 py-3 text-gray-700 text-sm max-w-[82%] leading-relaxed">
-                      Hi there! 👋 Ready to grow your brand on social media?
+                      Hi! I&apos;m Luna 👋 How can I help you grow your brand today?
                     </div>
                   </div>
                   <div className="flex items-end gap-2 justify-end">
                     <div className="bg-blue-600 rounded-2xl rounded-br-md px-4 py-3 text-white text-sm max-w-[82%] leading-relaxed">
-                      Yes, I need help with Instagram! 🚀
+                      What services does SocialMoon offer?
                     </div>
                   </div>
                   <div className="flex items-end gap-2">
-                    <div className="w-7 h-7 rounded-full overflow-hidden bg-white border border-gray-100 flex-shrink-0">
-                      <Image src="/logo.png" alt="SM" width={28} height={28} className="w-full h-full object-contain" />
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="w-3.5 h-3.5 text-white" />
                     </div>
                     <div className="bg-gray-100 rounded-2xl rounded-bl-md px-4 py-3 text-gray-700 text-sm max-w-[82%] leading-relaxed">
-                      Perfect! <span className="text-green-600 font-semibold">First service is on us</span> — no credit card needed ✅
+                      We offer social media management, content creation, ads & more! <span className="text-green-600 font-semibold">Free consultation</span> to get started ✅
                     </div>
                   </div>
                 </div>
 
                 {/* Input */}
                 <div className="flex gap-2 mb-4">
-                  <div className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-400 text-sm">Type your message here...</div>
-                  <button
-                    onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="w-11 h-11 rounded-xl bg-blue-600 hover:bg-blue-700 flex items-center justify-center text-white transition-colors flex-shrink-0 shadow-md"
+                  <a
+                    href="https://luna.socialmoon.in"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-400 text-sm hover:border-purple-300 hover:bg-purple-50/30 transition-colors cursor-text"
+                  >Ask Luna anything...</a>
+                  <a
+                    href="https://luna.socialmoon.in"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-11 h-11 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 flex items-center justify-center text-white transition-colors flex-shrink-0 shadow-md"
                   >
                     <Send className="w-4 h-4" />
-                  </button>
+                  </a>
                 </div>
 
                 {/* Contact chips */}
@@ -368,6 +387,87 @@ const ContactPage = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Luna AI Featured Section */}
+      <Section className="py-20 bg-gradient-to-br from-slate-900 via-blue-950 to-purple-950 relative overflow-hidden">
+        {/* Background glow effects */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <Container className="relative z-10">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+            {/* Left content */}
+            <div className="flex-1 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/80 text-xs font-semibold mb-6">
+                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse flex-shrink-0" />
+                Available 24/7 · Instant Responses
+              </div>
+
+              <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-5">
+                Meet{' '}
+                <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  Luna
+                </span>
+                ,<br />
+                our AI assistant
+              </h2>
+
+              <p className="text-white/60 text-base md:text-lg leading-relaxed mb-8 max-w-md">
+                Get instant answers about our services, pricing, timelines, and more — any time of day or night. Luna knows everything about SocialMoon.
+              </p>
+
+              <div className="space-y-3 mb-8">
+                {[
+                  'Ask about services & pricing',
+                  'Get a quick project estimate',
+                  'Learn about our process',
+                  'Find the right package for you',
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 text-white/70 text-sm">
+                    <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+
+              <a
+                href="https://luna.socialmoon.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-400 hover:to-purple-400 text-white font-bold text-sm transition-all shadow-lg shadow-purple-900/40 hover:shadow-xl hover:-translate-y-0.5"
+              >
+                <Sparkles className="w-4 h-4" />
+                Open Luna in Full Page
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+
+            {/* Right: Luna iframe preview */}
+            <div className="w-full lg:w-[440px] flex-shrink-0">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-purple-900/50 border border-white/10">
+                {/* Fake browser chrome */}
+                <div className="bg-slate-800 px-4 py-2.5 flex items-center gap-3 border-b border-white/10">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-400/70"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-400/70"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-400/70"></div>
+                  </div>
+                  <div className="flex-1 bg-slate-700 rounded-md px-3 py-1 flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-green-400 flex-shrink-0"></div>
+                    <span className="text-white/50 text-xs">luna.socialmoon.in</span>
+                  </div>
+                </div>
+                <iframe
+                  src="https://luna.socialmoon.in"
+                  className="w-full h-[500px] border-none bg-white"
+                  title="Luna AI Assistant"
+                  loading="lazy"
+                />
+              </div>
+            </div>
           </div>
         </Container>
       </Section>
@@ -507,7 +607,7 @@ const ContactPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
               {/* Contact Form */}
               <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-100">
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form id="contact-form" onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
