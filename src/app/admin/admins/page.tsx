@@ -27,6 +27,7 @@ const AdminManagementPage = () => {
   const [isChangeDialogOpen, setIsChangeDialogOpen] = useState(false);
   const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false);
   const [currentUserRole, setCurrentUserRole] = useState<'admin' | 'superadmin'>('admin');
+  const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
 
   const getAuthHeaders = () => {
@@ -62,11 +63,12 @@ const AdminManagementPage = () => {
       if (res.ok) {
         const data = await res.json();
         setAdmins(data);
+        setErrorMessage('');
       } else {
-        console.error('Failed to fetch admins');
+        setErrorMessage('Failed to fetch admins. Please try again.');
       }
-    } catch (error) {
-      console.error('Error fetching admins:', error);
+    } catch {
+      setErrorMessage('Error fetching admins. Please check your connection and try again.');
     }
     setLoading(false);
   };
@@ -94,8 +96,7 @@ const AdminManagementPage = () => {
         const data = await res.json();
         alert(data.error || 'Failed to add admin');
       }
-    } catch (error) {
-      console.error('Error adding admin:', error);
+    } catch {
       alert('Error adding admin');
     }
     setSaving(false);
@@ -123,8 +124,7 @@ const AdminManagementPage = () => {
         const data = await res.json();
         alert(data.error || 'Failed to change password');
       }
-    } catch (error) {
-      console.error('Error changing password:', error);
+    } catch {
       alert('Error changing password');
     }
     setSaving(false);
@@ -152,8 +152,7 @@ const AdminManagementPage = () => {
         const data = await res.json();
         alert(data.error || 'Failed to change role');
       }
-    } catch (error) {
-      console.error('Error changing role:', error);
+    } catch {
       alert('Error changing role');
     }
     setSaving(false);
@@ -177,8 +176,7 @@ const AdminManagementPage = () => {
         const data = await res.json();
         alert(data.error || 'Failed to delete admin');
       }
-    } catch (error) {
-      console.error('Error deleting admin:', error);
+    } catch {
       alert('Error deleting admin');
     }
     setSaving(false);
@@ -232,6 +230,12 @@ const AdminManagementPage = () => {
             </div>
           </div>
         </div>
+
+        {errorMessage && (
+          <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {errorMessage}
+          </div>
+        )}
 
         {/* Statistics Cards (Superadmin only) */}
         {currentUserRole === 'superadmin' && (

@@ -40,7 +40,15 @@ export class AuthUtils {
     // Verify the admin still exists and has the correct role
     const role = await AdminService.getAdminRole(payload.username);
     if (role !== payload.role) {
-      return null;
+      const envAdminUsername = process.env.ADMIN_USERNAME?.toLowerCase();
+      const isEnvSuperAdmin =
+        payload.role === 'superadmin' &&
+        !!envAdminUsername &&
+        payload.username === envAdminUsername;
+
+      if (!isEnvSuperAdmin) {
+        return null;
+      }
     }
 
     return payload;
