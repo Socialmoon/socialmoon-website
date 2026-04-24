@@ -7,6 +7,12 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "SocialMoon - Professional Social Media Management",
   description: "Transform your social media presence with SocialMoon. Expert management, content creation, and analytics for growing your online brand.",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+    shortcut: "/logo.png",
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({

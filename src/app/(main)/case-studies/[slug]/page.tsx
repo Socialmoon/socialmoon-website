@@ -1,110 +1,31 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import { Hero } from '@/components/common/Hero';
+import { notFound } from 'next/navigation';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { CASE_STUDIES, getCaseStudyBySlug } from '@/lib/config/case-studies-catalog';
 import {
   ArrowLeft,
   TrendingUp,
   Calendar,
   Users,
-  Target,
-  Award,
-  ExternalLink,
   CheckCircle,
-  BarChart3
+  BarChart3,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-
-interface CaseStudy {
-  id: string;
-  slug: string;
-  title: string;
-  company?: string;
-  client?: string;
-  industry: string;
-  service?: string;
-  duration: string;
-  overview?: string;
-  results: string | string[];
-  challenge: string;
-  solution?: string;
-  approach: string | string[];
-  execution?: string;
-  metrics: {
-    [key: string]: string;
-  };
-  testimonial: string | {
-    quote: string;
-    author: string;
-    position: string;
-  };
-  clientName?: string;
-  clientPosition?: string;
-  images: string[];
-  tags?: string[];
-  featured?: boolean;
-  published?: boolean;
-  completedDate?: string;
+export function generateStaticParams() {
+  return CASE_STUDIES.map((study) => ({ slug: study.slug }));
 }
 
-const CaseStudyDetailPage = () => {
-  const params = useParams();
-  const [caseStudy, setCaseStudy] = useState<CaseStudy | null>(null);
-  const [loading, setLoading] = useState(true);
+const normalizeResults = (results: string | string[]) =>
+  Array.isArray(results) ? results : [results];
 
-  useEffect(() => {
-    const slug = params?.slug;
-    if (slug) {
-      try {
-        // Fetch case studies from API
-        const fetchCaseStudies = async () => {
-          const response = await fetch('/api/case-studies');
-          const data = await response.json();
-          const foundCaseStudy = data.caseStudies.find((cs: CaseStudy) => cs.slug === slug);
-          setCaseStudy(foundCaseStudy || null);
-        };
-        fetchCaseStudies();
-      } catch (error) {
-        console.error('Error fetching case study:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-  }, [params?.slug]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce"></div>
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-        </div>
-      </div>
-    );
-  }
+export default async function CaseStudyDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const caseStudy = getCaseStudyBySlug(slug);
 
   if (!caseStudy) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Case Study Not Found</h1>
-          <p className="text-gray-600 mb-8">The case study you're looking for doesn't exist.</p>
-          <Link href="/case-studies">
-            <Button>
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Case Studies
-            </Button>
-          </Link>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   return (
@@ -128,9 +49,9 @@ const CaseStudyDetailPage = () => {
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }}></div>
 
         <div className="relative max-w-4xl mx-auto z-10">
-          <Link href="/insights" className="inline-flex items-center gap-2 text-gray-400 hover:text-white text-sm font-medium mb-10 transition-colors">
+          <Link href="/case-studies" className="inline-flex items-center gap-2 text-gray-400 hover:text-white text-sm font-medium mb-10 transition-colors">
             <ArrowLeft className="w-4 h-4" />
-            Back to Insights
+            Back to Case Studies
           </Link>
 
           <div className="flex flex-wrap items-center gap-2 mb-6">
@@ -149,13 +70,13 @@ const CaseStudyDetailPage = () => {
           </h1>
 
           <p className="text-gray-400 text-lg leading-relaxed max-w-3xl mb-10">
-            {caseStudy.overview || `How we helped ${caseStudy.company || caseStudy.client} achieve remarkable results through strategic digital marketing.`}
+            {caseStudy.overview || `How we helped ${caseStudy.company} achieve measurable business outcomes through focused systems execution.`}
           </p>
 
           <div className="flex flex-wrap gap-6 text-sm text-gray-400 border-t border-gray-800 pt-8">
             <div className="flex items-center gap-2">
               <Users className="w-4 h-4 text-gray-600" />
-              <span className="text-white font-medium">{caseStudy.company || caseStudy.client}</span>
+              <span className="text-white font-medium">{caseStudy.company}</span>
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-gray-600" />
@@ -163,7 +84,7 @@ const CaseStudyDetailPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-gray-600" />
-              <span className="text-green-400 font-medium">{typeof caseStudy.results === 'string' ? caseStudy.results : 'Key results achieved'}</span>
+              <span className="text-green-400 font-medium">{normalizeResults(caseStudy.results)[0]}</span>
             </div>
           </div>
         </div>
@@ -242,14 +163,14 @@ const CaseStudyDetailPage = () => {
         )}
 
         {/* Results list */}
-        {Array.isArray(caseStudy.results) && caseStudy.results.length > 0 && (
+        {normalizeResults(caseStudy.results).length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-6">
               <div className="w-1 h-6 bg-emerald-500 rounded-full"></div>
               <h2 className="text-xs font-bold uppercase tracking-widest text-gray-500">Results Achieved</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {(caseStudy.results as string[]).map((result, i) => (
+              {normalizeResults(caseStudy.results).map((result, i) => (
                 <div key={i} className="flex gap-4 items-start p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
                   <div className="bg-emerald-100 p-2 rounded-full">
                     <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
@@ -277,7 +198,7 @@ const CaseStudyDetailPage = () => {
                 </p>
                 <p className="text-gray-400 text-sm">
                   {typeof caseStudy.testimonial === 'object' ? caseStudy.testimonial.position : caseStudy.clientPosition}
-                  {(caseStudy.company || caseStudy.client) && ` · ${caseStudy.company || caseStudy.client}`}
+                  {caseStudy.company && ` · ${caseStudy.company}`}
                 </p>
               </div>
             </div>
@@ -318,7 +239,7 @@ const CaseStudyDetailPage = () => {
                 <ArrowLeft className="w-4 h-4 ml-2 rotate-180" />
               </Button>
             </Link>
-            <Link href="/insights" className="w-full sm:w-auto">
+            <Link href="/case-studies" className="w-full sm:w-auto">
               <Button variant="outline" className="w-full sm:w-auto px-6">
                 More stories
               </Button>
@@ -329,6 +250,4 @@ const CaseStudyDetailPage = () => {
       </div>
     </div>
   );
-};
-
-export default CaseStudyDetailPage;
+}

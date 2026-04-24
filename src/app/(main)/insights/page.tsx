@@ -26,6 +26,7 @@ import {
   Zap
 } from 'lucide-react';
 import Image from 'next/image';
+import { CASE_STUDIES } from '@/lib/config/case-studies-catalog';
 
 type TeamMember = {
   id: number;
@@ -63,7 +64,7 @@ const InsightsPage = () => {
   const [blogData, setBlogData] = useState<BlogData | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState<'overview' | 'about' | 'team' | 'blog' | 'case-studies' | 'careers'>('overview');
-  const [caseStudies, setCaseStudies] = useState<any[]>([]);
+  const [caseStudies] = useState(CASE_STUDIES);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,10 +82,6 @@ const InsightsPage = () => {
         setAboutData(about);
         setBlogData(blog);
 
-        // Fetch case studies for success stories
-        fetch('/api/case-studies')
-          .then((res) => res.json())
-          .then((data) => setCaseStudies(data.caseStudies || []));
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {

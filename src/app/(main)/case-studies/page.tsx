@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import { Hero } from '@/components/common/Hero';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { CASE_STUDIES, type CaseStudyItem } from '@/lib/config/case-studies-catalog';
 import {
   ArrowLeft,
   Users,
@@ -18,92 +19,15 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-interface CaseStudy {
-  id: string;
-  slug: string;
-  title: string;
-  company?: string;
-  client?: string;
-  industry: string;
-  service?: string;
-  duration: string;
-  results: string | string[];
-  challenge: string;
-  solution?: string;
-  approach?: string | string[];
-  execution?: string;
-  overview?: string;
-  metrics?: {
-    [key: string]: string;
-  };
-  testimonial?: string | {
-    quote: string;
-    author: string;
-    position: string;
-  };
-  clientName?: string;
-  clientPosition?: string;
-  tags?: string[];
-  featured?: boolean;
-  published?: boolean;
-  completedDate?: string;
-  imageUrl?: string;
-  images?: string[];
-}
-
 const CaseStudiesPage = () => {
-  const [caseStudies, setCaseStudies] = useState<CaseStudy[]>([]);
+  const caseStudies = CASE_STUDIES;
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [loading, setLoading] = useState(true);
-  const previousDataRef = useRef<string | null>(null);
 
-  useEffect(() => {
-    const fetchCaseStudies = async (isPolling = false) => {
-      try {
-        const response = await fetch('/api/case-studies');
-        const data = await response.json();
-        const studies = data.caseStudies || [];
-        const studiesString = JSON.stringify(studies);
-
-        // Only update if data has changed or it's the initial load
-        if (!isPolling || studiesString !== previousDataRef.current) {
-          setCaseStudies(studies);
-          previousDataRef.current = studiesString;
-        }
-      } catch (error) {
-        console.error('Error fetching case studies:', error);
-      } finally {
-        if (!isPolling) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchCaseStudies();
-
-    // Poll for updates every 30 seconds
-    const interval = setInterval(() => fetchCaseStudies(true), 30000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const categories = ['All', 'Social Media Management', 'Content Creation', 'Web Development', 'App Development'];
+  const categories = ['All', ...Array.from(new Set(caseStudies.map((study) => study.service))).filter(Boolean)];
 
   const filteredCaseStudies = selectedCategory === 'All'
     ? caseStudies
     : caseStudies.filter(study => study.service === selectedCategory || study.tags?.includes(selectedCategory));
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce"></div>
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -178,7 +102,7 @@ const CaseStudiesPage = () => {
 
           {/* Case Studies Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {filteredCaseStudies.map((study, index) => (
+            {filteredCaseStudies.map((study: CaseStudyItem, index) => (
               <Link key={study.slug || study.id || index} href={`/case-studies/${study.slug}`}>
                 <div className="bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden group">
                   <div className="p-8">
@@ -200,7 +124,7 @@ const CaseStudiesPage = () => {
 
                     <div className="flex items-center justify-between mb-4">
                       <div>
-                        <p className="font-semibold text-gray-900">{study.company || study.client}</p>
+                        <p className="font-semibold text-gray-900">{study.company}</p>
                         <p className="text-sm text-gray-600">{study.industry}</p>
                       </div>
                     </div>

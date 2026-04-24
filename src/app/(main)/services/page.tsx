@@ -1,39 +1,36 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import { Hero } from '@/components/common/Hero';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { SERVICES_CASE_STUDIES, SERVICES_PAGE_CONTENT, type ServiceItem } from '@/lib/config/services-catalog';
 import {
   CheckCircle, Star, Zap, Users, MessageSquare, Target, BarChart3, ArrowRight,
   Lightbulb, Trophy, Award, Clock, Rocket, Code, Smartphone,
   TrendingUp, Shield, Heart, Globe,
   Video, Megaphone, PieChart, UserCheck, BrainCircuit, Search, Mail
 } from 'lucide-react';
-import { FaInstagram, FaLinkedin, FaTiktok, FaYoutube, FaFacebook, FaTwitter, FaWhatsapp } from 'react-icons/fa';
+
+const toSlug = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
 
 const getServiceIcon = (title: string): { type: 'lucide' | 'brand'; icon: any } => {
   const t = title.toLowerCase();
-  if (t.includes('instagram')) return { type: 'brand', icon: FaInstagram };
-  if (t.includes('linkedin')) return { type: 'brand', icon: FaLinkedin };
-  if (t.includes('tiktok')) return { type: 'brand', icon: FaTiktok };
-  if (t.includes('youtube')) return { type: 'brand', icon: FaYoutube };
-  if (t.includes('facebook')) return { type: 'brand', icon: FaFacebook };
-  if (t.includes('twitter') || t.includes('x ')) return { type: 'brand', icon: FaTwitter };
-  if (t.includes('whatsapp')) return { type: 'brand', icon: FaWhatsapp };
-  if (t.includes('influencer')) return { type: 'lucide', icon: UserCheck };
-  if (t.includes('paid') || t.includes('ads') || t.includes('advertising')) return { type: 'lucide', icon: Megaphone };
-  if (t.includes('content') || t.includes('creation')) return { type: 'lucide', icon: Zap };
-  if (t.includes('community') || t.includes('management')) return { type: 'lucide', icon: Users };
-  if (t.includes('analytics') || t.includes('reporting')) return { type: 'lucide', icon: PieChart };
-  if (t.includes('strategy') || t.includes('consulting')) return { type: 'lucide', icon: BrainCircuit };
-  if (t.includes('seo') || t.includes('search')) return { type: 'lucide', icon: Search };
-  if (t.includes('email')) return { type: 'lucide', icon: Mail };
-  if (t.includes('growth')) return { type: 'lucide', icon: TrendingUp };
-  if (t.includes('brand')) return { type: 'lucide', icon: Globe };
-  if (t.includes('video') || t.includes('reel') || t.includes('viral')) return { type: 'lucide', icon: Video };
+  if (t.includes('lead')) return { type: 'lucide', icon: Target };
+  if (t.includes('personal brand')) return { type: 'lucide', icon: Users };
+  if (t.includes('opsflow') || t.includes('smartlayer')) return { type: 'lucide', icon: BrainCircuit };
+  if (t.includes('workflow')) return { type: 'lucide', icon: Code };
+  if (t.includes('cloud')) return { type: 'lucide', icon: Shield };
+  if (t.includes('query')) return { type: 'lucide', icon: BarChart3 };
+  if (t.includes('growth') || t.includes('content')) return { type: 'lucide', icon: TrendingUp };
   return { type: 'lucide', icon: Rocket };
 };
 
@@ -42,99 +39,114 @@ const ServiceIcon = ({ title, className }: { title: string; className?: string }
   return <Icon className={className} />;
 };
 
-type Service = {
-  id: number;
-  title: string;
-  description: string;
-  price: string | number;
-  icon?: string;
-  popular?: boolean;
-  features?: string[];
-};
-
-type ServicesPageContent = {
-  title: string;
-  services: Service[];
-};
-
 const ServicesPage = () => {
-  const [content, setContent] = useState<ServicesPageContent | null>(null);
-  const [caseStudies, setCaseStudies] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState<'overview' | 'detail' | 'pricing'>('overview');
-  const [selectedService, setSelectedService] = useState<Service | null>(null);
-  const previousDataRef = useRef<string | null>(null);
-
-  useEffect(() => {
-    const fetchData = async (isPolling = false) => {
-      try {
-        const servicesRes = await fetch('/api/services');
-        const services = await servicesRes.json();
-        
-        // Even if status is not OK, the API returns valid structure with default data
-        // Only update if data has changed or it's the initial load
-        if (!isPolling || JSON.stringify(services) !== previousDataRef.current) {
-          // Validate that we have valid services data
-          if (services && services.title && Array.isArray(services.services)) {
-            setContent(services);
-            previousDataRef.current = JSON.stringify(services);
-          } else if (!isPolling) {
-            // Set default content if data structure is invalid
-            setContent({
-              title: 'Our Services',
-              services: []
-            });
-          }
-        }
-
-        // Also fetch case studies if not polling or if we need to refresh
-        if (!isPolling) {
-          try {
-            const caseStudiesRes = await fetch('/api/case-studies');
-            const caseStudiesData = await caseStudiesRes.json();
-            setCaseStudies(caseStudiesData.caseStudies || []);
-          } catch (error) {
-            console.error('Error fetching case studies:', error);
-            setCaseStudies([]);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching services data:', error);
-        if (!isPolling) {
-          // Set default content on error
-          setContent({
-            title: 'Our Services',
-            services: []
-          });
-        }
-      } finally {
-        if (!isPolling) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchData();
-
-    // Poll for updates every 30 seconds
-    const interval = setInterval(() => fetchData(true), 30000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  if (!content) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce"></div>
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-        </div>
-      </div>
-    );
-  }
+  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
+  const content = SERVICES_PAGE_CONTENT;
+  const caseStudies = SERVICES_CASE_STUDIES;
 
   // serviceIcons resolved per service title via getServiceIcon()
+  const growthSystems = [
+    {
+      title: 'Content & Social Growth System',
+      description:
+        'A consistent content engine that builds your audience and keeps your brand visible without manual chaos.',
+      outcomes: [
+        'Consistent multi-platform presence without burning team time',
+        'Content designed for the right audience, not vanity followers',
+        'A repeatable process your team can run or fully outsource',
+      ],
+      tag: 'Ongoing system',
+      icon: Globe,
+    },
+    {
+      title: 'Lead Generation System',
+      description:
+        'A targeted outreach and nurture flow that creates a predictable pipeline without relying on ads alone.',
+      outcomes: [
+        'Steady flow of warm and qualified leads each month',
+        'Shorter sales cycles with better-prepared prospects',
+        'Clear attribution so you know exactly where leads come from',
+      ],
+      tag: 'Ongoing system',
+      icon: TrendingUp,
+    },
+    {
+      title: 'Personal Brand System',
+      description:
+        'A LinkedIn-first system that turns founder visibility into trust, inbound demand, and deals.',
+      outcomes: [
+        'Founder profile becomes a sales asset that works daily',
+        'Category authority that shortens sales conversations',
+        'Inbound opportunities from the right people in your market',
+      ],
+      tag: 'LinkedIn-focused',
+      icon: Users,
+    },
+  ];
+
+  const efficiencySystems = [
+    {
+      title: 'OpsFlow AI',
+      description:
+        'We audit expensive manual workflows and automate high-impact operations so teams focus on meaningful work.',
+      outcomes: [
+        'Reduce repetitive manual work by 40-70%',
+        'Lower operational cost without abrupt team disruption',
+        'Faster execution across sales, support, onboarding, and ops',
+      ],
+      tag: 'AI automation audit',
+      icon: BrainCircuit,
+    },
+    {
+      title: 'WorkflowOS',
+      description:
+        'We replace scattered docs, sheets, and handoffs with one structured operating system your team can trust.',
+      outcomes: [
+        'Replace 5-10 fragmented workflows with one clean system',
+        'Less coordination overhead and more execution time',
+        'Reduced handoff errors and stronger process accountability',
+      ],
+      tag: 'Internal tools sprint',
+      icon: Code,
+    },
+    {
+      title: 'CloudTrim',
+      description:
+        'We optimize cloud spending and architecture so you pay for what you use and scale without infrastructure panic.',
+      outcomes: [
+        'Cut cloud cost by 40-60% with low migration risk',
+        'Infrastructure prepared for 5x scale growth',
+        'Clear documented setup that is not person-dependent',
+      ],
+      tag: 'Infrastructure optimization',
+      icon: Shield,
+    },
+    {
+      title: 'QueryBoost',
+      description:
+        'We remove data-layer bottlenecks and improve database performance to speed up app and API response times.',
+      outcomes: [
+        '5-10x faster load time and API performance',
+        'Database readiness for 3-5x current traffic',
+        'Fewer production slowdowns and firefighting cycles',
+      ],
+      tag: 'Database performance',
+      icon: BarChart3,
+    },
+    {
+      title: 'SmartLayer AI',
+      description:
+        'We identify high-impact AI opportunities, build testable prototypes, and deliver a fast shipping roadmap.',
+      outcomes: [
+        'Clarity on AI features that actually move product metrics',
+        'Working proofs you can test with real users quickly',
+        'Cut AI feature timeline from months to weeks',
+      ],
+      tag: 'AI integration strategy',
+      icon: Rocket,
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
@@ -162,7 +174,7 @@ const ServicesPage = () => {
               </h1>
 
               <p className="text-base sm:text-lg text-gray-500 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                From social media management to content creation and paid ads — we deliver end-to-end digital marketing that gets real results for your brand.
+                We design growth systems and efficiency systems that help businesses scale demand, improve speed, and operate with less friction.
               </p>
 
               {/* Stats row */}
@@ -202,12 +214,12 @@ const ServicesPage = () => {
             {/* Right — Service cards grid */}
             <div className="w-full lg:w-1/2 grid grid-cols-2 gap-4">
               {[
-                { icon: TrendingUp, title: 'Social Media Management', color: 'from-blue-500 to-blue-600', bg: 'bg-blue-50' },
-                { icon: Target, title: 'Paid Ads & Campaigns', color: 'from-purple-500 to-purple-600', bg: 'bg-purple-50' },
-                { icon: MessageSquare, title: 'Content Creation', color: 'from-pink-500 to-rose-500', bg: 'bg-pink-50' },
-                { icon: BarChart3, title: 'Analytics & Strategy', color: 'from-green-500 to-teal-500', bg: 'bg-green-50' },
-                { icon: Globe, title: 'Brand Building', color: 'from-orange-500 to-amber-500', bg: 'bg-orange-50' },
-                { icon: Rocket, title: 'Growth Marketing', color: 'from-indigo-500 to-violet-500', bg: 'bg-indigo-50' },
+                { icon: TrendingUp, title: 'Content & Social Growth', color: 'from-blue-500 to-blue-600', bg: 'bg-blue-50' },
+                { icon: Target, title: 'Lead Generation System', color: 'from-purple-500 to-purple-600', bg: 'bg-purple-50' },
+                { icon: Users, title: 'Personal Brand System', color: 'from-pink-500 to-rose-500', bg: 'bg-pink-50' },
+                { icon: BrainCircuit, title: 'OpsFlow AI', color: 'from-green-500 to-teal-500', bg: 'bg-green-50' },
+                { icon: Shield, title: 'CloudTrim', color: 'from-orange-500 to-amber-500', bg: 'bg-orange-50' },
+                { icon: Rocket, title: 'SmartLayer AI', color: 'from-indigo-500 to-violet-500', bg: 'bg-indigo-50' },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -225,74 +237,31 @@ const ServicesPage = () => {
         </Container>
       </Hero>
 
-      {/* Enhanced Toggle Section */}
-      <Section className="py-12 bg-white border-b border-gray-100 shadow-sm">
+      {/* Experience Navigation Section */}
+      <Section className="py-10 bg-white border-b border-gray-100 shadow-sm">
         <Container>
-          <div className="flex justify-center">
-            <div className="bg-gray-100 p-2 rounded-2xl shadow-lg border border-gray-200 w-full max-w-fit">
-              <div className="flex flex-wrap gap-2 justify-center">
-                <button
-                  onClick={() => {
-                    setActiveView('overview');
-                    setSelectedService(null);
-                  }}
-                  className={`flex items-center px-5 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-sm sm:text-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500/50 ${
-                    activeView === 'overview'
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl transform scale-105'
-                      : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50 hover:scale-105'
-                  }`}
-                >
-                  <Zap className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
-                  All Services
-                  <span className="ml-1 sm:ml-2 text-xs sm:text-sm opacity-75">Overview</span>
-                </button>
-                {/* Pricing tab — temporarily hidden
-                <button
-                  onClick={() => setActiveView('pricing')}
-                  className={`flex items-center px-5 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-sm sm:text-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-amber-500/50 ${
-                    activeView === 'pricing'
-                      ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-xl transform scale-105'
-                      : 'text-gray-600 hover:text-amber-600 hover:bg-amber-50 hover:scale-105'
-                  }`}
-                >
-                  <Award className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
-                  Pricing
-                </button>
-                */}
-                {selectedService && (
-                  <button
-                    onClick={() => setActiveView('detail')}
-                    className={`flex items-center px-5 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-sm sm:text-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-500/50 ${
-                      activeView === 'detail'
-                        ? 'bg-gradient-to-r from-green-600 to-teal-600 text-white shadow-xl transform scale-105'
-                        : 'text-gray-600 hover:text-green-600 hover:bg-green-50 hover:scale-105'
-                    }`}
-                  >
-                    <Target className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
-                    Service Details
-                    <span className="ml-1 sm:ml-2 text-xs sm:text-sm opacity-75 max-w-[120px] sm:max-w-none truncate">{selectedService.title}</span>
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Content Type Description */}
-          <div className="text-center mt-8">
-            <p className={`text-lg transition-all duration-500 ${
-              activeView === 'overview'
-                ? 'text-blue-700 font-medium'
-                : activeView === 'pricing'
-                ? 'text-amber-600 font-medium'
-                : 'text-green-700 font-medium'
-            }`}>
-              {activeView === 'overview'
-                ? 'Explore our comprehensive range of digital services and solutions'
-                : activeView === 'pricing'
-                ? 'Choose a plan that fits your goals — start free, scale anytime'
-                : `Learn more about ${selectedService?.title} and how it can benefit your business`
-              }
+          <div className="max-w-5xl mx-auto text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500 mb-3">All Services Overview</p>
+            <p className="text-lg md:text-xl text-slate-700 font-medium leading-relaxed">
+              Explore structured Growth and Efficiency systems designed for measurable business outcomes.
             </p>
+
+            <div className="mt-6 bg-slate-50 border border-slate-200 rounded-2xl p-2 shadow-sm inline-flex flex-wrap gap-2 justify-center">
+              {[
+                { href: '#systems-framework', label: 'Systems Framework' },
+                { href: '#growth-systems', label: 'Growth Systems' },
+                { href: '#efficiency-systems', label: 'Efficiency Systems' },
+                { href: '#service-packages', label: 'All Service Packages' },
+              ].map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:text-blue-700 hover:bg-white transition-all"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
           </div>
         </Container>
       </Section>
@@ -300,8 +269,121 @@ const ServicesPage = () => {
       {/* Dynamic Content Section */}
       {activeView === 'overview' ? (
         <div className="overview-content">
+          <Section id="systems-framework" className="py-16 md:py-20 bg-gradient-to-br from-slate-50 via-white to-indigo-50/40 border-b border-slate-100 scroll-mt-24">
+            <Container>
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-700 text-sm font-semibold mb-4 shadow-sm">
+                  <Zap className="w-4 h-4 text-blue-600" />
+                  Systems Framework
+                </div>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">
+                  Two systems. One goal: a better-running business.
+                </h2>
+                <p className="text-slate-600 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
+                  We build structured Growth and Efficiency systems so your business scales faster, executes cleaner, and grows with control.
+                </p>
+              </div>
+
+              <div id="growth-systems" className="mb-14 scroll-mt-24">
+                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+                  <div>
+                    <p className="text-xs font-bold tracking-[0.15em] text-emerald-600 uppercase mb-2">Section 01</p>
+                    <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900">Growth Systems</h3>
+                  </div>
+                  <p className="text-slate-600 md:max-w-2xl">
+                    For companies that want a repeatable demand and revenue engine, not random posting and one-time campaigns.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {growthSystems.map((item) => (
+                    <div key={item.title} className="group rounded-3xl border border-emerald-100 bg-white p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">Growth</span>
+                        <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                          <item.icon className="w-5 h-5" />
+                        </div>
+                      </div>
+
+                      <h4 className="text-lg font-bold text-slate-900 mb-2 leading-snug">{item.title}</h4>
+                      <p className="text-slate-600 text-sm leading-relaxed mb-4">{item.description}</p>
+
+                      <div className="space-y-2.5 mb-4">
+                        {item.outcomes.map((outcome) => (
+                          <div key={outcome} className="flex items-start gap-2.5">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0" />
+                            <span className="text-sm text-slate-600 leading-relaxed">{outcome}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <span className="inline-flex px-2.5 py-1 rounded-md bg-slate-100 border border-slate-200 text-slate-500 text-xs font-medium">
+                        {item.tag}
+                      </span>
+
+                      <div className="mt-4">
+                        <Link href={`/services/${toSlug(item.title)}`} className="inline-flex items-center text-sm font-semibold text-emerald-700 hover:text-emerald-800">
+                          Learn more
+                          <ArrowRight className="w-4 h-4 ml-1" />
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div id="efficiency-systems" className="scroll-mt-24">
+                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+                  <div>
+                    <p className="text-xs font-bold tracking-[0.15em] text-indigo-600 uppercase mb-2">Section 02</p>
+                    <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900">Efficiency Systems</h3>
+                  </div>
+                  <p className="text-slate-600 md:max-w-2xl">
+                    For companies losing speed and margin due to manual workflows, broken handoffs, and technical debt.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {efficiencySystems.map((item) => (
+                    <div key={item.title} className="group rounded-3xl border border-indigo-100 bg-white p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold">Efficiency</span>
+                        <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-500 text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                          <item.icon className="w-5 h-5" />
+                        </div>
+                      </div>
+
+                      <h4 className="text-lg font-bold text-slate-900 mb-2 leading-snug">{item.title}</h4>
+                      <p className="text-slate-600 text-sm leading-relaxed mb-4">{item.description}</p>
+
+                      <div className="space-y-2.5 mb-4">
+                        {item.outcomes.map((outcome) => (
+                          <div key={outcome} className="flex items-start gap-2.5">
+                            <span className="w-2 h-2 rounded-full bg-indigo-500 mt-1.5 flex-shrink-0" />
+                            <span className="text-sm text-slate-600 leading-relaxed">{outcome}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <span className="inline-flex px-2.5 py-1 rounded-md bg-slate-100 border border-slate-200 text-slate-500 text-xs font-medium">
+                        {item.tag}
+                      </span>
+
+                      <div className="mt-4">
+                        <Link href={`/services/${toSlug(item.title)}`} className="inline-flex items-center text-sm font-semibold text-indigo-700 hover:text-indigo-800">
+                          Learn more
+                          <ArrowRight className="w-4 h-4 ml-1" />
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Container>
+          </Section>
+
           {/* Services Grid */}
-          <Section className="py-16 md:py-20 bg-white">
+          <Section id="service-packages" className="py-16 md:py-20 bg-white scroll-mt-24">
             <Container>
               <div className="text-center mb-12">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-sm font-semibold mb-4">
@@ -337,6 +419,7 @@ const ServicesPage = () => {
                     'Priority support',
                     'Flexible scheduling',
                   ];
+                  const isCustomPricing = typeof service.price === 'string' && service.price.toLowerCase() === 'custom';
 
                   return (
                     <div key={service.id} className={`group relative flex flex-col bg-white rounded-3xl border ${palette.border} shadow-md hover:shadow-2xl transition-all duration-400 hover:-translate-y-2 overflow-hidden`}>
@@ -360,12 +443,18 @@ const ServicesPage = () => {
 
                       {/* Price */}
                       <div className="px-6 py-4 border-b border-gray-100 flex items-baseline gap-1">
-                        <span className="text-gray-400 text-sm">Starting from</span>
-                        <span className={`text-2xl font-extrabold bg-gradient-to-r ${palette.gradient} bg-clip-text text-transparent ml-1`}>
-                          {service.price}
-                        </span>
-                        {service.price && !(typeof service.price === 'string' && service.price.includes('$')) && (
-                          <span className="text-gray-400 text-sm">/mo</span>
+                        {isCustomPricing ? (
+                          <span className="text-base font-semibold text-blue-700">Custom pricing - Talk to team</span>
+                        ) : (
+                          <>
+                            <span className="text-gray-400 text-sm">Starting from</span>
+                            <span className={`text-2xl font-extrabold bg-gradient-to-r ${palette.gradient} bg-clip-text text-transparent ml-1`}>
+                              {service.price}
+                            </span>
+                            {service.price && !(typeof service.price === 'string' && service.price.includes('$')) && (
+                              <span className="text-gray-400 text-sm">/mo</span>
+                            )}
+                          </>
                         )}
                       </div>
 
@@ -392,14 +481,12 @@ const ServicesPage = () => {
                         </Button>
                         <Button
                           variant="outline"
+                          asChild
                           className={`w-full py-4 text-sm font-semibold rounded-xl border ${palette.border} text-gray-600 hover:${palette.light} transition-all duration-200`}
-                          onClick={() => {
-                            setSelectedService(service);
-                            setActiveView('detail');
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                          }}
                         >
-                          View Details
+                          <Link href={`/services/${toSlug(service.title)}`}>
+                            View Details
+                          </Link>
                         </Button>
                       </div>
                     </div>
@@ -431,7 +518,11 @@ const ServicesPage = () => {
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl p-6 sm:p-8 border border-blue-200/50 shadow-lg">
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8">
                     <div className="text-center">
-                      <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600 mb-2">Starting from ${selectedService.price}/month</div>
+                      <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600 mb-2">
+                        {typeof selectedService.price === 'string' && selectedService.price.toLowerCase() === 'custom'
+                          ? 'Talk to team for pricing'
+                          : `Starting from ${selectedService.price}/month`}
+                      </div>
                     </div>
                     <div className="hidden sm:block h-16 w-px bg-gray-300"></div>
                     <div className="text-center">
@@ -462,64 +553,19 @@ const ServicesPage = () => {
                         'from-emerald-500 to-cyan-600'
                       ];
                       const gradient = gradients[selectedService.id - 1] || 'from-gray-500 to-gray-600';
-                      const features = (() => {
-                        switch (selectedService.title) {
-                          case 'Social Media Management':
-                            return [
-                              { icon: Users, title: 'Community Management', desc: '24/7 monitoring and engagement with your audience' },
-                              { icon: BarChart3, title: 'Performance Analytics', desc: 'Detailed monthly reports and insights' },
-                              { icon: TrendingUp, title: 'Growth Optimization', desc: 'Strategic content and posting schedules' },
-                              { icon: Clock, title: 'Content Calendar', desc: 'Monthly content planning and execution' },
-                              { icon: MessageSquare, title: 'Crisis Management', desc: 'Professional handling of negative feedback' },
-                              { icon: Target, title: 'Competitor Analysis', desc: 'Regular competitor monitoring and insights' }
-                            ];
-                          case 'Content Creation':
-                            return [
-                              { icon: Lightbulb, title: 'Creative Strategy', desc: 'Brand-aligned content strategy development' },
-                              { icon: Code, title: 'Graphic Design', desc: 'Professional visuals and graphics creation' },
-                              { icon: MessageSquare, title: 'Copywriting', desc: 'Compelling copy that converts' },
-                              { icon: Target, title: 'Brand Consistency', desc: 'Maintaining brand voice across platforms' },
-                              { icon: Smartphone, title: 'Multi-Format Content', desc: 'Stories, reels, posts, and more' },
-                              { icon: TrendingUp, title: 'Trend Research', desc: 'Staying current with platform trends' }
-                            ];
-                          case 'Social Media Advertising':
-                            return [
-                              { icon: Target, title: 'Audience Targeting', desc: 'Precise demographic and interest targeting' },
-                              { icon: BarChart3, title: 'Campaign Tracking', desc: 'Real-time performance monitoring' },
-                              { icon: TrendingUp, title: 'ROI Optimization', desc: 'Maximizing return on ad spend' },
-                              { icon: Zap, title: 'A/B Testing', desc: 'Creative and audience testing' },
-                              { icon: Users, title: 'Lookalike Audiences', desc: 'Finding similar high-value customers' },
-                              { icon: Clock, title: 'Bid Management', desc: 'Dynamic bidding strategy optimization' }
-                            ];
-                          case 'Web Development':
-                            return [
-                              { icon: Globe, title: 'Responsive Design', desc: 'Perfect display on all devices' },
-                              { icon: Rocket, title: 'Performance Optimization', desc: 'Fast loading and smooth experience' },
-                              { icon: Shield, title: 'SEO Foundation', desc: 'Built for search engine success' },
-                              { icon: Code, title: 'Modern Tech Stack', desc: 'Latest frameworks and technologies' },
-                              { icon: Users, title: 'User Experience', desc: 'Intuitive and engaging interface' },
-                              { icon: Target, title: 'Conversion Focused', desc: 'Designed to drive business results' }
-                            ];
-                          case 'App Development':
-                            return [
-                              { icon: Smartphone, title: 'Cross-Platform', desc: 'iOS, Android, and web compatibility' },
-                              { icon: Code, title: 'Native Performance', desc: 'Optimized for each platform' },
-                              { icon: Lightbulb, title: 'UX/UI Design', desc: 'Beautiful and intuitive interface' },
-                              { icon: Shield, title: 'Security First', desc: 'Enterprise-grade security measures' },
-                              { icon: Rocket, title: 'Scalable Architecture', desc: 'Built to grow with your business' },
-                              { icon: TrendingUp, title: 'App Store Success', desc: 'Optimized for app store approval' }
-                            ];
-                          default:
-                            return [
-                              { icon: CheckCircle, title: 'Professional Service', desc: 'Expert execution and delivery' },
-                              { icon: Users, title: 'Dedicated Team', desc: 'Personal account management' },
-                              { icon: TrendingUp, title: 'Results Driven', desc: 'Focused on measurable outcomes' },
-                              { icon: Award, title: 'Quality Guaranteed', desc: 'High standards and satisfaction' },
-                              { icon: Clock, title: 'Timely Delivery', desc: 'On-time project completion' },
-                              { icon: Target, title: 'Strategic Approach', desc: 'Data-informed decision making' }
-                            ];
-                        }
-                      })();
+                      const featureIcons = [Target, TrendingUp, Users, BrainCircuit, Shield, Rocket];
+                      const features = (selectedService.features && selectedService.features.length > 0
+                        ? selectedService.features
+                        : [
+                            'Custom scope planning and implementation roadmap',
+                            'Structured operating model with measurable milestones',
+                            'Execution support and optimization checkpoints',
+                          ]
+                      ).map((feature: string, index: number) => ({
+                        icon: featureIcons[index % featureIcons.length],
+                        title: `Key Capability ${index + 1}`,
+                        desc: feature,
+                      }));
 
                       return features.map((feature, index) => (
                         <div key={index} className="flex items-start space-x-4 p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
@@ -834,133 +880,6 @@ const ServicesPage = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* Instagram Showcase Section */}
-      <Section className="py-20 bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
-        <Container>
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 text-sm font-semibold mb-6 border border-pink-200/50">
-              <span className="text-lg mr-2">📸</span>
-              Instagram Excellence
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Instagram Marketing Mastery
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Transform your Instagram presence with our proven strategies for growth, engagement, and conversion.
-            </p>
-          </div>
-
-          {/* Instagram Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-            {[
-              { number: "2.5M+", label: "Followers Gained", icon: "👥" },
-              { number: "85%", label: "Engagement Boost", icon: "❤️" },
-              { number: "500K+", label: "Stories Views", icon: "👁️" },
-              { number: "95%", label: "Client Satisfaction", icon: "⭐" }
-            ].map((stat, index) => (
-              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-center">
-                <div className="text-3xl mb-2">{stat.icon}</div>
-                <div className="text-2xl md:text-3xl font-bold text-pink-600 mb-2">{stat.number}</div>
-                <div className="text-gray-600 font-medium text-sm">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Instagram Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {[
-              {
-                service: 'Content Strategy',
-                icon: '🎯',
-                title: 'Strategic Content Planning',
-                description: 'Data-driven content calendars that align with your brand and maximize audience engagement.',
-                features: ['Audience Analysis', 'Content Calendar', 'Brand Alignment', 'Performance Tracking']
-              },
-              {
-                service: 'Visual Design',
-                icon: '🎨',
-                title: 'Stunning Visual Content',
-                description: 'Eye-catching graphics, stories, and reels that stop the scroll and drive interaction.',
-                features: ['Custom Graphics', 'Story Design', 'Reel Production', 'Brand Aesthetics']
-              },
-              {
-                service: 'Growth Hacking',
-                icon: '🚀',
-                title: 'Accelerated Growth',
-                description: 'Proven tactics to rapidly increase followers, engagement, and reach organically.',
-                features: ['Hashtag Strategy', 'Engagement Tactics', 'Influencer Partnerships', 'Algorithm Optimization']
-              }
-            ].map((item, index) => (
-              <div key={item.service} className="group relative" style={{ animationDelay: `${index * 0.2}s` }}>
-                <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 to-purple-500 rounded-3xl blur-xl opacity-10 group-hover:opacity-20 transition-opacity duration-500"></div>
-                <div className="relative bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 overflow-hidden">
-                  {/* Header */}
-                  <div className="bg-gradient-to-r from-pink-500 to-purple-500 p-6 text-white text-center">
-                    <div className="text-4xl mb-3">{item.icon}</div>
-                    <h3 className="text-xl font-bold">{item.title}</h3>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6">
-                    <p className="text-gray-600 mb-6 leading-relaxed">{item.description}</p>
-
-                    {/* Features */}
-                    <div className="space-y-3 mb-6">
-                      {item.features.map((feature, featureIndex) => (
-                        <div key={featureIndex} className="flex items-center space-x-3">
-                          <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
-                          <span className="text-gray-700 text-sm">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* CTA */}
-                    <Link href="/contact?service=instagram">
-                      <Button
-                        className="w-full py-3 text-sm font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-pink-500 to-purple-500 text-white border-0 shadow-lg hover:shadow-xl"
-                      >
-                        Get Instagram Strategy
-                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Instagram CTA */}
-          <div className="text-center">
-            <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-3xl p-8 border border-pink-200/50 max-w-4xl mx-auto">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Dominate Instagram?</h3>
-              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                Join hundreds of brands that have transformed their Instagram presence with our expert strategies and creative content.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch sm:items-center w-full max-w-xl mx-auto sm:max-w-none">
-                <Link href="/contact?service=instagram" className="w-full sm:w-auto">
-                  <Button
-                    size="lg"
-                    className="w-full sm:w-auto bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-8 py-4 text-base sm:text-lg font-semibold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-1"
-                  >
-                    Start Instagram Growth
-                    <ArrowRight className="ml-3 h-5 w-5" />
-                  </Button>
-                </Link>
-                <Link href="/portfolio" className="w-full sm:w-auto">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="w-full sm:w-auto border-pink-300 text-pink-700 hover:bg-pink-50 px-8 py-4 text-base sm:text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1"
-                  >
-                    View Instagram Portfolio
-                  </Button>
-                </Link>
-              </div>
-            </div>
           </div>
         </Container>
       </Section>

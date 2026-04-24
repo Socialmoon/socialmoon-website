@@ -19,146 +19,106 @@ const db = getFirestore(app);
 const sampleServices = [
   {
     id: 1,
-    title: "Social Media Strategy & Consulting",
-    icon: "Strategy",
-    description: "Comprehensive social media strategy development tailored to your business goals. We analyze your market, competitors, and audience to create a winning roadmap.",
+    title: "Content & Social Growth System",
+    icon: "Growth",
+    description: "A consistent content engine that builds your audience and keeps your brand visible without manual chaos.",
     features: [
-      "Complete competitor analysis",
-      "Target audience research & personas",
-      "Platform selection & optimization",
-      "Content calendar planning",
-      "KPI setting & performance tracking",
-      "Monthly strategy reviews"
+      "Consistent multi-platform presence without burning team time",
+      "Content designed for the right audience, not vanity followers",
+      "A repeatable process your team can run or fully outsource"
     ],
-    price: "$10/month",
-    popular: false
+    price: "Custom",
+    popular: true
   },
   {
     id: 2,
-    title: "Content Creation & Management",
-    icon: "Content",
-    description: "High-quality, engaging content that resonates with your audience. From graphics to videos, we create content that drives engagement and conversions.",
+    title: "Lead Generation System",
+    icon: "Growth",
+    description: "A targeted outreach and nurture flow that creates a predictable pipeline without relying on ads alone.",
     features: [
-      "Professional photography & videography",
-      "Graphic design & animations",
-      "Copywriting & storytelling",
-      "Video editing & post-production",
-      "Content scheduling & posting",
-      "Hashtag research & optimization"
+      "Steady flow of warm and qualified leads each month",
+      "Shorter sales cycles with better-prepared prospects",
+      "Clear attribution so you know exactly where leads come from"
     ],
-    price: "$20/month",
+    price: "Custom",
     popular: true
   },
   {
     id: 3,
-    title: "Instagram Growth & Management",
-    icon: "Instagram",
-    description: "Explosive Instagram growth through proven strategies. We manage your entire Instagram presence to maximize reach, engagement, and follower growth.",
+    title: "Personal Brand System",
+    icon: "Growth",
+    description: "A LinkedIn-first system that turns founder visibility into trust, inbound demand, and deals.",
     features: [
-      "Daily posting & story management",
-      "Reels & video content creation",
-      "Community engagement & DM management",
-      "Profile optimization",
-      "Growth analytics & reporting",
-      "Instagram Shopping setup"
+      "Founder profile becomes a sales asset that works daily",
+      "Category authority that shortens sales conversations",
+      "Inbound opportunities from the right people in your market"
     ],
-    price: "$15/month",
-    popular: true
+    price: "Custom",
+    popular: false
   },
   {
     id: 4,
-    title: "Influencer Marketing Campaigns",
-    icon: "Users",
-    description: "Connect with the right influencers to amplify your brand. We manage everything from discovery to campaign execution and ROI tracking.",
+    title: "OpsFlow AI",
+    icon: "Efficiency",
+    description: "We audit expensive manual workflows and automate high-impact operations so teams focus on meaningful work.",
     features: [
-      "Influencer discovery & vetting",
-      "Contract negotiation",
-      "Campaign strategy & briefing",
-      "Content approval & management",
-      "Performance tracking & reporting",
-      "Long-term partnership building"
+      "Reduce repetitive manual work by 40-70%",
+      "Lower operational cost without abrupt team disruption",
+      "Faster execution across sales, support, onboarding, and ops"
     ],
-    price: "$20/campaign",
+    price: "Custom",
     popular: false
   },
   {
     id: 5,
-    title: "Paid Social Advertising",
-    icon: "TrendingUp",
-    description: "Data-driven paid advertising campaigns that deliver results. We create, manage, and optimize ads across all major social platforms.",
+    title: "WorkflowOS",
+    icon: "Efficiency",
+    description: "We replace scattered docs, sheets, and handoffs with one structured operating system your team can trust.",
     features: [
-      "Campaign strategy & planning",
-      "Ad creative design & copywriting",
-      "Audience targeting & segmentation",
-      "A/B testing & optimization",
-      "Budget management & allocation",
-      "Detailed ROI reporting"
+      "Replace 5-10 fragmented workflows with one clean system",
+      "Less coordination overhead and more execution time",
+      "Reduced handoff errors and stronger process accountability"
     ],
-    price: "$20/month",
-    popular: true
+    price: "Custom",
+    popular: false
   },
   {
     id: 6,
-    title: "TikTok Marketing & Viral Growth",
-    icon: "Video",
-    description: "Tap into TikTok's massive potential with viral-worthy content. We create trends, not follow them, to make your brand a TikTok sensation.",
+    title: "CloudTrim",
+    icon: "Efficiency",
+    description: "We optimize cloud spending and architecture so you pay for what you use and scale without infrastructure panic.",
     features: [
-      "Trend analysis & participation",
-      "Viral video creation",
-      "TikTok ads management",
-      "Hashtag challenge campaigns",
-      "Creator partnerships",
-      "Analytics & growth tracking"
+      "Cut cloud cost by 40-60% with low migration risk",
+      "Infrastructure prepared for 5x scale growth",
+      "Clear documented setup that is not person-dependent"
     ],
-    price: "$15/month",
+    price: "Custom",
     popular: false
   },
   {
     id: 7,
-    title: "LinkedIn B2B Marketing",
-    icon: "Briefcase",
-    description: "Professional LinkedIn strategies that generate leads and establish thought leadership. Perfect for B2B companies and executives.",
+    title: "QueryBoost",
+    icon: "Efficiency",
+    description: "We remove data-layer bottlenecks and improve database performance to speed up app and API response times.",
     features: [
-      "Profile & company page optimization",
-      "Thought leadership content",
-      "LinkedIn articles & posts",
-      "Lead generation campaigns",
-      "Employee advocacy programs",
-      "LinkedIn Ads management"
+      "5-10x faster load time and API performance",
+      "Database readiness for 3-5x current traffic",
+      "Fewer production slowdowns and firefighting cycles"
     ],
-    price: "$20/month",
+    price: "Custom",
     popular: false
   },
   {
     id: 8,
-    title: "Community Management",
-    icon: "MessageCircle",
-    description: "Build and nurture a loyal community around your brand. We handle all customer interactions to keep your audience engaged and satisfied.",
+    title: "SmartLayer AI",
+    icon: "Efficiency",
+    description: "We identify high-impact AI opportunities, build testable prototypes, and deliver a fast shipping roadmap.",
     features: [
-      "24/7 comment & DM monitoring",
-      "Crisis management & response",
-      "User-generated content campaigns",
-      "Community building strategies",
-      "Sentiment analysis",
-      "Monthly community reports"
+      "Clarity on AI features that actually move product metrics",
+      "Working proofs you can test with real users quickly",
+      "Cut AI feature timeline from months to weeks"
     ],
-    price: "$10/month",
-    popular: false
-  },
-  {
-    id: 9,
-    title: "Analytics & Reporting",
-    icon: "BarChart",
-    description: "In-depth analytics and actionable insights to optimize your social media performance. Make data-driven decisions with confidence.",
-    features: [
-      "Custom dashboard setup",
-      "Weekly & monthly reports",
-      "Competitive benchmarking",
-      "ROI tracking & attribution",
-      "Audience insights analysis",
-      "Strategic recommendations"
-    ],
-    price: "$10/month",
+    price: "Custom",
     popular: false
   }
 ];
@@ -169,8 +129,8 @@ async function addServices() {
 
     const servicesRef = doc(db, 'services', 'main');
     await setDoc(servicesRef, {
-      title: 'Our Services',
-      description: 'Comprehensive social media marketing solutions to grow your brand',
+      title: 'Growth & Efficiency Systems',
+      description: 'Structured systems to improve growth velocity and operational efficiency',
       services: sampleServices
     });
 
