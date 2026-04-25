@@ -1,5 +1,5 @@
 const DEFAULT_SITE_URL = process.env.NODE_ENV === 'production'
-  ? 'https://socialmoon.com'
+  ? 'https://socialmoon.in'
   : 'http://localhost:3000';
 
 const normalizeSiteUrl = (value: string) => {
