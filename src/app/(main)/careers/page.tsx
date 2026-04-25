@@ -141,7 +141,7 @@ export default function CareersPage() {
             <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3">Don't see the right role?</h2>
             <p className="text-gray-500 mb-6">We're always interested in sharp people. Send us your resume and tell us how you'd contribute.</p>
             <a
-              href="mailto:socialmoon.in@gmail.com?subject=Open Application — SocialMoon"
+              href="mailto:contact@socialmoon.in?subject=Open Application — SocialMoon"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-500 transition-all"
             >
               Send Open Application <ArrowRight className="w-4 h-4" />

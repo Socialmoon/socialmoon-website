@@ -12,7 +12,7 @@ export async function GET() {
       { 
         title: 'Contact Us',
         contactInfo: {
-          email: 'socialmoon.in@gmail.com',
+          email: 'contact@socialmoon.in',
           phone: '+1 234 567 890',
           address: '123 Social Moon Street, Moon City, 12345'
         },

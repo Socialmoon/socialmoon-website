@@ -1,39 +1,63 @@
 'use client';
 
-import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import { Hero } from '@/components/common/Hero';
 import {
-  Award,
-  Target,
-  Star,
-  Users,
-  ArrowRight,
-  CheckCircle,
-  Play,
+  ArrowRight, Target, Star, Users, Play,
+  Award, CheckCircle, Instagram,
 } from 'lucide-react';
 import { PORTFOLIO_CONTENT } from '@/lib/config/portfolio-catalog';
-import { PortfolioClient } from './PortfolioClient';
-import { CategoryProjectsSection } from './CategoryProjectsSection';
-import { PlatformExpertiseSection } from './PlatformExpertiseSection';
-import { InstagramProjectsSection } from './InstagramProjectsSection';
 
-const PortfolioPage = () => {
-  const content = PORTFOLIO_CONTENT;
+const CATEGORIES = [
+  { label: 'All Work', value: 'All', color: 'from-blue-500 to-indigo-600' },
+  { label: 'Full-Scope', value: 'Full-Scope Build', color: 'from-violet-600 to-purple-700' },
+  { label: 'Social Media', value: 'Social Media Marketing', color: 'from-pink-500 to-rose-600' },
+  { label: 'LinkedIn B2B', value: 'LinkedIn B2B Marketing', color: 'from-blue-600 to-cyan-500' },
+  { label: 'Content', value: 'Content Creation', color: 'from-purple-500 to-violet-600' },
+  { label: 'Field Ops', value: 'Field Operations', color: 'from-orange-500 to-amber-500' },
+  { label: 'Data Ops', value: 'Data Operations', color: 'from-teal-500 to-green-500' },
+  { label: 'Paid Ads', value: 'Paid Ads', color: 'from-rose-500 to-pink-600' },
+  { label: 'Brand Identity', value: 'Brand Identity', color: 'from-amber-500 to-orange-500' },
+];
+
+
+
+const PALETTE: Record<string, { gradient: string; light: string; border: string; text: string }> = {
+  'Full-Scope Build':       { gradient: 'from-violet-600 to-purple-700', light: 'bg-violet-50', border: 'border-violet-200', text: 'text-violet-700' },
+  'Social Media Marketing': { gradient: 'from-pink-500 to-rose-600',    light: 'bg-pink-50',   border: 'border-pink-100',   text: 'text-pink-600' },
+  'LinkedIn B2B Marketing': { gradient: 'from-blue-600 to-cyan-500',    light: 'bg-blue-50',   border: 'border-blue-100',   text: 'text-blue-600' },
+  'Content Creation':       { gradient: 'from-purple-500 to-violet-600',light: 'bg-purple-50', border: 'border-purple-100', text: 'text-purple-600' },
+  'Paid Ads':               { gradient: 'from-rose-500 to-pink-600',    light: 'bg-rose-50',   border: 'border-rose-100',   text: 'text-rose-600' },
+  'Brand Identity':         { gradient: 'from-amber-500 to-orange-500', light: 'bg-amber-50',  border: 'border-amber-100',  text: 'text-amber-600' },
+  'Field Operations':       { gradient: 'from-orange-500 to-amber-500', light: 'bg-orange-50', border: 'border-orange-100', text: 'text-orange-600' },
+  'Data Operations':        { gradient: 'from-teal-500 to-green-500',   light: 'bg-teal-50',   border: 'border-teal-100',   text: 'text-teal-600' },
+};
+const defaultPalette = { gradient: 'from-blue-500 to-indigo-600', light: 'bg-blue-50', border: 'border-blue-100', text: 'text-blue-600' };
+
+export default function PortfolioPage() {
+  const projects = PORTFOLIO_CONTENT.projects || [];
+  const searchParams = useSearchParams();
+  const [activeCategory, setActiveCategory] = useState('All');
+
+  useEffect(() => {
+    const cat = searchParams.get('category');
+    if (cat) setActiveCategory(cat);
+  }, [searchParams]);
+
+  const filtered = activeCategory === 'All' ? projects : projects.filter(p => p.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
-      {/* Hero Section */}
+    <div className="min-h-screen bg-white">
+
+      {/* ── Hero (original) ── */}
       <Hero className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50/40 pt-16 pb-0 md:pt-20 md:pb-0">
-        {/* Soft dot grid */}
         <div className="absolute inset-0 opacity-[0.4]" style={{ backgroundImage: 'radial-gradient(circle, #cbd5e1 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
-        {/* Color blobs */}
         <div className="absolute -top-24 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-blue-100/80 via-violet-100/40 to-transparent rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-indigo-100/50 rounded-full blur-3xl pointer-events-none" />
-        {/* Fade to white */}
         <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none" />
 
         <Container className="relative z-10 pb-20">
@@ -115,121 +139,171 @@ const PortfolioPage = () => {
         </Container>
       </Hero>
 
-      {/* Projects by Category Section */}
-      <CategoryProjectsSection projects={content.projects || []} />
-
-      {/* Platform Expertise Section */}
-      <PlatformExpertiseSection />
-
-      {/* Instagram Portfolio Section */}
-      <Section className="py-20 bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
+      {/* ── Sticky Quick Nav ── */}
+      <div className="bg-white border-b border-gray-100 sticky top-16 z-30">
         <Container>
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 text-sm font-semibold mb-6 border border-pink-200/50">
-              <span className="text-lg mr-2">📸</span>
-              Instagram Portfolio
+          <div className="flex items-center gap-1 py-3 overflow-x-auto scrollbar-hide">
+            {[
+              { href: '#portfolio-grid', label: 'All Projects' },
+              { href: '#instagram', label: 'Instagram' },
+              { href: '#results', label: 'Results' },
+            ].map(item => (
+              <a key={item.href} href={item.href} className="flex-shrink-0 px-4 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:text-blue-700 hover:bg-blue-50 transition-all">
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </Container>
+      </div>
+
+      {/* ── Projects Grid ── */}
+      <Section id="portfolio-grid" className="py-16 bg-gray-50 scroll-mt-28">
+        <Container>
+          <div className="mb-10">
+            <p className="text-xs font-bold tracking-widest text-blue-600 uppercase mb-2">Section 01</p>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">Explore Our Projects</h2>
+              <p className="text-slate-600 md:max-w-md">Browse real campaigns across every category — filtered by what matters to you.</p>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Instagram Success Stories
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Explore our Instagram marketing campaigns that have delivered exceptional results for brands across industries.
-            </p>
           </div>
 
-          {/* Instagram Projects Showcase - Phone Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {content.projects
-              ?.filter((project: any) => project.category === 'Social Media Marketing' || project.category === 'Content Creation')
-              .slice(0, 6) // Show first 6 Instagram projects
+          {/* Category Filter */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat.value}
+                onClick={() => setActiveCategory(cat.value)}
+                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                  activeCategory === cat.value
+                    ? `bg-gradient-to-r ${cat.color} text-white shadow-md`
+                    : 'bg-white border border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+            {filtered.map((project) => {
+              const p = PALETTE[project.category] || defaultPalette;
+              const isFlagship = project.category === 'Full-Scope Build';
+              return (
+                <Link key={project.slug} href={`/portfolio/${project.slug}`} className={isFlagship ? 'md:col-span-2 xl:col-span-3' : ''}>
+                  <div className={`group flex ${ isFlagship ? 'flex-col md:flex-row' : 'flex-col' } bg-white rounded-2xl border ${p.border} shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden h-full`}>
+                    {/* Thumbnail */}
+                    <div className={`relative ${ isFlagship ? 'md:w-2/5 h-56 md:h-auto' : 'h-48' } ${p.light} overflow-hidden flex-shrink-0`}>
+                      {project.image ? (
+                        <img src={project.image} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Target className={`w-10 h-10 ${p.text} opacity-30`} />
+                        </div>
+                      )}
+                      {project.badge && (
+                        <span className={`absolute top-3 left-3 px-3 py-1 rounded-full bg-gradient-to-r ${p.gradient} text-white text-xs font-bold shadow-md`}>
+                          {project.badge}
+                        </span>
+                      )}
+                      {!project.badge && (
+                        <span className={`absolute top-3 left-3 px-2.5 py-1 rounded-full ${p.light} ${p.text} text-xs font-bold border ${p.border}`}>
+                          {project.category}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Body */}
+                    <div className={`p-5 border-t ${isFlagship ? 'md:border-t-0 md:border-l' : ''} ${p.border} flex-grow flex flex-col`}>
+                      <p className={`text-xs font-bold ${p.text} mb-1`}>{project.client}</p>
+                      <h4 className="text-gray-900 font-bold text-base mb-2 group-hover:text-blue-600 transition-colors leading-snug">{project.title}</h4>
+                      <p className="text-gray-500 text-sm line-clamp-2 mb-4 flex-grow">{project.description}</p>
+                      {isFlagship && project.deliverables && (
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {project.deliverables.slice(0, 5).map((d, i) => (
+                            <span key={i} className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${p.light} ${p.text} border ${p.border}`}>{d}</span>
+                          ))}
+                          {project.deliverables.length > 5 && (
+                            <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-gray-100 text-gray-500">+{project.deliverables.length - 5} more</span>
+                          )}
+                        </div>
+                      )}
+                      <div className="flex items-center justify-between mt-auto">
+                        <span className="text-green-600 text-xs font-semibold">
+                          {Array.isArray(project.results) ? project.results[0] : project.results}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-gray-400 group-hover:text-blue-600 transition-colors">
+                          View case <ArrowRight className="w-3 h-3" />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          {filtered.length === 0 && (
+            <div className="text-center py-16">
+              <p className="text-gray-400">No projects in this category yet.</p>
+            </div>
+          )}
+        </Container>
+      </Section>
+
+      {/* ── Instagram Showcase ── */}
+      <Section id="instagram" className="py-16 bg-white scroll-mt-28">
+        <Container>
+          <div className="mb-10">
+            <p className="text-xs font-bold tracking-widest text-pink-600 uppercase mb-2">Section 02</p>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">Instagram Success Stories</h2>
+              <p className="text-slate-600 md:max-w-md">Campaigns that delivered exceptional results for brands across industries.</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {(PORTFOLIO_CONTENT.projects || [])
+              .filter((p: any) => p.category === 'Social Media Marketing' || p.category === 'Content Creation')
+              .slice(0, 6)
               .map((project: any) => (
                 <Link key={project.slug} href={`/portfolio/${project.slug}`}>
-                  <div className="group cursor-pointer h-full flex justify-center">
-                    {/* Phone Frame Container */}
+                  <div className="group cursor-pointer flex justify-center">
                     <div className="relative">
-                      {/* Phone Frame - Clean White Design */}
-                      <div className="w-64 h-[32rem] bg-white rounded-[2.5rem] p-2 shadow-2xl border border-gray-200 relative overflow-hidden">
-                        {/* Subtle Frame Effect */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 via-transparent to-gray-100/30 rounded-[2.5rem]"></div>
-
-                        {/* Side Buttons */}
-                        <div className="absolute left-0 top-24 w-1 h-12 bg-gray-400 rounded-r-md"></div>
-                        <div className="absolute left-0 top-40 w-1 h-8 bg-gray-400 rounded-r-md"></div>
-                        <div className="absolute right-0 top-32 w-1 h-16 bg-gray-400 rounded-l-md"></div>
-
-                        {/* Camera Module */}
-                        <div className="absolute top-8 right-8 w-16 h-16 bg-gray-200 rounded-2xl border border-gray-300">
-                          <div className="absolute top-2 left-2 w-6 h-6 bg-gray-300 rounded-full border-2 border-gray-400"></div>
-                          <div className="absolute top-2 right-2 w-4 h-4 bg-gray-400 rounded-full"></div>
-                          <div className="absolute bottom-2 left-2 w-3 h-3 bg-gray-500 rounded-full"></div>
-                          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-yellow-400 rounded-full"></div>
-                        </div>
-
-                        {/* Phone Screen */}
-                        <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden relative border border-gray-200">
-                          {/* Screen Reflection */}
-                          <div className="absolute inset-0 bg-gradient-to-br from-gray-50/30 via-transparent to-transparent rounded-[2rem]"></div>
-
-                          {/* Notch */}
-                          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-white rounded-b-xl z-20 border-x border-gray-200"></div>
-
-                          {/* Content Area */}
+                      {/* Phone frame */}
+                      <div className="w-60 h-[30rem] bg-white rounded-[2.5rem] p-2 shadow-2xl border border-gray-200 relative overflow-hidden">
+                        <div className="absolute left-0 top-24 w-1 h-10 bg-gray-300 rounded-r-md" />
+                        <div className="absolute left-0 top-38 w-1 h-7 bg-gray-300 rounded-r-md" />
+                        <div className="absolute right-0 top-32 w-1 h-14 bg-gray-300 rounded-l-md" />
+                        <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden relative border border-gray-100">
+                          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-white rounded-b-xl z-20 border-x border-gray-100" />
                           <div className="relative h-full overflow-hidden">
-                            {/* Video Preview */}
-                            {project.videoUrl && (
-                              <video
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                muted
-                                loop
-                                playsInline
-                                autoPlay
-                              >
+                            {project.videoUrl ? (
+                              <video className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" muted loop playsInline autoPlay>
                                 <source src={project.videoUrl} type="video/mp4" />
                               </video>
+                            ) : project.image ? (
+                              <img src={project.image} alt={project.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                            ) : (
+                              <div className="w-full h-full bg-gradient-to-br from-pink-50 to-purple-100 flex items-center justify-center">
+                                <Instagram className="w-10 h-10 text-pink-300" />
+                              </div>
                             )}
-
-                            {/* Fallback Image */}
-                            {(!project.videoUrl && project.image) && (
-                              <img
-                                src={project.image}
-                                alt={project.title}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                              />
-                            )}
-
-                            {/* Instagram-style Overlay */}
+                            {/* Hover overlay */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                               <div className="absolute bottom-0 left-0 right-0 p-4">
-                                <div className="flex items-center justify-between mb-2">
-                                  <div className="flex items-center space-x-2">
-                                    <div className="w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center shadow-lg">
-                                      <span className="text-white text-xs">📸</span>
-                                    </div>
-                                    <span className="text-white font-semibold text-xs">{project.client}</span>
-                                  </div>
-                                  <div className="text-white/80 text-xs">
-                                    ❤️ {Array.isArray(project.results) 
-                                      ? project.results[0]?.split(' ').slice(0, 2).join(' ')
-                                      : project.results?.split(' ').slice(0, 2).join(' ')}
-                                  </div>
-                                </div>
-
+                                <p className="text-xs font-bold text-pink-400 mb-1">{project.client}</p>
                                 <h4 className="text-white font-bold text-sm mb-1">{project.title}</h4>
-                                <p className="text-gray-200 text-xs line-clamp-2">{project.description}</p>
-
-                                <div className="flex items-center justify-between mt-2">
-                                  <div className="flex items-center space-x-1">
-                                    <span className="text-pink-400 text-xs">#{project.category.replace(' ', '').toLowerCase()}</span>
-                                  </div>
-                                  <div className="text-white/60 text-xs">{project.duration}</div>
+                                <p className="text-gray-300 text-xs line-clamp-2">{project.description}</p>
+                                <div className="mt-2 flex items-center gap-1 text-green-400 text-xs font-semibold">
+                                  <CheckCircle className="w-3 h-3" />
+                                  {Array.isArray(project.results) ? project.results[0] : project.results}
                                 </div>
                               </div>
                             </div>
-
-                            {/* Play Button for Videos */}
                             {project.videoUrl && (
                               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <div className="bg-pink-500/90 backdrop-blur-sm rounded-full p-3 border border-white/40 shadow-lg">
+                                <div className="bg-pink-500/90 backdrop-blur-sm rounded-full p-3 border border-white/40">
                                   <Play className="w-4 h-4 text-white ml-0.5" fill="white" />
                                 </div>
                               </div>
@@ -237,67 +311,58 @@ const PortfolioPage = () => {
                           </div>
                         </div>
                       </div>
-
-                      {/* Clean Phone Stand */}
-                      <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-20 h-3 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 rounded-full opacity-60 shadow-lg"></div>
-                      <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-gray-400 rounded-full opacity-40"></div>
+                      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-16 h-2 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 rounded-full opacity-50" />
                     </div>
                   </div>
                 </Link>
               ))}
           </div>
-
         </Container>
       </Section>
 
+      {/* ── Results Strip ── */}
+      <Section id="results" className="py-16 bg-gray-50 scroll-mt-28">
+        <Container>
+          <div className="text-center mb-10">
+            <p className="text-xs font-bold uppercase tracking-widest text-green-600 mb-2">Results</p>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900">Real impact, real numbers</h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { stat: '+180%', label: 'Avg. follower growth', color: 'from-pink-500 to-rose-600' },
+              { stat: '3x', label: 'Inbound demo requests', color: 'from-blue-500 to-indigo-600' },
+              { stat: '500K+', label: 'Organic reach per campaign', color: 'from-purple-500 to-violet-600' },
+              { stat: '98%', label: 'Client retention rate', color: 'from-emerald-500 to-teal-600' },
+            ].map((item) => (
+              <div key={item.label} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 text-center hover:shadow-lg transition-all">
+                <div className={`text-2xl md:text-3xl font-extrabold bg-gradient-to-r ${item.color} bg-clip-text text-transparent mb-1`}>{item.stat}</div>
+                <p className="text-gray-500 text-xs leading-relaxed">{item.label}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
 
-      {/* Success Story CTA Section */}
-      <Section className="py-32 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-64 h-64 bg-blue-100/60 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-80 h-80 bg-purple-100/60 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-indigo-200/30 to-purple-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
-        </div>
-
-        <Container className="relative z-10">
-          <div className="text-center max-w-5xl mx-auto">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-sm font-semibold mb-8 border border-indigo-200/50">
-              <Star className="w-4 h-4 mr-2" />
-              Ready to Get Started?
+      {/* ── CTA ── */}
+      <Section className="py-16 bg-slate-900">
+        <Container>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">Ready to build your next campaign?</h2>
+              <p className="text-slate-400">Let's scope what's right for your business — no fluff, just results.</p>
             </div>
-
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
-              Let's Start a
-              <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Conversation
-              </span>
-            </h2>
-
-            <p className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed max-w-4xl mx-auto">
-              Start with our professional services and see the difference expert management can make. Choose the package that fits your needs and let's get started today.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Link href="/contact">
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-6 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 border-0 focus:outline-none focus:ring-4 focus:ring-blue-500/50 active:scale-95">
-                  Book Free Consultation
-                  <ArrowRight className="ml-4 h-6 w-6 transition-transform hover:scale-110" />
-                </Button>
+            <div className="flex gap-3 flex-shrink-0">
+              <Link href="/contact" className="px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-500 transition-all">
+                Book a call
               </Link>
-
-              <Link href="/services">
-                <Button size="lg" variant="outline" className="border-2 border-indigo-300 text-indigo-700 hover:bg-indigo-50 px-12 py-6 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-indigo-300/50 active:scale-95">
-                  View Our Services
-                  <Target className="ml-4 h-6 w-6 transition-transform hover:rotate-12" />
-                </Button>
+              <Link href="/solutions" className="px-6 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-semibold hover:bg-white/20 transition-all">
+                View Solutions
               </Link>
             </div>
           </div>
         </Container>
       </Section>
+
     </div>
   );
-};
-
-export default PortfolioPage;
+}

@@ -7,7 +7,7 @@ import { useState, useRef, useEffect } from 'react';
 import {
   Sparkles, ChevronDown, TrendingUp, Target, Users, BrainCircuit,
   Shield, Rocket, Code, BarChart3, Award, BookOpen, Briefcase,
-  Globe, ArrowRight, Zap, ExternalLink
+  Globe, ArrowRight, Zap, ExternalLink, Instagram, Play, Star
 } from 'lucide-react';
 
 const SOLUTIONS = [
@@ -41,7 +41,16 @@ const COMPANY = [
   { title: 'Careers', desc: 'Join our growing team', icon: Briefcase, href: '/careers' },
 ];
 
-type DropdownKey = 'solutions' | 'company' | null;
+const PORTFOLIO_CATEGORIES = [
+  { title: 'OnHour — Full-Scope Build', desc: 'App, brand, marketing & field ops', icon: Rocket, slug: 'Full-Scope Build' },
+  { title: 'Social Media Marketing', desc: 'Instagram, Facebook & more', icon: Instagram, slug: 'Social Media Marketing' },
+  { title: 'LinkedIn B2B Marketing', desc: 'Founder authority & lead gen', icon: Target, slug: 'LinkedIn B2B Marketing' },
+  { title: 'Content Creation', desc: 'Reels, carousels & copy', icon: Play, slug: 'Content Creation' },
+  { title: 'Field Operations', desc: 'Ground activation & onboarding', icon: Users, slug: 'Field Operations' },
+  { title: 'Data Operations', desc: 'Annotation & dataset services', icon: BarChart3, slug: 'Data Operations' },
+];
+
+type DropdownKey = 'solutions' | 'company' | 'portfolio' | null;
 
 export default function Header() {
   const pathname = usePathname();
@@ -91,9 +100,17 @@ export default function Header() {
               </button>
             </div>
 
-            <Link href="/portfolio" className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${isActive(['/portfolio']) ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}>
-              Portfolio
-            </Link>
+            {/* Portfolio Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => handleMouseEnter('portfolio')}
+              onMouseLeave={handleMouseLeave}
+            >
+              <button className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${isActive(['/portfolio']) ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}>
+                Portfolio
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${open === 'portfolio' ? 'rotate-180' : ''}`} />
+              </button>
+            </div>
 
             {/* Company Dropdown */}
             <div
@@ -147,6 +164,46 @@ export default function Header() {
             onMouseLeave={handleMouseLeave}
           >
             <div className="max-w-7xl mx-auto px-6 py-8 overflow-y-auto" style={{ maxHeight: '50vh' }}>
+
+              {open === 'portfolio' && (
+                <div className="grid grid-cols-12 gap-8">
+                  {/* Left promo */}
+                  <div className="col-span-3 bg-gradient-to-br from-pink-600 to-purple-700 rounded-2xl p-6 text-white flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
+                        <Award className="w-4 h-4 text-pink-200" />
+                        <span className="text-pink-200 text-xs font-bold uppercase tracking-wider">Our Work</span>
+                      </div>
+                      <h3 className="text-lg font-bold mb-2 leading-snug">500+ Projects Delivered</h3>
+                      <p className="text-pink-100 text-sm leading-relaxed">Real campaigns. Measurable results. Browse by category or see everything.</p>
+                    </div>
+                    <Link href="/portfolio" className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-pink-200 hover:text-white transition-colors" onClick={() => setOpen(null)}>
+                      View all work <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+
+                  {/* Categories */}
+                  <div className="col-span-9 grid grid-cols-2 gap-2 content-start">
+                    <p className="col-span-2 text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">Browse by Category</p>
+                    {PORTFOLIO_CATEGORIES.map((item) => (
+                      <Link
+                        key={item.slug}
+                        href={`/portfolio?category=${encodeURIComponent(item.slug)}`}
+                        onClick={() => setOpen(null)}
+                        className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition-all group/item"
+                      >
+                        <div className="w-9 h-9 rounded-xl bg-pink-50 flex items-center justify-center flex-shrink-0 group-hover/item:bg-pink-100 text-pink-600 transition-colors">
+                          <item.icon className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-semibold text-gray-900">{item.title}</div>
+                          <div className="text-xs text-gray-500">{item.desc}</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {open === 'solutions' && (
                 <div className="grid grid-cols-12 gap-8">
@@ -288,7 +345,29 @@ export default function Header() {
               )}
             </div>
 
-            <Link href="/portfolio" className="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-gray-50" onClick={() => setMobileOpen(false)}>Portfolio</Link>
+            {/* Portfolio mobile */}
+            <div>
+              <button
+                className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-gray-50"
+                onClick={() => setMobileSection(mobileSection === 'portfolio' ? null : 'portfolio')}
+              >
+                Portfolio
+                <ChevronDown className={`w-4 h-4 transition-transform ${mobileSection === 'portfolio' ? 'rotate-180' : ''}`} />
+              </button>
+              {mobileSection === 'portfolio' && (
+                <div className="ml-4 mt-1 space-y-1">
+                  {PORTFOLIO_CATEGORIES.map(item => (
+                    <Link key={item.slug} href={`/portfolio?category=${encodeURIComponent(item.slug)}`} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-50" onClick={() => setMobileOpen(false)}>
+                      <item.icon className="w-4 h-4 text-gray-500" />
+                      <span className="text-sm font-medium text-gray-700">{item.title}</span>
+                    </Link>
+                  ))}
+                  <Link href="/portfolio" className="flex items-center gap-2 px-3 py-2.5 text-sm font-semibold text-pink-600" onClick={() => setMobileOpen(false)}>
+                    View all work <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              )}
+            </div>
 
             {/* Company mobile */}
             <div>

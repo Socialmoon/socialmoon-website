@@ -124,7 +124,7 @@ export default function JobDetailPage() {
                       Apply Now <ArrowRight className="w-4 h-4" />
                     </a>
                     <a
-                      href={`mailto:socialmoon.in@gmail.com?subject=Application: ${encodeURIComponent(job.title)}`}
+                      href={`mailto:contact@socialmoon.in?subject=Application: ${encodeURIComponent(job.title)}`}
                       className="flex items-center justify-center gap-2 w-full mt-3 px-5 py-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 font-medium hover:bg-white/10 transition-all text-sm"
                     >
                       Email Directly
@@ -132,7 +132,7 @@ export default function JobDetailPage() {
                   </>
                 ) : (
                   <a
-                    href={`mailto:socialmoon.in@gmail.com?subject=Application: ${encodeURIComponent(job.title)}`}
+                    href={`mailto:contact@socialmoon.in?subject=Application: ${encodeURIComponent(job.title)}`}
                     className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-orange-500 text-white font-semibold hover:bg-orange-400 transition-all text-sm"
                   >
                     Apply via Email <ArrowRight className="w-4 h-4" />

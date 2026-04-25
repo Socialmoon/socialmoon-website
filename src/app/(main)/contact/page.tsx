@@ -78,7 +78,7 @@ const ContactPage = () => {
           setContent({
             title: 'Contact Us',
             contactInfo: {
-              email: 'socialmoon.in@gmail.com',
+              email: 'contact@socialmoon.in',
               phone: '+91 9118439107',
               whatsapp: '+91 9118439107',
               address: 'Lucknow, Uttar Pradesh, India'
@@ -103,7 +103,7 @@ const ContactPage = () => {
         setContent({
           title: 'Contact Us',
           contactInfo: {
-            email: 'socialmoon.in@gmail.com',
+            email: 'contact@socialmoon.in',
             phone: '+91 9118439107',
             whatsapp: '+91 9118439107',
             address: 'Lucknow, Uttar Pradesh, India'
@@ -282,7 +282,7 @@ const ContactPage = () => {
                 {/* Contact chips */}
                 <div className="grid grid-cols-2 gap-2 pt-3 border-t border-white/10">
                   {[
-                    { icon: Mail, short: 'Email', val: content.contactInfo?.email || 'socialmoon.in@gmail.com' },
+                    { icon: Mail, short: 'Email', val: content.contactInfo?.email || 'contact@socialmoon.in' },
                     { icon: Phone, short: 'Call', val: content.contactInfo?.phone || '+91 9118439107' },
                     { icon: MapPin, short: 'Location', val: 'Lucknow, India' },
                     { icon: Clock, short: 'Hours', val: 'Mon–Fri 9AM–6PM' },
@@ -321,10 +321,10 @@ const ContactPage = () => {
                 icon: Mail,
                 title: "Email Us",
                 description: "Send us a detailed message about your project",
-                contact: content.contactInfo?.email || 'socialmoon.in@gmail.com',
+                contact: content.contactInfo?.email || 'contact@socialmoon.in',
                 color: "from-blue-500 to-indigo-500",
                 action: "Send Email",
-                link: `https://mail.google.com/mail/?view=cm&to=${content.contactInfo?.email || 'socialmoon.in@gmail.com'}`
+                link: `https://mail.google.com/mail/?view=cm&to=${content.contactInfo?.email || 'contact@socialmoon.in'}`
               },
               {
                 icon: Phone,

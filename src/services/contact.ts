@@ -10,9 +10,9 @@ export class ContactService {
         return {
           title: 'Contact Us',
           contactInfo: {
-            email: 'socialmoon.in@gmail.com',
-            phone: '+1 234 567 890',
-            address: '123 Social Moon Street, Moon City, 12345'
+            email: 'contact@socialmoon.in',
+            phone: '+91 9118439107',
+            address: 'Lucknow, Uttar Pradesh, India'
           }
         };
       }
@@ -25,9 +25,9 @@ export class ContactService {
       return {
         title: 'Contact Us',
         contactInfo: {
-          email: 'socialmoon.in@gmail.com',
-          phone: '+1 234 567 890',
-          address: '123 Social Moon Street, Moon City, 12345'
+          email: 'contact@socialmoon.in',
+          phone: '+91 9118439107',
+          address: 'Lucknow, Uttar Pradesh, India'
         }
       };
     }
