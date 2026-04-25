@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Container } from '@/components/common/Container';
@@ -38,7 +38,7 @@ const PALETTE: Record<string, { gradient: string; light: string; border: string;
 };
 const defaultPalette = { gradient: 'from-blue-500 to-indigo-600', light: 'bg-blue-50', border: 'border-blue-100', text: 'text-blue-600' };
 
-export default function PortfolioPage() {
+function PortfolioContent() {
   const projects = PORTFOLIO_CONTENT.projects || [];
   const searchParams = useSearchParams();
   const [activeCategory, setActiveCategory] = useState('All');
@@ -364,5 +364,13 @@ export default function PortfolioPage() {
       </Section>
 
     </div>
+  );
+}
+
+export default function PortfolioPage() {
+  return (
+    <Suspense>
+      <PortfolioContent />
+    </Suspense>
   );
 }
