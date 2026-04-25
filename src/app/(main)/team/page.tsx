@@ -19,7 +19,7 @@ type TeamMember = {
 };
 
 const FALLBACK: TeamMember[] = [
-  { name: 'Founder', role: 'CEO & Founder', bio: 'Visionary behind SocialMoon — building growth and automation systems for businesses across India.', id: 1 },
+  { name: 'Avinash Gautam', role: 'Founder & Chief Executive Officer', bio: "Visionary leader driving Social Moon's mission to transform brands through innovative social media strategies and digital excellence.", imageUrl: '/images/portfolio/avinash.jpg', id: 1 },
   { name: 'Strategy Lead', role: 'Head of Growth', bio: 'Designs repeatable lead generation and content systems that create predictable pipeline.', id: 2 },
   { name: 'Tech Lead', role: 'Head of Automation', bio: 'Builds AI-powered workflows and efficiency systems that reduce operational drag.', id: 3 },
 ];

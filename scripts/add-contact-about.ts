@@ -20,7 +20,7 @@ const contactContent = {
   title: "Get in Touch",
   subtitle: "Let's discuss how we can help your business grow",
   contactInfo: {
-    email: "socialmoon.in@gmail.com",
+    email: "contact@socialmoon.in",
     phone: "+91 9118439107",
     whatsapp: "+91 9118439107",
     address: "Lucknow, Uttar Pradesh, India"
@@ -31,10 +31,10 @@ const contactContent = {
     closed: "Sunday: Closed"
   },
   socialMedia: {
-    instagram: "https://www.instagram.com/the_social_moon_",
-    linkedin: "https://www.linkedin.com/company/socialmoon1/",
-    twitter: "https://x.com/the_social_moon",
-    facebook: "https://www.facebook.com/profile.php?id=61580131888044"
+    instagram: "https://www.instagram.com/socialmoon.inc",
+    linkedin: "https://www.linkedin.com/company/socialmoonhq/",
+    twitter: "https://x.com/socialmoonx",
+    facebook: "https://www.facebook.com/profile.php?id=61562932652058"
   }
 };
 
@@ -66,16 +66,9 @@ Our approach combines data-driven strategy with creative storytelling to create 
   
   team: [
     {
-      name: "Shashikant",
+      name: "Avinash Gautam",
       position: "Founder & Chief Executive Officer",
       bio: "Visionary leader driving Social Moon's mission to transform brands through innovative social media strategies and digital excellence.",
-      image: "/images/portfolio/shashikant.jpg",
-      linkedin: "https://www.linkedin.com/in/shashikant"
-    },
-    {
-      name: "Avinash Gautam",
-      position: "Co-Founder & Chief Operating Officer",
-      bio: "Strategic operations expert ensuring seamless execution and delivery of exceptional results for every client partnership.",
       image: "/images/portfolio/avinash.jpg",
       linkedin: "https://www.linkedin.com/in/avinash-gautam"
     },

@@ -9,8 +9,8 @@
     <a href="https://www.instagram.com/the_social_moon_">
       <img src="https://img.shields.io/badge/Instagram-the__social__moon__-E4405F?style=flat&logo=instagram&logoColor=white" />
     </a>
-    <a href="mailto:socialmoon.in@gmail.com">
-      <img src="https://img.shields.io/badge/Email-socialmoon.in@gmail.com-D14836?style=flat&logo=gmail&logoColor=white" />
+    <a href="mailto:contact@socialmoon.in">
+      <img src="https://img.shields.io/badge/Email-contact@socialmoon.in-D14836?style=flat&logo=gmail&logoColor=white" />
     </a>
     <img src="https://img.shields.io/badge/Next.js-14-black?style=flat&logo=next.js" />
     <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white" />
