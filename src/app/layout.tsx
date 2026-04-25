@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { SITE_URL } from "@/lib/config/site";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "SocialMoon - Professional Social Media Management",
   description: "Transform your social media presence with SocialMoon. Expert management, content creation, and analytics for growing your online brand.",
   icons: {
