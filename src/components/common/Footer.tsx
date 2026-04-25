@@ -82,8 +82,16 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <div className="border-t border-blue-200 mt-8 pt-4 text-center text-sm text-gray-600">
+        <div className="border-t border-blue-200 mt-8 pt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-sm text-gray-600">
           <p>&copy; 2025 SocialMoon. All rights reserved.</p>
+          <div className="flex items-center gap-4 sm:justify-end">
+            <a href="/terms-of-service.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">
+              Terms &amp; Conditions
+            </a>
+            <a href="/privacy-policy.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">
+              Privacy Policy
+            </a>
+          </div>
         </div>
       </div>
     </footer>
