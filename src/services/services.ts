@@ -129,7 +129,7 @@ const isNewCatalog = (services: any[]) => {
   }
 
   const titles = new Set(services.map((service: any) => (service?.title || '').trim()));
-  for (const requiredTitle of REQUIRED_NEW_SERVICE_TITLES) {
+  for (const requiredTitle of Array.from(REQUIRED_NEW_SERVICE_TITLES)) {
     if (!titles.has(requiredTitle)) {
       return false;
     }

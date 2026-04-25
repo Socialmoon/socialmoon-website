@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { Hero } from '@/components/common/Hero';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
 import { Button } from '@/components/ui/button';
@@ -171,82 +170,70 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
-      {/* Enhanced Hero Section */}
-      <Hero className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-cyan-50/40 pt-16 pb-0 md:pt-20 md:pb-0">
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-[0.35]" style={{ backgroundImage: 'linear-gradient(#e2e8f0 1px, transparent 1px), linear-gradient(90deg, #e2e8f0 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
-        {/* Glows */}
-        <div className="absolute -top-20 right-0 w-[500px] h-[500px] bg-blue-100/60 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-1/2 -left-20 w-[300px] h-[300px] bg-cyan-100/50 rounded-full blur-3xl pointer-events-none" />
-        {/* Fade to white */}
-        <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none" />
+      {/* Hero */}
+      <div className="relative bg-gray-950 pt-28 pb-16 overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10" />
+        <div className="absolute inset-0 pointer-events-none select-none overflow-hidden flex items-center justify-start pl-8">
+          <span className="text-[22vw] font-black text-white/[0.03] tracking-tighter whitespace-nowrap">CONTACT</span>
+        </div>
 
-        <Container className="relative z-10 pb-16">
-          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+        <Container className="relative z-10">
+          <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
 
             {/* Left */}
-            <div className="flex-1 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-green-200 text-green-600 text-xs font-semibold mb-7 shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse flex-shrink-0" />
-                Online now · We reply in &lt;24h
+            <div className="flex-1 pb-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-px w-12 bg-blue-400" />
+                <span className="text-xs font-bold uppercase tracking-[0.25em] text-blue-400">Get in touch</span>
               </div>
-
-              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-gray-900 leading-[0.92] tracking-tighter mb-6">
-                Let&apos;s start
-                <span className="block bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent pb-1">
-                  a conversation.
-                </span>
+              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-white leading-[0.9] tracking-tight mb-6">
+                Let&apos;s start<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">a conversation.</span>
               </h1>
-
-              <p className="text-gray-400 text-base sm:text-lg max-w-md mx-auto lg:mx-0 leading-relaxed mb-8">
+              <p className="text-gray-400 text-base sm:text-lg max-w-md leading-relaxed mb-8">
                 Whether you&apos;re starting fresh or scaling up — drop us a line and we&apos;ll make something great together.
               </p>
-
-              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+              <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-gray-900 text-white font-bold text-sm hover:bg-gray-800 transition-all shadow-lg hover:-translate-y-0.5"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-white text-gray-900 font-bold text-sm hover:bg-blue-50 transition-all"
                 >
                   Send a Message <ArrowRight className="w-4 h-4" />
                 </button>
                 <a
-                  href="https://luna.socialmoon.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-sm hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:-translate-y-0.5"
-                >
-                  <Sparkles className="w-4 h-4" />
-                  Chat with Luna
-                </a>
-                <a
                   href={`https://wa.me/${(content.contactInfo?.whatsapp || content.contactInfo?.phone || '+919118439107').replace(/[^0-9]/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl border border-gray-200 text-gray-600 font-semibold text-sm hover:bg-gray-50 hover:border-gray-300 transition-all"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-[#25D366] text-white font-bold text-sm hover:bg-[#20bc5a] transition-all"
                 >
+                  <MessageCircle className="w-4 h-4" />
                   WhatsApp Us
+                </a>
+                <a
+                  href="https://luna.socialmoon.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-sm hover:from-blue-500 hover:to-purple-500 transition-all"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  Chat with Luna
                 </a>
               </div>
             </div>
 
             {/* Right — Chat bubble mockup */}
-            <div className="w-full lg:w-[400px] flex-shrink-0 lg:ml-8">
-              <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-xl">
-                {/* Chat header — Luna branding */}
-                <div className="flex items-center gap-3 pb-4 mb-4 border-b border-gray-100">
+            <div className="w-full lg:w-[400px] flex-shrink-0 lg:ml-8 pb-8">
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-sm">
+                {/* Chat header */}
+                <div className="flex items-center gap-3 pb-4 mb-4 border-b border-white/10">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-md">
                     <Sparkles className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1 ml-1">
-                    <div className="text-gray-900 font-semibold text-sm">Luna</div>
-                    {/*
-                    <span className="flex items-center gap-1.5 text-green-600 text-xs font-medium">
-                      <span style={{display:'inline-block', width:'6px', height:'6px', borderRadius:'50%', backgroundColor:'#22c55e', flexShrink:0}} />
-                      <span className="ml-2">Always online</span>
-                    </span>
-                    */}
+                    <div className="text-white font-semibold text-sm">Luna</div>
                   </div>
-                  <div className="text-purple-500 text-xs font-semibold">AI Assistant</div>
+                  <div className="text-purple-400 text-xs font-semibold">AI Assistant</div>
                 </div>
 
                 {/* Messages */}
@@ -255,7 +242,7 @@ const ContactPage = () => {
                     <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0">
                       <Sparkles className="w-3.5 h-3.5 text-white" />
                     </div>
-                    <div className="bg-gray-100 rounded-2xl rounded-bl-md px-4 py-3 text-gray-700 text-sm max-w-[82%] leading-relaxed">
+                    <div className="bg-white/10 rounded-2xl rounded-bl-md px-4 py-3 text-gray-200 text-sm max-w-[82%] leading-relaxed">
                       Hi! I&apos;m Luna 👋 How can I help you grow your brand today?
                     </div>
                   </div>
@@ -268,8 +255,8 @@ const ContactPage = () => {
                     <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0">
                       <Sparkles className="w-3.5 h-3.5 text-white" />
                     </div>
-                    <div className="bg-gray-100 rounded-2xl rounded-bl-md px-4 py-3 text-gray-700 text-sm max-w-[82%] leading-relaxed">
-                      We offer social media management, content creation, ads & more! <span className="text-green-600 font-semibold">Free consultation</span> to get started ✅
+                    <div className="bg-white/10 rounded-2xl rounded-bl-md px-4 py-3 text-gray-200 text-sm max-w-[82%] leading-relaxed">
+                      We offer social media management, content creation, ads &amp; more! <span className="text-green-400 font-semibold">Free consultation</span> to get started ✅
                     </div>
                   </div>
                 </div>
@@ -280,31 +267,31 @@ const ContactPage = () => {
                     href="https://luna.socialmoon.in"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-400 text-sm hover:border-purple-300 hover:bg-purple-50/30 transition-colors cursor-text"
+                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-400 text-sm hover:border-purple-400/40 hover:bg-purple-500/10 transition-colors"
                   >Ask Luna anything...</a>
                   <a
                     href="https://luna.socialmoon.in"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-11 h-11 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 flex items-center justify-center text-white transition-colors flex-shrink-0 shadow-md"
+                    className="w-11 h-11 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 flex items-center justify-center text-white transition-colors flex-shrink-0"
                   >
                     <Send className="w-4 h-4" />
                   </a>
                 </div>
 
                 {/* Contact chips */}
-                <div className="grid grid-cols-2 gap-2 pt-3 border-t border-gray-100">
+                <div className="grid grid-cols-2 gap-2 pt-3 border-t border-white/10">
                   {[
                     { icon: Mail, short: 'Email', val: content.contactInfo?.email || 'socialmoon.in@gmail.com' },
                     { icon: Phone, short: 'Call', val: content.contactInfo?.phone || '+91 9118439107' },
                     { icon: MapPin, short: 'Location', val: 'Lucknow, India' },
                     { icon: Clock, short: 'Hours', val: 'Mon–Fri 9AM–6PM' },
                   ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2 bg-gray-50 border border-gray-100 rounded-xl px-3 py-2.5">
-                      <item.icon className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+                    <div key={i} className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-3 py-2.5">
+                      <item.icon className="w-3.5 h-3.5 text-blue-400 flex-shrink-0" />
                       <div className="min-w-0">
-                        <div className="text-gray-400 text-[10px] font-semibold">{item.short}</div>
-                        <div className="text-gray-600 text-[11px] truncate">{item.val}</div>
+                        <div className="text-gray-500 text-[10px] font-semibold">{item.short}</div>
+                        <div className="text-gray-300 text-[11px] truncate">{item.val}</div>
                       </div>
                     </div>
                   ))}
@@ -314,7 +301,7 @@ const ContactPage = () => {
 
           </div>
         </Container>
-      </Hero>
+      </div>
 
       {/* Contact Information Cards */}
       <Section className="py-32 bg-gradient-to-br from-white via-gray-50/50 to-blue-50/30">

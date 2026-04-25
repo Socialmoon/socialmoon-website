@@ -2,300 +2,145 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { MessageSquare, Users, Mail, ArrowRight, Clock, ExternalLink, Sparkles } from 'lucide-react';
 
-type Activity = {
-  type: string;
-  title: string;
-  description: string;
-  time: string;
-  icon: string;
-};
+type Message = { _id?: string; name: string; email: string; message: string; timestamp: string; status?: string };
 
-type MessageType = {
-  name: string;
-  subject?: string;
-  timestamp: string | Date;
-};
-
-type BlogPostType = {
-  title: string;
-  author: string;
-  date: string;
-};
-
-type ProjectType = {
-  title: string;
-  category: string;
-};
-
-const DashboardPage = () => {
-  const [stats, setStats] = useState([
-    { name: 'Total Messages', value: '0', change: '0', changeType: 'neutral' },
-    { name: 'Blog Posts', value: '0', change: '0', changeType: 'neutral' },
-    { name: 'Services', value: '0', change: '0', changeType: 'neutral' },
-    { name: 'Portfolio Items', value: '0', change: '0', changeType: 'neutral' },
-  ]);
-  const [recentActivities, setRecentActivities] = useState<Activity[]>([]);
+export default function DashboardPage() {
+  const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activitiesLoading, setActivitiesLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [messagesRes, blogRes, servicesRes, portfolioRes] = await Promise.all([
-          fetch('/api/messages'),
-          fetch('/api/blog'),
-          fetch('/api/services'),
-          fetch('/api/portfolio')
-        ]);
-
-        const messages = messagesRes.ok ? await messagesRes.json() : [];
-        const blog = blogRes.ok ? await blogRes.json() : { posts: [] };
-        const services = servicesRes.ok ? await servicesRes.json() : { services: [] };
-        const portfolio = portfolioRes.ok ? await portfolioRes.json() : { projects: [] };
-
-        // Set stats
-        setStats([
-          {
-            name: 'Total Messages',
-            value: messages.length?.toString() || '0',
-            change: '0',
-            changeType: 'neutral'
-          },
-          {
-            name: 'Blog Posts',
-            value: blog.posts?.length?.toString() || '0',
-            change: '0',
-            changeType: 'neutral'
-          },
-          {
-            name: 'Services',
-            value: services.services?.length?.toString() || '0',
-            change: '0',
-            changeType: 'neutral'
-          },
-          {
-            name: 'Portfolio Items',
-            value: portfolio.projects?.length?.toString() || '0',
-            change: '0',
-            changeType: 'neutral'
-          },
-        ]);
-
-        // Process recent activities
-        const activities = [];
-
-        // Add recent messages
-        if (messages && messages.length > 0) {
-          const recentMessages = messages.slice(0, 3).map((msg: MessageType) => ({
-            type: 'message',
-            title: `New message from ${msg.name}`,
-            description: msg.subject || 'Contact form submission',
-            time: new Date(msg.timestamp).toLocaleDateString(),
-            icon: 'message'
-          }));
-          activities.push(...recentMessages);
-        }
-
-        // Add recent blog posts
-        if (blog.posts && blog.posts.length > 0) {
-          const recentPosts = blog.posts.slice(0, 2).map((post: BlogPostType) => ({
-            type: 'blog',
-            title: `Blog post: ${post.title}`,
-            description: `Published by ${post.author}`,
-            time: post.date,
-            icon: 'blog'
-          }));
-          activities.push(...recentPosts);
-        }
-
-        // Add recent portfolio items
-        if (portfolio.projects && portfolio.projects.length > 0) {
-          const recentProjects = portfolio.projects.slice(0, 2).map((project: ProjectType) => ({
-            type: 'portfolio',
-            title: `Portfolio: ${project.title}`,
-            description: `Added ${project.category} project`,
-            time: 'Recently added',
-            icon: 'portfolio'
-          }));
-          activities.push(...recentProjects);
-        }
-
-        // Sort activities by recency (messages have timestamps, others are recent)
-        activities.sort((a, b) => {
-          if (a.time.includes('/') && b.time.includes('/')) {
-            return new Date(b.time).getTime() - new Date(a.time).getTime();
-          }
-          return 0;
-        });
-
-        setRecentActivities(activities.slice(0, 5)); // Show only 5 most recent
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-        setActivitiesLoading(false);
-      }
-    };
-
-    fetchData();
+    fetch('/api/messages').then(r => r.ok ? r.json() : []).then(msgs => {
+      setMessages(Array.isArray(msgs) ? msgs : []);
+    }).finally(() => setLoading(false));
   }, []);
 
-  const quickActions = [
-    { name: 'Messages', href: '/admin/contact', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', description: 'Manage contact messages' },
-    { name: 'Blog', href: '/admin/blog', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', description: 'Edit blog posts' },
-    { name: 'Services', href: '/admin/services', icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10', description: 'Edit services' },
-    { name: 'Portfolio', href: '/admin/portfolio', icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10', description: 'Edit portfolio projects' },
-    { name: 'Case Studies', href: '/admin/case-studies', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', description: 'Edit case studies' },
-    { name: 'Luna Admin Login', href: 'https://luna.socialmoon.in/admin-login', icon: 'M5 12h14M12 5l7 7-7 7', description: 'Open Luna admin login' },
+  const unread = messages.filter(m => !m.status || m.status === 'unread').length;
+
+  const stats = [
+    { label: 'Total Messages', value: messages.length, sub: `${unread} unread`, icon: MessageSquare, color: 'blue', href: '/admin/contact' },
+    { label: 'Subscribers', value: '—', sub: 'Newsletter list', icon: Mail, color: 'emerald', href: '/admin/contact' },
   ];
 
+  const quickLinks = [
+    { label: 'View Messages', desc: 'Read & reply to contact form submissions', icon: MessageSquare, href: '/admin/contact', color: 'blue' },
+    { label: 'Manage Admins', desc: 'Add or remove admin users', icon: Users, href: '/admin/admins', color: 'purple' },
+    { label: 'Luna Admin', desc: 'Manage Luna AI assistant', icon: Sparkles, href: 'https://luna.socialmoon.in/admin-login', color: 'violet', external: true },
+  ];
+
+  const COLOR = {
+    blue: 'bg-blue-50 text-blue-600 border-blue-100',
+    indigo: 'bg-indigo-50 text-indigo-600 border-indigo-100',
+    orange: 'bg-orange-50 text-orange-600 border-orange-100',
+    emerald: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+    purple: 'bg-purple-50 text-purple-600 border-purple-100',
+    violet: 'bg-violet-50 text-violet-600 border-violet-100',
+  };
+
   return (
-    <div className="p-6">
+    <div className="p-6 max-w-7xl">
+      {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
-        <p className="text-gray-600">Welcome back! Here's what's happening with your site.</p>
+        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <p className="text-gray-500 text-sm mt-1">Welcome back. Here's what's happening with your site.</p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         {loading ? (
-          // Loading skeleton
-          Array.from({ length: 4 }).map((_, index) => (
-            <div key={index} className="bg-white rounded-lg shadow p-6 animate-pulse">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <div className="h-4 bg-gray-200 rounded w-24 mb-2"></div>
-                  <div className="h-8 bg-gray-200 rounded w-16"></div>
-                </div>
-                <div className="h-4 bg-gray-200 rounded w-8"></div>
-              </div>
+          Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-xl border border-gray-100 p-5 animate-pulse">
+              <div className="h-4 bg-gray-100 rounded w-24 mb-3" />
+              <div className="h-8 bg-gray-100 rounded w-16 mb-2" />
+              <div className="h-3 bg-gray-100 rounded w-20" />
             </div>
           ))
-        ) : (
-          stats.map((stat) => (
-            <div key={stat.name} className="bg-white rounded-lg shadow p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">{stat.name}</p>
-                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-                </div>
-                <div className={`flex items-center text-sm ${
-                  stat.changeType === 'increase' ? 'text-green-600' :
-                  stat.changeType === 'decrease' ? 'text-red-600' : 'text-gray-600'
-                }`}>
-                  <span>{stat.change}</span>
-                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={
-                      stat.changeType === 'increase' ? 'M5 10l7-7m0 0l7 7m-7-7v18' :
-                      stat.changeType === 'decrease' ? 'M19 14l-7 7m0 0l-7-7m7 7V3' :
-                      'M5 12h14'
-                    } />
-                  </svg>
-                </div>
+        ) : stats.map((s, i) => (
+          <Link key={i} href={s.href} className="group bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-gray-200 transition-all">
+            <div className="flex items-center justify-between mb-3">
+              <div className={`w-9 h-9 rounded-lg border flex items-center justify-center ${COLOR[s.color as keyof typeof COLOR]}`}>
+                <s.icon className="w-4 h-4" />
               </div>
+              <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 transition-colors" />
             </div>
-          ))
-        )}
+            <div className="text-2xl font-bold text-gray-900 mb-0.5">{s.value}</div>
+            <div className="text-xs text-gray-400 font-medium">{s.label}</div>
+            <div className="text-xs text-gray-400 mt-0.5">{s.sub}</div>
+          </Link>
+        ))}
       </div>
 
-      {/* Quick Actions */}
-      <div className="bg-white rounded-lg shadow mb-8">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">Quick Actions</h2>
-          <p className="text-sm text-gray-600">Manage your content and settings</p>
-        </div>
-        <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {quickActions.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="flex items-center p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors group"
-              >
-                <div className="flex-shrink-0">
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
-                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
-                    </svg>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Quick Actions */}
+        <div className="lg:col-span-2">
+          <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+            <div className="px-5 py-4 border-b border-gray-100">
+              <h2 className="font-semibold text-gray-900 text-sm">Quick Actions</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-gray-100">
+              {quickLinks.map((item, i) => (
+                <Link
+                  key={i}
+                  href={item.href}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
+                  className="group flex items-center gap-3 bg-white p-4 hover:bg-gray-50 transition-colors"
+                >
+                  <div className={`w-9 h-9 rounded-lg border flex items-center justify-center flex-shrink-0 ${COLOR[item.color as keyof typeof COLOR]}`}>
+                    <item.icon className="w-4 h-4" />
                   </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-semibold text-gray-900 flex items-center gap-1">
+                      {item.label}
+                      {item.external && <ExternalLink className="w-3 h-3 text-gray-400" />}
+                    </div>
+                    <div className="text-xs text-gray-400 truncate">{item.desc}</div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 flex-shrink-0 transition-colors" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Messages */}
+        <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+          <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+            <h2 className="font-semibold text-gray-900 text-sm">Recent Messages</h2>
+            <Link href="/admin/contact" className="text-xs text-blue-600 hover:text-blue-700 font-medium">View all</Link>
+          </div>
+          <div className="divide-y divide-gray-50">
+            {loading ? (
+              Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="px-5 py-3 animate-pulse">
+                  <div className="h-3.5 bg-gray-100 rounded w-32 mb-1.5" />
+                  <div className="h-3 bg-gray-100 rounded w-48" />
                 </div>
-                <div className="ml-4">
-                  <h3 className="text-sm font-medium text-gray-900">{item.name}</h3>
-                  <p className="text-sm text-gray-500">{item.description}</p>
+              ))
+            ) : messages.length === 0 ? (
+              <div className="px-5 py-8 text-center">
+                <MessageSquare className="w-8 h-8 text-gray-200 mx-auto mb-2" />
+                <p className="text-gray-400 text-xs">No messages yet</p>
+              </div>
+            ) : messages.slice(0, 6).map((msg, i) => (
+              <div key={i} className="px-5 py-3 hover:bg-gray-50 transition-colors">
+                <div className="flex items-center gap-2 mb-0.5">
+                  <span className="text-sm font-semibold text-gray-900 truncate">{msg.name}</span>
+                  {(!msg.status || msg.status === 'unread') && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0" />
+                  )}
                 </div>
-                <div className="ml-auto">
-                  <svg className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </Link>
+                <p className="text-xs text-gray-400 truncate">{msg.message}</p>
+                <p className="text-[10px] text-gray-300 mt-0.5 flex items-center gap-1">
+                  <Clock className="w-3 h-3" />
+                  {new Date(msg.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                </p>
+              </div>
             ))}
           </div>
         </div>
       </div>
-
-      {/* Recent Activity */}
-      <div className="bg-white rounded-lg shadow">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">Recent Activity</h2>
-          <p className="text-sm text-gray-600">Latest updates and changes</p>
-        </div>
-        <div className="p-6">
-          {activitiesLoading ? (
-            <div className="space-y-4">
-              {Array.from({ length: 3 }).map((_, index) => (
-                <div key={index} className="flex items-center space-x-3 animate-pulse">
-                  <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
-                  <div className="flex-1">
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : recentActivities.length > 0 ? (
-            <div className="space-y-4">
-              {recentActivities.map((activity, index) => (
-                <div key={index} className="flex items-center space-x-3">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    activity.icon === 'message' ? 'bg-green-100' :
-                    activity.icon === 'blog' ? 'bg-blue-100' :
-                    activity.icon === 'portfolio' ? 'bg-purple-100' : 'bg-gray-100'
-                  }`}>
-                    <svg className={`w-4 h-4 ${
-                      activity.icon === 'message' ? 'text-green-600' :
-                      activity.icon === 'blog' ? 'text-blue-600' :
-                      activity.icon === 'portfolio' ? 'text-purple-600' : 'text-gray-600'
-                    }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={
-                        activity.icon === 'message' ? 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' :
-                        activity.icon === 'blog' ? 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' :
-                        activity.icon === 'portfolio' ? 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' :
-                        'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-                      } />
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-900">{activity.title}</p>
-                    <p className="text-xs text-gray-500">{activity.time}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              <p className="text-gray-500 text-sm">No recent activity</p>
-              <p className="text-gray-400 text-xs mt-1">Activity will appear here as you add content</p>
-            </div>
-          )}
-        </div>
-      </div>
     </div>
   );
-};
-
-export default DashboardPage;
+}

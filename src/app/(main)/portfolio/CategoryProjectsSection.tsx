@@ -8,15 +8,6 @@ import { Target, Play } from 'lucide-react';
 
 interface Project {
   id: string;
-  title: string;
-  description: string;
-  image: string;
-  slug: string;
-  category: string;
-  client: string;
-  results: string;
-  duration: string;
-  videoUrl?: string;
 }
 
 interface CategoryProjectsSectionProps {

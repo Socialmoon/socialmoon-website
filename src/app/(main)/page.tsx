@@ -72,30 +72,24 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-white to-blue-100">
-      {/* Modern Split-Layout Hero Section */}
+      {/* ── PRIMARY HERO — Original Marketing ── */}
       <Hero className="relative overflow-hidden bg-white pt-4 pb-8 md:pt-10 md:pb-14 lg:pt-14 lg:pb-16">
-        {/* Subtle Background Elements */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-50 blur-3xl opacity-50 pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-purple-50 blur-3xl opacity-50 pointer-events-none"></div>
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-50 blur-3xl opacity-50 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-purple-50 blur-3xl opacity-50 pointer-events-none" />
 
         <Container className="relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 lg:gap-12">
-            
-            {/* Left Content Area */}
+
+            {/* Left */}
             <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left px-2 sm:px-0">
-              
-              {/* Trust Badge */}
+
               <div className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs sm:text-sm font-semibold mb-4 sm:mb-6">
-                <span className="flex h-2 w-2 rounded-full bg-blue-600 mr-2"></span>
+                <span className="flex h-2 w-2 rounded-full bg-blue-600 mr-2" />
                 Trusted by 10,000+ creators worldwide
               </div>
 
-              <a
-                href="https://bpolytix.in"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white border border-blue-100 text-blue-700 text-xs sm:text-sm font-semibold shadow-sm mb-4 sm:mb-6 hover:shadow-md hover:-translate-y-0.5 transition-all"
-              >
+              <a href="https://bpolytix.in" target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white border border-blue-100 text-blue-700 text-xs sm:text-sm font-semibold shadow-sm mb-4 sm:mb-6 hover:shadow-md hover:-translate-y-0.5 transition-all">
                 <span className="w-8 h-8 rounded-full bg-white border border-blue-200 flex items-center justify-center overflow-hidden shadow-sm">
                   <Image src="/logo_bpolytix.png" alt="BPOLYTIX logo" width={24} height={24} className="object-contain" />
                 </span>
@@ -104,94 +98,62 @@ const HomePage = () => {
                 <ArrowRight className="w-3.5 h-3.5" />
               </a>
 
-              {/* Headline */}
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 tracking-tight mb-3 sm:mb-4 md:mb-6 leading-[1.15]">
-                Scale your <br className="hidden md:block"/>
+                Scale your <br className="hidden md:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
                   social impact.
                 </span>
               </h1>
 
-              {/* Subheadline */}
               <p className="text-sm sm:text-base md:text-lg text-gray-500 mb-3 sm:mb-5 max-w-md md:max-w-xl leading-relaxed">
                 Connect your accounts, automate your strategy with AI, and watch your engagement soar. All from one intuitive platform.
               </p>
 
-              {/* Brand Tagline */}
               <div className="flex items-center justify-center md:justify-start gap-2 sm:gap-3 mb-4 sm:mb-6">
                 {['Connect', 'Create', 'Conquer'].map((word, i) => (
                   <div key={word} className="flex items-center gap-3">
-                    <span className="text-xs sm:text-sm md:text-base font-black tracking-[0.15em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                      {word}
-                    </span>
-                    {i < 2 && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex-shrink-0"></span>
-                    )}
+                    <span className="text-xs sm:text-sm md:text-base font-black tracking-[0.15em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">{word}</span>
+                    {i < 2 && <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex-shrink-0" />}
                   </div>
                 ))}
               </div>
 
-              {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto mb-5 sm:mb-8">
-                <Button
-                  size="lg"
+                <Button size="lg"
                   className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 sm:px-8 sm:py-5 text-sm sm:text-base font-semibold rounded-xl shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-0.5"
-                  onClick={() => window.open('/contact', '_self')}
-                >
+                  onClick={() => window.open('/contact', '_self')}>
                   Start for free
                 </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
+                <Button size="lg" variant="outline"
                   className="bg-white text-gray-700 border-gray-200 hover:bg-gray-50 hover:border-gray-300 px-5 py-3 sm:px-8 sm:py-5 text-sm sm:text-base font-semibold rounded-xl transition-all"
-                  onClick={() => window.open('/services', '_self')}
-                >
+                  onClick={() => window.open('/solutions', '_self')}>
                   See how it works
                 </Button>
               </div>
 
-              {/* Social Proof */}
               <div className="flex items-center gap-4 text-sm text-gray-500 font-medium">
                 <div className="flex -space-x-2">
-                  {[1, 2, 3, 4, 5].map((i) => (
+                  {[1,2,3,4,5].map(i => (
                     <img key={i} src={`https://i.pravatar.cc/100?img=${i+10}`} alt="User" className="w-8 h-8 rounded-full border-2 border-white" />
                   ))}
                 </div>
                 <div>
-                  <div className="flex text-yellow-400 mb-0.5">
-                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-4 h-4 fill-current" />)}
-                  </div>
+                  <div className="flex text-yellow-400 mb-0.5">{[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 fill-current" />)}</div>
                   <span>4.9/5 from 2,000+ reviews</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Visual Area - Instagram Reel Style */}
+            {/* Right — Instagram Reel phone */}
             <div className="flex w-full md:w-1/2 relative items-center justify-center mt-4 md:mt-0">
-              
-              {/* Phone Frame containing the video */}
               <div className="relative w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] z-10">
-                {/* Phone shell */}
                 <div className="relative rounded-[3rem] overflow-hidden border-[8px] border-gray-900 shadow-[0_40px_80px_rgba(0,0,0,0.3)] bg-black">
-                  {/* Notch */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-gray-900 rounded-b-2xl z-30"></div>
-
-                  {/* Video in portrait reel format */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-gray-900 rounded-b-2xl z-30" />
                   <div className="relative aspect-[9/16] bg-black overflow-hidden">
-                    <video
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="absolute inset-0 w-full h-full object-cover"
-                    >
+                    <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
                       <source src="/12501474_1080_1920_30fps.mp4" type="video/mp4" />
                     </video>
-
-                    {/* Instagram Reel UI Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 z-10 pointer-events-none"></div>
-
-                    {/* Top - Profile & Follow */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 z-10 pointer-events-none" />
                     <div className="absolute top-8 left-3 right-3 flex items-center justify-between z-20">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-0.5">
@@ -199,49 +161,35 @@ const HomePage = () => {
                             <Image src="/logo.png" alt="logo" width={32} height={32} className="object-contain w-full h-full" />
                           </div>
                         </div>
-                        <span className="text-white text-xs font-bold drop-shadow">the_social_moon_</span>
+                        <span className="text-white text-xs font-bold drop-shadow">socialmoon.inc</span>
                         <span className="text-white/80 text-[10px] border border-white/50 rounded px-1.5 py-0.5">Follow</span>
                       </div>
                       <span className="text-white/70 text-lg font-light">···</span>
                     </div>
-
-                    {/* Bottom - Caption & Actions */}
                     <div className="absolute bottom-4 left-3 right-3 z-20 flex items-end justify-between">
                       <div className="flex-1 mr-3">
                         <p className="text-white text-xs font-semibold drop-shadow leading-relaxed line-clamp-2">
-                          🚀 Scale your brand with AI-powered social media! 
+                          🚀 Scale your brand with AI-powered social media!
                           <span className="text-blue-300"> #SocialMoon #Growth</span>
                         </p>
                         <div className="flex items-center gap-1.5 mt-2">
-                          <div className="w-3 h-3 rounded-full bg-pink-400"></div>
-                          <div className="w-3 h-3 rounded-full bg-yellow-400 -ml-1.5 border border-black/20"></div>
+                          <div className="w-3 h-3 rounded-full bg-pink-400" />
+                          <div className="w-3 h-3 rounded-full bg-yellow-400 -ml-1.5 border border-black/20" />
                           <span className="text-white/80 text-[10px]">Liked by 12.4k others</span>
                         </div>
                       </div>
-                      {/* Side action buttons */}
                       <div className="flex flex-col items-center gap-4 text-white">
-                        <div className="flex flex-col items-center">
-                          <div className="text-xl">❤️</div>
-                          <span className="text-[10px] mt-0.5">12.4k</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                          <div className="text-xl">💬</div>
-                          <span className="text-[10px] mt-0.5">843</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                          <div className="text-xl">↗️</div>
-                          <span className="text-[10px] mt-0.5">Share</span>
-                        </div>
+                        <div className="flex flex-col items-center"><div className="text-xl">❤️</div><span className="text-[10px] mt-0.5">12.4k</span></div>
+                        <div className="flex flex-col items-center"><div className="text-xl">💬</div><span className="text-[10px] mt-0.5">843</span></div>
+                        <div className="flex flex-col items-center"><div className="text-xl">↗️</div><span className="text-[10px] mt-0.5">Share</span></div>
                       </div>
                     </div>
                   </div>
                 </div>
-
-                {/* Home indicator bar */}
-                <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-24 h-1 bg-white/40 rounded-full z-30"></div>
+                <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-24 h-1 bg-white/40 rounded-full z-30" />
               </div>
 
-              {/* Floating decorative cards around the phone */}
+              {/* Floating cards */}
               <div className="hidden md:block absolute top-10 right-0 lg:-right-6 w-48 bg-white rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.08)] p-3 border border-gray-100 animate-float z-20">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
@@ -253,7 +201,6 @@ const HomePage = () => {
                   </div>
                 </div>
               </div>
-              
               <div className="hidden md:block absolute bottom-20 left-0 lg:-left-12 w-56 bg-white rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.08)] p-4 border border-gray-100 animate-float z-20" style={{ animationDelay: '1.5s' }}>
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
@@ -265,7 +212,7 @@ const HomePage = () => {
                   </div>
                 </div>
                 <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-purple-500 rounded-full w-3/4"></div>
+                  <div className="h-full bg-purple-500 rounded-full w-3/4" />
                 </div>
               </div>
             </div>
@@ -275,8 +222,7 @@ const HomePage = () => {
       </Hero>
 
       {/* Brands Section */}
-      <Section className="py-16 overflow-hidden bg-white border-y border-gray-100">
-        {/* Keyframe styles injected inline */}
+      <Section className="py-14 overflow-hidden bg-white border-y border-gray-100">
         <style>{`
           @keyframes marquee-left  { from { transform: translateX(0) }  to { transform: translateX(-50%) } }
           @keyframes marquee-right { from { transform: translateX(-50%) } to { transform: translateX(0) } }
@@ -288,84 +234,136 @@ const HomePage = () => {
 
         <Container>
           <div className="text-center mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 mb-1">Powering India&apos;s fastest-growing brands</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 mb-1">Trusted by growing businesses</p>
             <h3 className="text-2xl md:text-3xl font-extrabold text-gray-900">Brands that trust <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">SocialMoon</span></h3>
           </div>
+
+          {/* ── ACTIVE CLIENTS — 3 real brands ── */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
+            {[
+              {
+                name: 'Bharat Taxi',
+                url: 'https://www.google.com/s2/favicons?domain=bharattaxi.com&sz=128',
+                color: 'from-yellow-50 to-amber-50',
+                border: 'border-yellow-100',
+                tag: 'Mobility',
+                local: false,
+              },
+              {
+                name: 'Shaip',
+                url: 'https://www.google.com/s2/favicons?domain=shaip.com&sz=128',
+                color: 'from-blue-50 to-indigo-50',
+                border: 'border-blue-100',
+                tag: 'AI Data',
+                local: false,
+              },
+              {
+                name: 'Skill India',
+                url: '/skill-india-big-logo.svg',
+                color: 'from-orange-50 to-red-50',
+                border: 'border-orange-100',
+                tag: 'Gov Initiative',
+                local: true,
+              },
+              {
+                name: 'Ministry of Skill Development',
+                url: '/minstry-bigsize-logo.svg',
+                color: 'from-green-50 to-emerald-50',
+                border: 'border-green-100',
+                tag: 'Government',
+                local: true,
+              },
+            ].map((brand, i) => (
+              <div
+                key={i}
+                className={`flex items-center gap-4 px-7 py-4 rounded-2xl bg-gradient-to-r ${brand.color} border ${brand.border} shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto`}
+              >
+                <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center border border-gray-100 flex-shrink-0 overflow-hidden p-1">
+                  <Image
+                    src={brand.url}
+                    alt={brand.name}
+                    width={brand.local ? 36 : 28}
+                    height={brand.local ? 36 : 28}
+                    className="object-contain w-full h-full"
+                  />
+                </div>
+                <div>
+                  <div className="text-gray-900 font-bold text-base leading-tight">{brand.name}</div>
+                  <div className="text-gray-400 text-xs font-medium">{brand.tag}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* ── COMMENTED OUT — previous marquee brands (restore when more clients are added) ──
+          <div className="relative mb-4">
+            <div className="flex gap-4 animate-marquee-left whitespace-nowrap w-max">
+              {[
+                { name: "Bewakoof",   url: "https://www.google.com/s2/favicons?domain=bewakoof.com&sz=128",        color: "from-orange-50 to-yellow-50",  border: "border-orange-100"  },
+                { name: "Lenskart",   url: "https://www.google.com/s2/favicons?domain=lenskart.com&sz=128",        color: "from-red-50 to-orange-50",     border: "border-red-100"     },
+                { name: "boAt",       url: "https://www.google.com/s2/favicons?domain=boat-lifestyle.com&sz=128",  color: "from-gray-50 to-slate-50",     border: "border-gray-200"    },
+                { name: "Mamaearth",  url: "https://www.google.com/s2/favicons?domain=mamaearth.in&sz=128",        color: "from-green-50 to-emerald-50",  border: "border-green-100"   },
+                { name: "Sugar",      url: "https://www.google.com/s2/favicons?domain=sugarcosmetics.com&sz=128",  color: "from-pink-50 to-rose-50",      border: "border-pink-100"    },
+                { name: "Wakefit",    url: "https://www.google.com/s2/favicons?domain=wakefit.co&sz=128",          color: "from-blue-50 to-indigo-50",    border: "border-blue-100"    },
+                { name: "Chumbak",    url: "https://www.google.com/s2/favicons?domain=chumbak.com&sz=128",         color: "from-violet-50 to-purple-50",  border: "border-violet-100"  },
+                { name: "Nykaa",      url: "https://www.google.com/s2/favicons?domain=nykaa.com&sz=128",           color: "from-pink-50 to-fuchsia-50",   border: "border-pink-200"    },
+                // duplicate for seamless loop
+                { name: "Bewakoof",   url: "https://www.google.com/s2/favicons?domain=bewakoof.com&sz=128",        color: "from-orange-50 to-yellow-50",  border: "border-orange-100"  },
+                { name: "Lenskart",   url: "https://www.google.com/s2/favicons?domain=lenskart.com&sz=128",        color: "from-red-50 to-orange-50",     border: "border-red-100"     },
+                { name: "boAt",       url: "https://www.google.com/s2/favicons?domain=boat-lifestyle.com&sz=128",  color: "from-gray-50 to-slate-50",     border: "border-gray-200"    },
+                { name: "Mamaearth",  url: "https://www.google.com/s2/favicons?domain=mamaearth.in&sz=128",        color: "from-green-50 to-emerald-50",  border: "border-green-100"   },
+                { name: "Sugar",      url: "https://www.google.com/s2/favicons?domain=sugarcosmetics.com&sz=128",  color: "from-pink-50 to-rose-50",      border: "border-pink-100"    },
+                { name: "Wakefit",    url: "https://www.google.com/s2/favicons?domain=wakefit.co&sz=128",          color: "from-blue-50 to-indigo-50",    border: "border-blue-100"    },
+                { name: "Chumbak",    url: "https://www.google.com/s2/favicons?domain=chumbak.com&sz=128",         color: "from-violet-50 to-purple-50",  border: "border-violet-100"  },
+                { name: "Nykaa",      url: "https://www.google.com/s2/favicons?domain=nykaa.com&sz=128",           color: "from-pink-50 to-fuchsia-50",   border: "border-pink-200"    },
+              ].map((brand, i) => (
+                <div key={i} className={`inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-gradient-to-r ${brand.color} border ${brand.border} shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-default`}>
+                  <div className="w-8 h-8 rounded-xl bg-white shadow-sm flex items-center justify-center border border-gray-100 flex-shrink-0">
+                    <Image src={brand.url} alt={brand.name} width={24} height={24} className="object-contain rounded" />
+                  </div>
+                  <span className="text-gray-700 font-semibold text-sm">{brand.name}</span>
+                </div>
+              ))}
+            </div>
+            <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+            <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+          </div>
+
+          <div className="relative">
+            <div className="flex gap-4 animate-marquee-right whitespace-nowrap w-max">
+              {[
+                { name: "Zomato",     url: "https://www.google.com/s2/favicons?domain=zomato.com&sz=128",         color: "from-red-50 to-rose-50",       border: "border-red-100"     },
+                { name: "Meesho",     url: "https://www.google.com/s2/favicons?domain=meesho.com&sz=128",         color: "from-purple-50 to-violet-50",  border: "border-purple-100"  },
+                { name: "Cred",       url: "https://www.google.com/s2/favicons?domain=cred.club&sz=128",          color: "from-slate-50 to-gray-50",     border: "border-slate-200"   },
+                { name: "Zepto",      url: "https://www.google.com/s2/favicons?domain=zeptonow.com&sz=128",       color: "from-yellow-50 to-amber-50",   border: "border-yellow-100"  },
+                { name: "Delhivery",  url: "https://www.google.com/s2/favicons?domain=delhivery.com&sz=128",      color: "from-red-50 to-orange-50",     border: "border-red-100"     },
+                { name: "Razorpay",   url: "https://www.google.com/s2/favicons?domain=razorpay.com&sz=128",       color: "from-blue-50 to-sky-50",       border: "border-blue-100"    },
+                { name: "Ola",        url: "https://www.google.com/s2/favicons?domain=olacabs.com&sz=128",        color: "from-green-50 to-lime-50",     border: "border-green-100"   },
+                { name: "PhonePe",    url: "https://www.google.com/s2/favicons?domain=phonepe.com&sz=128",        color: "from-violet-50 to-indigo-50",  border: "border-violet-100"  },
+                // duplicate for seamless loop
+                { name: "Zomato",     url: "https://www.google.com/s2/favicons?domain=zomato.com&sz=128",         color: "from-red-50 to-rose-50",       border: "border-red-100"     },
+                { name: "Meesho",     url: "https://www.google.com/s2/favicons?domain=meesho.com&sz=128",         color: "from-purple-50 to-violet-50",  border: "border-purple-100"  },
+                { name: "Cred",       url: "https://www.google.com/s2/favicons?domain=cred.club&sz=128",          color: "from-slate-50 to-gray-50",     border: "border-slate-200"   },
+                { name: "Zepto",      url: "https://www.google.com/s2/favicons?domain=zeptonow.com&sz=128",       color: "from-yellow-50 to-amber-50",   border: "border-yellow-100"  },
+                { name: "Delhivery",  url: "https://www.google.com/s2/favicons?domain=delhivery.com&sz=128",      color: "from-red-50 to-orange-50",     border: "border-red-100"     },
+                { name: "Razorpay",   url: "https://www.google.com/s2/favicons?domain=razorpay.com&sz=128",       color: "from-blue-50 to-sky-50",       border: "border-blue-100"    },
+                { name: "Ola",        url: "https://www.google.com/s2/favicons?domain=olacabs.com&sz=128",        color: "from-green-50 to-lime-50",     border: "border-green-100"   },
+                { name: "PhonePe",    url: "https://www.google.com/s2/favicons?domain=phonepe.com&sz=128",        color: "from-violet-50 to-indigo-50",  border: "border-violet-100"  },
+              ].map((brand, i) => (
+                <div key={i} className={`inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-gradient-to-r ${brand.color} border ${brand.border} shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-default`}>
+                  <div className="w-8 h-8 rounded-xl bg-white shadow-sm flex items-center justify-center border border-gray-100 flex-shrink-0">
+                    <Image src={brand.url} alt={brand.name} width={24} height={24} className="object-contain rounded" />
+                  </div>
+                  <span className="text-gray-700 font-semibold text-sm">{brand.name}</span>
+                </div>
+              ))}
+            </div>
+            <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+            <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+          </div>
+          ── END COMMENTED OUT ── */}
+
         </Container>
-
-        {/* Row 1 — scrolls left */}
-        <div className="relative mb-4">
-          <div className="flex gap-4 animate-marquee-left whitespace-nowrap w-max">
-            {[
-              { name: "Bewakoof",   url: "https://www.google.com/s2/favicons?domain=bewakoof.com&sz=128",        color: "from-orange-50 to-yellow-50",  border: "border-orange-100"  },
-              { name: "Lenskart",   url: "https://www.google.com/s2/favicons?domain=lenskart.com&sz=128",        color: "from-red-50 to-orange-50",     border: "border-red-100"     },
-              { name: "boAt",       url: "https://www.google.com/s2/favicons?domain=boat-lifestyle.com&sz=128",  color: "from-gray-50 to-slate-50",     border: "border-gray-200"    },
-              { name: "Mamaearth",  url: "https://www.google.com/s2/favicons?domain=mamaearth.in&sz=128",        color: "from-green-50 to-emerald-50",  border: "border-green-100"   },
-              { name: "Sugar",      url: "https://www.google.com/s2/favicons?domain=sugarcosmetics.com&sz=128",  color: "from-pink-50 to-rose-50",      border: "border-pink-100"    },
-              { name: "Wakefit",    url: "https://www.google.com/s2/favicons?domain=wakefit.co&sz=128",          color: "from-blue-50 to-indigo-50",    border: "border-blue-100"    },
-              { name: "Chumbak",    url: "https://www.google.com/s2/favicons?domain=chumbak.com&sz=128",         color: "from-violet-50 to-purple-50",  border: "border-violet-100"  },
-              { name: "Nykaa",      url: "https://www.google.com/s2/favicons?domain=nykaa.com&sz=128",           color: "from-pink-50 to-fuchsia-50",   border: "border-pink-200"    },
-              // duplicate for seamless loop
-              { name: "Bewakoof",   url: "https://www.google.com/s2/favicons?domain=bewakoof.com&sz=128",        color: "from-orange-50 to-yellow-50",  border: "border-orange-100"  },
-              { name: "Lenskart",   url: "https://www.google.com/s2/favicons?domain=lenskart.com&sz=128",        color: "from-red-50 to-orange-50",     border: "border-red-100"     },
-              { name: "boAt",       url: "https://www.google.com/s2/favicons?domain=boat-lifestyle.com&sz=128",  color: "from-gray-50 to-slate-50",     border: "border-gray-200"    },
-              { name: "Mamaearth",  url: "https://www.google.com/s2/favicons?domain=mamaearth.in&sz=128",        color: "from-green-50 to-emerald-50",  border: "border-green-100"   },
-              { name: "Sugar",      url: "https://www.google.com/s2/favicons?domain=sugarcosmetics.com&sz=128",  color: "from-pink-50 to-rose-50",      border: "border-pink-100"    },
-              { name: "Wakefit",    url: "https://www.google.com/s2/favicons?domain=wakefit.co&sz=128",          color: "from-blue-50 to-indigo-50",    border: "border-blue-100"    },
-              { name: "Chumbak",    url: "https://www.google.com/s2/favicons?domain=chumbak.com&sz=128",         color: "from-violet-50 to-purple-50",  border: "border-violet-100"  },
-              { name: "Nykaa",      url: "https://www.google.com/s2/favicons?domain=nykaa.com&sz=128",           color: "from-pink-50 to-fuchsia-50",   border: "border-pink-200"    },
-            ].map((brand, i) => (
-              <div key={i} className={`inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-gradient-to-r ${brand.color} border ${brand.border} shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-default`}>
-                <div className="w-8 h-8 rounded-xl bg-white shadow-sm flex items-center justify-center border border-gray-100 flex-shrink-0">
-                  <Image src={brand.url} alt={brand.name} width={24} height={24} className="object-contain rounded" />
-                </div>
-                <span className="text-gray-700 font-semibold text-sm">{brand.name}</span>
-              </div>
-            ))}
-          </div>
-          {/* Edge fades */}
-          <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
-          <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
-        </div>
-
-        {/* Row 2 — scrolls right */}
-        <div className="relative">
-          <div className="flex gap-4 animate-marquee-right whitespace-nowrap w-max">
-            {[
-              { name: "Zomato",     url: "https://www.google.com/s2/favicons?domain=zomato.com&sz=128",         color: "from-red-50 to-rose-50",       border: "border-red-100"     },
-              { name: "Meesho",     url: "https://www.google.com/s2/favicons?domain=meesho.com&sz=128",         color: "from-purple-50 to-violet-50",  border: "border-purple-100"  },
-              { name: "Cred",       url: "https://www.google.com/s2/favicons?domain=cred.club&sz=128",          color: "from-slate-50 to-gray-50",     border: "border-slate-200"   },
-              { name: "Zepto",      url: "https://www.google.com/s2/favicons?domain=zeptonow.com&sz=128",       color: "from-yellow-50 to-amber-50",   border: "border-yellow-100"  },
-              { name: "Delhivery",  url: "https://www.google.com/s2/favicons?domain=delhivery.com&sz=128",      color: "from-red-50 to-orange-50",     border: "border-red-100"     },
-              { name: "Razorpay",   url: "https://www.google.com/s2/favicons?domain=razorpay.com&sz=128",       color: "from-blue-50 to-sky-50",       border: "border-blue-100"    },
-              { name: "Ola",        url: "https://www.google.com/s2/favicons?domain=olacabs.com&sz=128",        color: "from-green-50 to-lime-50",     border: "border-green-100"   },
-              { name: "PhonePe",    url: "https://www.google.com/s2/favicons?domain=phonepe.com&sz=128",        color: "from-violet-50 to-indigo-50",  border: "border-violet-100"  },
-              // duplicate for seamless loop
-              { name: "Zomato",     url: "https://www.google.com/s2/favicons?domain=zomato.com&sz=128",         color: "from-red-50 to-rose-50",       border: "border-red-100"     },
-              { name: "Meesho",     url: "https://www.google.com/s2/favicons?domain=meesho.com&sz=128",         color: "from-purple-50 to-violet-50",  border: "border-purple-100"  },
-              { name: "Cred",       url: "https://www.google.com/s2/favicons?domain=cred.club&sz=128",          color: "from-slate-50 to-gray-50",     border: "border-slate-200"   },
-              { name: "Zepto",      url: "https://www.google.com/s2/favicons?domain=zeptonow.com&sz=128",       color: "from-yellow-50 to-amber-50",   border: "border-yellow-100"  },
-              { name: "Delhivery",  url: "https://www.google.com/s2/favicons?domain=delhivery.com&sz=128",      color: "from-red-50 to-orange-50",     border: "border-red-100"     },
-              { name: "Razorpay",   url: "https://www.google.com/s2/favicons?domain=razorpay.com&sz=128",       color: "from-blue-50 to-sky-50",       border: "border-blue-100"    },
-              { name: "Ola",        url: "https://www.google.com/s2/favicons?domain=olacabs.com&sz=128",        color: "from-green-50 to-lime-50",     border: "border-green-100"   },
-              { name: "PhonePe",    url: "https://www.google.com/s2/favicons?domain=phonepe.com&sz=128",        color: "from-violet-50 to-indigo-50",  border: "border-violet-100"  },
-            ].map((brand, i) => (
-              <div key={i} className={`inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-gradient-to-r ${brand.color} border ${brand.border} shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-default`}>
-                <div className="w-8 h-8 rounded-xl bg-white shadow-sm flex items-center justify-center border border-gray-100 flex-shrink-0">
-                  <Image src={brand.url} alt={brand.name} width={24} height={24} className="object-contain rounded" />
-                </div>
-                <span className="text-gray-700 font-semibold text-sm">{brand.name}</span>
-              </div>
-            ))}
-          </div>
-          {/* Edge fades */}
-          <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
-          <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
-        </div>
-
-        <div className="text-center mt-10">
-          <p className="text-sm text-gray-400 font-medium">Join 10,000+ companies already growing with SocialMoon</p>
-        </div>
       </Section>
 
       {/* BPOLYTIX Partnership Strip */}
@@ -437,6 +435,143 @@ const HomePage = () => {
             </div>
           </div>
         </Container>
+      </Section>
+
+      {/* ── SECONDARY — Tech & Automation Section ── */}
+      <Section className="py-0 overflow-hidden">
+        <div className="relative bg-[#080c14]">
+          {/* Grid lines */}
+          <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
+          {/* Glow */}
+          <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] rounded-full opacity-10 pointer-events-none" style={{ background: 'radial-gradient(circle, #3b82f6 0%, transparent 70%)', transform: 'translate(-50%,-50%)' }} />
+          <div className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none" style={{ background: 'radial-gradient(circle, #8b5cf6 0%, transparent 70%)', transform: 'translate(30%,-50%)' }} />
+
+          <Container className="relative z-10 py-20 md:py-28">
+            <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+
+              {/* Left — copy */}
+              <div className="w-full lg:w-[48%] flex flex-col items-center lg:items-start text-center lg:text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/8 border border-white/12 text-blue-300 text-xs font-bold uppercase tracking-wider mb-6">
+                  <Zap className="w-3.5 h-3.5" /> Growth & Automation Agency · Lucknow
+                </div>
+
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-[1.05] tracking-tight mb-5">
+                  We build systems<br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400">
+                    that scale your business.
+                  </span>
+                </h2>
+
+                <p className="text-slate-400 text-base sm:text-lg leading-relaxed mb-7 max-w-lg">
+                  AI-powered growth systems and automation that eliminate manual work, scale demand, and help you operate with precision — not guesswork.
+                </p>
+
+                <div className="flex flex-wrap gap-2 justify-center lg:justify-start mb-8">
+                  {[
+                    { label: 'AI Automation', c: 'border-blue-500/30 text-blue-300/80' },
+                    { label: 'Lead Generation', c: 'border-emerald-500/30 text-emerald-300/80' },
+                    { label: 'Content Systems', c: 'border-purple-500/30 text-purple-300/80' },
+                    { label: 'Cloud Optimization', c: 'border-cyan-500/30 text-cyan-300/80' },
+                    { label: 'WorkflowOS', c: 'border-orange-500/30 text-orange-300/80' },
+                  ].map(t => (
+                    <span key={t.label} className={`px-3 py-1 rounded-full border text-xs font-semibold bg-white/5 ${t.c}`}>{t.label}</span>
+                  ))}
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button size="lg"
+                    className="bg-white text-gray-950 hover:bg-blue-50 px-7 py-5 text-sm font-bold rounded-xl shadow-lg transition-all hover:-translate-y-0.5 border-0"
+                    onClick={() => window.open('/contact', '_self')}>
+                    Book a free call <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                  <Button size="lg" variant="outline"
+                    className="bg-transparent border-white/15 text-white/80 hover:bg-white/8 hover:text-white px-7 py-5 text-sm font-semibold rounded-xl transition-all"
+                    onClick={() => window.open('/solutions', '_self')}>
+                    Explore solutions
+                  </Button>
+                </div>
+
+                {/* Social proof */}
+                <div className="flex items-center gap-4 mt-8 pt-8 border-t border-white/8">
+                  <div className="flex -space-x-2">
+                    {[1,2,3,4,5].map(i => (
+                      <img key={i} src={`https://i.pravatar.cc/100?img=${i+10}`} alt="" className="w-7 h-7 rounded-full border-2 border-[#080c14]" />
+                    ))}
+                  </div>
+                  <div>
+                    <div className="flex text-yellow-400 mb-0.5">{[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-current" />)}</div>
+                    <span className="text-slate-500 text-xs">50+ businesses growing with SocialMoon</span>
+                  </div>
+                  <div className="hidden sm:flex items-center gap-2 ml-auto">
+                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                    <span className="text-slate-500 text-xs">Available now</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right — live systems panel */}
+              <div className="w-full lg:w-[52%]">
+                <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+                  {/* Panel header */}
+                  <div className="flex items-center gap-3 px-5 py-3.5 border-b border-white/8 bg-black/20">
+                    <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-red-500/70" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
+                      <div className="w-3 h-3 rounded-full bg-green-500/70" />
+                    </div>
+                    <span className="text-slate-400 text-xs font-mono ml-1">systems_running.live</span>
+                    <div className="ml-auto flex items-center gap-1.5">
+                      <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                      <span className="text-green-400 text-[10px] font-mono">4 active</span>
+                    </div>
+                  </div>
+
+                  {/* System rows */}
+                  <div className="divide-y divide-white/5">
+                    {[
+                      { name: 'Content & Social Growth', status: 'Active', metric: '+340% reach', color: 'emerald', bar: 85 },
+                      { name: 'Lead Generation System', status: 'Running', metric: '57 leads/mo', color: 'blue', bar: 72 },
+                      { name: 'OpsFlow AI', status: 'Optimizing', metric: '-60% manual work', color: 'purple', bar: 91 },
+                      { name: 'CloudTrim', status: 'Monitoring', metric: '-41% cloud cost', color: 'cyan', bar: 63 },
+                    ].map((sys, i) => {
+                      const dotColor = sys.color === 'emerald' ? 'bg-emerald-400' : sys.color === 'blue' ? 'bg-blue-400' : sys.color === 'purple' ? 'bg-purple-400' : 'bg-cyan-400';
+                      const textColor = sys.color === 'emerald' ? 'text-emerald-400' : sys.color === 'blue' ? 'text-blue-400' : sys.color === 'purple' ? 'text-purple-400' : 'text-cyan-400';
+                      const barColor = sys.color === 'emerald' ? 'bg-emerald-500' : sys.color === 'blue' ? 'bg-blue-500' : sys.color === 'purple' ? 'bg-purple-500' : 'bg-cyan-500';
+                      return (
+                        <div key={i} className="px-5 py-4 hover:bg-white/5 transition-colors">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className={`w-2 h-2 rounded-full flex-shrink-0 ${dotColor} animate-pulse`} />
+                            <div className="flex-1 min-w-0">
+                              <span className="text-white/80 text-sm font-semibold">{sys.name}</span>
+                              <span className="text-slate-600 text-xs ml-2">· {sys.status}</span>
+                            </div>
+                            <span className={`text-xs font-bold ${textColor}`}>{sys.metric}</span>
+                          </div>
+                          <div className="h-1 bg-white/8 rounded-full overflow-hidden">
+                            <div className={`h-full ${barColor} rounded-full transition-all`} style={{ width: `${sys.bar}%` }} />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Big metric footer */}
+                  <div className="px-5 py-5 bg-gradient-to-r from-blue-600/15 to-purple-600/15 border-t border-white/8 flex items-center justify-between">
+                    <div>
+                      <div className="text-slate-400 text-xs mb-0.5">Avg. pipeline growth across clients</div>
+                      <div className="text-3xl font-black text-white">+214%</div>
+                    </div>
+                    <div className="flex items-center gap-1.5 bg-green-500/15 border border-green-500/25 px-3 py-1.5 rounded-full">
+                      <TrendingUp className="w-3.5 h-3.5 text-green-400" />
+                      <span className="text-green-400 text-xs font-semibold">in 4 months</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </Container>
+        </div>
       </Section>
 
       {/* Features Section */}
@@ -1010,7 +1145,6 @@ const HomePage = () => {
               { name: "Facebook", logo: "https://www.google.com/s2/favicons?domain=facebook.com&sz=128" },
               { name: "Twitter", logo: "https://www.google.com/s2/favicons?domain=twitter.com&sz=128" },
               { name: "LinkedIn", logo: "https://www.google.com/s2/favicons?domain=linkedin.com&sz=128" },
-              { name: "TikTok", logo: "https://www.google.com/s2/favicons?domain=tiktok.com&sz=128" },
               { name: "YouTube", logo: "https://www.google.com/s2/favicons?domain=youtube.com&sz=128" },
               { name: "Pinterest", logo: "https://www.google.com/s2/favicons?domain=pinterest.com&sz=128" },
               { name: "Snapchat", logo: "https://www.google.com/s2/favicons?domain=snapchat.com&sz=128" }

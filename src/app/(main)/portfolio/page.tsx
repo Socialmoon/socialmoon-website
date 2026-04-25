@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
-import { Hero } from '@/components/common/Hero';
+import Image from 'next/image';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { Hero } from '@/components/common/Hero';
 import {
   Award,
   Target,
@@ -15,59 +15,14 @@ import {
   CheckCircle,
   Play,
 } from 'lucide-react';
+import { PORTFOLIO_CONTENT } from '@/lib/config/portfolio-catalog';
 import { PortfolioClient } from './PortfolioClient';
 import { CategoryProjectsSection } from './CategoryProjectsSection';
 import { PlatformExpertiseSection } from './PlatformExpertiseSection';
 import { InstagramProjectsSection } from './InstagramProjectsSection';
 
 const PortfolioPage = () => {
-  const [content, setContent] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const previousDataRef = useRef<string | null>(null);
-
-  useEffect(() => {
-    const fetchData = async (isPolling = false) => {
-      try {
-        const response = await fetch('/api/portfolio');
-        const portfolioData = await response.json();
-
-        // Use real data from database
-        const enhancedContent = portfolioData;
-        const contentString = JSON.stringify(enhancedContent);
-
-        // Only update if data has changed or it's the initial load
-        if (!isPolling || contentString !== previousDataRef.current) {
-          setContent(enhancedContent);
-          previousDataRef.current = contentString;
-        }
-      } catch (error) {
-        console.error('Error fetching portfolio data:', error);
-      } finally {
-        if (!isPolling) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchData();
-
-    // Poll for updates every 30 seconds
-    const interval = setInterval(() => fetchData(true), 30000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  if (loading || !content) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce"></div>
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-        </div>
-      </div>
-    );
-  }
+  const content = PORTFOLIO_CONTENT;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">

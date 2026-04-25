@@ -14,19 +14,19 @@ const Footer = () => {
             <h4 className="text-md font-semibold mb-4 text-blue-600">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/" className="text-gray-600 hover:text-blue-600 transition-colors">Home</Link></li>
-              <li><Link href="/services" className="text-gray-600 hover:text-blue-600 transition-colors">Services</Link></li>
+              <li><Link href="/solutions" className="text-gray-600 hover:text-blue-600 transition-colors">Solutions</Link></li>
               <li><Link href="/portfolio" className="text-gray-600 hover:text-blue-600 transition-colors">Portfolio</Link></li>
               <li><Link href="/case-studies" className="text-gray-600 hover:text-blue-600 transition-colors">Case Studies</Link></li>
-              <li><Link href="/insights" className="text-gray-600 hover:text-blue-600 transition-colors">Insights</Link></li>
+              <li><Link href="/blog" className="text-gray-600 hover:text-blue-600 transition-colors">Blog</Link></li>
               <li><Link href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">Contact Us</Link></li>
             </ul>
           </div>
           <div>
-            <h4 className="text-md font-semibold mb-4 text-blue-600">Insights</h4>
+            <h4 className="text-md font-semibold mb-4 text-blue-600">Company</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/insights/about" className="text-gray-600 hover:text-blue-600 transition-colors">About Us</Link></li>
-              <li><Link href="/insights/team" className="text-gray-600 hover:text-blue-600 transition-colors">Our Team</Link></li>
-              <li><Link href="/insights/blog" className="text-gray-600 hover:text-blue-600 transition-colors">Blog</Link></li>
+              <li><Link href="/about" className="text-gray-600 hover:text-blue-600 transition-colors">About Us</Link></li>
+              <li><Link href="/team" className="text-gray-600 hover:text-blue-600 transition-colors">Our Team</Link></li>
+              <li><Link href="/careers" className="text-gray-600 hover:text-blue-600 transition-colors">Careers</Link></li>
             </ul>
           </div>
           <div>
