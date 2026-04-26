@@ -1,20 +1,38 @@
 {
-  "name": "SocialMoon Agency",
+  "name": "SocialMoon - Digital Marketing Agency India",
   "short_name": "SocialMoon",
+  "description": "India's top social media marketing agency for startups & small businesses. Instagram ads, Facebook marketing, lead generation & website design.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#3b82f6",
+  "theme_color": "#2563eb",
+  "lang": "en-IN",
+  "orientation": "portrait-primary",
+  "categories": ["business", "marketing"],
   "icons": [
     {
       "src": "/logo.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/1.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Contact Us",
+      "url": "/contact",
+      "description": "Get a free digital marketing consultation"
+    },
+    {
+      "name": "Our Services",
+      "url": "/solutions",
+      "description": "Explore our digital marketing services"
     }
   ]
 }

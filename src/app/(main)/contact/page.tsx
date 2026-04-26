@@ -89,10 +89,10 @@ const ContactPage = () => {
               closed: 'Sunday: Closed'
             },
             socialMedia: {
-              instagram: 'https://www.instagram.com/the_social_moon_',
-              linkedin: 'https://www.linkedin.com/company/socialmoon1/',
-              twitter: 'https://x.com/the_social_moon',
-              facebook: 'https://www.facebook.com/profile.php?id=61580131888044'
+              instagram: 'https://www.instagram.com/socialmoon.inc',
+              linkedin: 'https://www.linkedin.com/company/socialmoonhq/',
+              twitter: 'https://x.com/socialmoonx',
+              facebook: 'https://www.facebook.com/profile.php?id=61562932652058'
             }
           });
         }
@@ -114,10 +114,10 @@ const ContactPage = () => {
             closed: 'Sunday: Closed'
           },
           socialMedia: {
-            instagram: 'https://www.instagram.com/the_social_moon_',
-            linkedin: 'https://www.linkedin.com/company/socialmoon1/',
-            twitter: 'https://x.com/the_social_moon',
-            facebook: 'https://www.facebook.com/profile.php?id=61580131888044'
+            instagram: 'https://www.instagram.com/socialmoon.inc',
+            linkedin: 'https://www.linkedin.com/company/socialmoonhq/',
+            twitter: 'https://x.com/socialmoonx',
+            facebook: 'https://www.facebook.com/profile.php?id=61562932652058'
           }
         });
       });
@@ -486,7 +486,7 @@ const ContactPage = () => {
                     color: 'from-pink-500 to-purple-500',
                     bgColor: 'from-pink-50 to-purple-50',
                     borderColor: 'border-pink-200',
-                    handle: '@the_social_moon_'
+                    handle: '@socialmoon.inc'
                   },
                   {
                     name: 'LinkedIn',
@@ -495,7 +495,7 @@ const ContactPage = () => {
                     color: 'from-blue-600 to-blue-400',
                     bgColor: 'from-blue-50 to-blue-50',
                     borderColor: 'border-blue-200',
-                    handle: 'socialmoon1'
+                    handle: 'socialmoonhq'
                   },
                   {
                     name: 'Twitter',
@@ -504,7 +504,7 @@ const ContactPage = () => {
                     color: 'from-sky-500 to-blue-500',
                     bgColor: 'from-sky-50 to-blue-50',
                     borderColor: 'border-sky-200',
-                    handle: '@the_social_moon'
+                    handle: '@socialmoonx'
                   },
                   {
                     name: 'Facebook',

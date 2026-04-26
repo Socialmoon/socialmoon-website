@@ -265,14 +265,6 @@ const HomePage = () => {
                 tag: 'Gov Initiative',
                 local: true,
               },
-              {
-                name: 'Ministry of Skill Development',
-                url: '/minstry-bigsize-logo.svg',
-                color: 'from-green-50 to-emerald-50',
-                border: 'border-green-100',
-                tag: 'Government',
-                local: true,
-              },
             ].map((brand, i) => (
               <div
                 key={i}
@@ -1202,10 +1194,6 @@ const HomePage = () => {
               {
                 question: "What kind of analytics do you provide?",
                 answer: "We provide comprehensive analytics including engagement rates, reach, follower growth, best posting times, and detailed performance reports."
-              },
-              {
-                question: "Is my data secure?",
-                answer: "Yes, security is our top priority. We use enterprise-grade encryption, comply with GDPR and CCPA, and never share your data with third parties."
               }
             ].map((faq, index) => (
               <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/30 hover:shadow-xl transition-all duration-300 group">

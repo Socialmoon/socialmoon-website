@@ -1,11 +1,11 @@
 <div align="center">
   <img src="public/logo.png" alt="SocialMoon Logo" width="120" />
 
-  <h1>SocialMoon</h1>
+<h1>SocialMoon</h1>
   <p><strong>Grow. Engage. Conquer.</strong></p>
   <p>Social Media Marketing Agency — Lucknow, India</p>
 
-  <p>
+<p>
     <a href="https://www.instagram.com/the_social_moon_">
       <img src="https://img.shields.io/badge/Instagram-the__social__moon__-E4405F?style=flat&logo=instagram&logoColor=white" />
     </a>
@@ -27,36 +27,38 @@
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | Next.js 14 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS + Shadcn/UI |
-| Database | MongoDB + Mongoose |
-| Auth | NextAuth.js |
-| AI Chatbot | NVIDIA API |
-| Media | Firebase Storage |
+| Layer      | Technology               |
+| ---------- | ------------------------ |
+| Framework  | Next.js 14 (App Router)  |
+| Language   | TypeScript               |
+| Styling    | Tailwind CSS + Shadcn/UI |
+| Database   | MongoDB + Mongoose       |
+| Auth       | NextAuth.js              |
+| AI Chatbot | NVIDIA API               |
+| Media      | Firebase Storage         |
 
 ---
 
 ## 🚀 Getting Started
 
 1. **Install dependencies:**
+
    ```bash
    npm install
    ```
-
 2. **Create `.env.local`:**
+
    ```env
    MONGODB_URI=mongodb://localhost:27017/socialmoon
    NEXTAUTH_SECRET=your-secret-key
    NEXTAUTH_URL=http://localhost:3000
+   NEXT_PUBLIC_SITE_URL=https://socialmoon.in
    ADMIN_USERNAME=admin
    ADMIN_PASSWORD=your-secure-password
    NVIDIA_API_KEY=your-nvidia-api-key
    ```
-
 3. **Create superadmin & run:**
+
    ```bash
    npx ts-node scripts/create-superadmin.ts
    npm run dev
@@ -79,9 +81,6 @@ npm start
 
 Set all env variables in your deployment platform before going live.
 
----
-
 <div align="center">
   <p>© 2026 SocialMoon. All rights reserved.</p>
 </div>
-
