@@ -1,0 +1,132 @@
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
+import { initializeApp, getApps } from 'firebase/app';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+};
+
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const db = getFirestore(app);
+
+const contactContent = {
+  title: "Get in Touch",
+  subtitle: "Let's discuss how we can help your business grow",
+  contactInfo: {
+    email: "contact@socialmoon.in",
+    phone: "+91 9118439107",
+    whatsapp: "+91 9118439107",
+    address: "Lucknow, Uttar Pradesh, India"
+  },
+  officeHours: {
+    weekdays: "Monday - Friday: 9:00 AM - 6:00 PM IST",
+    weekends: "Saturday: 10:00 AM - 4:00 PM IST",
+    closed: "Sunday: Closed"
+  },
+  socialMedia: {
+    instagram: "https://www.instagram.com/socialmoon.inc",
+    linkedin: "https://www.linkedin.com/company/socialmoonhq/",
+    twitter: "https://x.com/socialmoonx",
+    facebook: "https://www.facebook.com/profile.php?id=61562932652058"
+  }
+};
+
+const aboutContent = {
+  title: "About SocialMoon",
+  mission: "Our mission is to empower brands to build authentic connections with their audience through innovative social media strategies and creative excellence.",
+  story: `Founded in 2020, SocialMoon has grown from a small team of passionate social media enthusiasts to a full-service digital marketing agency. We've helped over 200 brands achieve remarkable growth on social media, generating over 500 million impressions and driving real business results.
+
+Our approach combines data-driven strategy with creative storytelling to create campaigns that not only look great but deliver measurable ROI. We believe in building long-term partnerships with our clients, understanding their unique challenges, and developing customized solutions that drive sustained growth.`,
+  
+  values: [
+    {
+      title: "Creativity First",
+      description: "We believe great creative work is the foundation of successful social media marketing."
+    },
+    {
+      title: "Data-Driven",
+      description: "Every decision we make is backed by data and insights to ensure optimal results."
+    },
+    {
+      title: "Client-Focused",
+      description: "Your success is our success. We're committed to delivering exceptional results for every client."
+    },
+    {
+      title: "Innovation",
+      description: "We stay ahead of trends and continuously evolve our strategies to maintain competitive advantage."
+    }
+  ],
+  
+  team: [
+    {
+      name: "Avinash Gautam",
+      position: "Founder & Chief Executive Officer",
+      bio: "Visionary leader driving Social Moon's mission to transform brands through innovative social media strategies and digital excellence.",
+      image: "/images/portfolio/avinash.jpg",
+      linkedin: "https://www.linkedin.com/in/avinash-gautam"
+    },
+    {
+      name: "Vaibhav Kumar",
+      position: "Co-Founder & Chief Technology Officer",
+      bio: "Technology visionary building cutting-edge solutions and driving innovation in digital marketing technology.",
+      image: "/images/portfolio/vaibhav.jpg",
+      linkedin: "https://www.linkedin.com/in/vaibhav-kumar"
+    }
+  ],
+  
+  stats: [
+    { value: "200+", label: "Clients Served" },
+    { value: "500M+", label: "Impressions Generated" },
+    { value: "98%", label: "Client Retention" },
+    { value: "15x", label: "Average ROI" }
+  ]
+};
+
+async function addContactAndAbout() {
+  try {
+    console.log('🚀 Adding contact and about page content...\n');
+
+    // Add contact page content
+    console.log('📧 Adding contact page content...');
+    const contactRef = doc(db, 'contact', 'main');
+    await setDoc(contactRef, contactContent);
+    console.log('✅ Contact page content added\n');
+
+    // Add about page content
+    console.log('👥 Adding about page content...');
+    const aboutRef = doc(db, 'about', 'main');
+    await setDoc(aboutRef, aboutContent);
+    console.log('✅ About page content added\n');
+
+    console.log('Summary:');
+    console.log(`  • Contact info with email, phone, and address`);
+    console.log(`  • Office hours information`);
+    console.log(`  • Social media links`);
+    console.log(`  • Company mission and story`);
+    console.log(`  • ${aboutContent.values.length} core values`);
+    console.log(`  • ${aboutContent.team.length} team members`);
+    console.log(`  • ${aboutContent.stats.length} key statistics`);
+    
+  } catch (error) {
+    console.error('❌ Error adding content:', error);
+    throw error;
+  }
+}
+
+// Run the script
+addContactAndAbout()
+  .then(() => {
+    console.log('\n✨ Contact and About content added successfully!');
+    process.exit(0);
+  })
+  .catch((error) => {
+    console.error('\n💥 Script failed:', error);
+    process.exit(1);
+  });

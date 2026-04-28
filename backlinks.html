@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backlink Prospecting Agent - socialmoon.in</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .prompt-box {
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+        
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .strategy-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+        
+        .strategy-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+        
+        .strategy-card h3 {
+            color: #667eea;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .strategy-card p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .action-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .action-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            color: #444;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .action-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .action-list li strong {
+            color: #667eea;
+        }
+        
+        .code-label {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        
+        .tip {
+            background: #e8f4f8;
+            border-left: 4px solid #0288d1;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-size: 13px;
+            color: #01579b;
+        }
+        
+        .warning {
+            background: #fff3e0;
+            border-left: 4px solid #f57c00;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-size: 13px;
+            color: #e65100;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .metric-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .metric-box .number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .metric-box .label {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔗 Backlink Prospecting Agent</h1>
+            <p>Automated backlink strategy for socialmoon.in</p>
+        </div>
+        
+        <div class="content">
+            <!-- STRATEGY SECTION -->
+            <div class="section">
+                <h2>📊 Backlink Strategy Overview</h2>
+                <p style="color: #666; margin-bottom: 20px; line-height: 1.8;">
+                    For <strong>socialmoon.in</strong> (social media marketing platform), focus on high-authority sites in the digital marketing, social media, and SaaS niches. Below is your complete backlink acquisition playbook.
+                </p>
+                
+                <div class="strategy-grid">
+                    <div class="strategy-card">
+                        <h3>🎯 Industry Blogs</h3>
+                        <p>Guest post on digital marketing and social media blogs. Target sites with 20k+ monthly traffic and PA 30+.</p>
+                    </div>
+                    <div class="strategy-card">
+                        <h3>🏆 Resource Pages</h3>
+                        <p>Find resource pages linking to competitor tools. Get added to "Best Social Media Tools" lists.</p>
+                    </div>
+                    <div class="strategy-card">
+                        <h3>📱 Tech News Sites</h3>
+                        <p>PR outreach to Product Hunt, Hacker News, TechCrunch, and startup news platforms.</p>
+                    </div>
+                    <div class="strategy-card">
+                        <h3>🤝 Industry Partnerships</h3>
+                        <p>Link exchanges and co-marketing with complementary SaaS products.</p>
+                    </div>
+                    <div class="strategy-card">
+                        <h3>📚 Directory & Listings</h3>
+                        <p>Submit to relevant directories: Capterra, G2, Trustpilot, and niche SaaS directories.</p>
+                    </div>
+                    <div class="strategy-card">
+                        <h3>💬 Community & Forums</h3>
+                        <p>Answer questions on Reddit, Quora, Twitter, and LinkedIn with relevant links.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AGENT PROMPT SECTION -->
+            <div class="section">
+                <h2>🤖 Agent Prompt for Claude API</h2>
+                
+                <div class="code-label">System Prompt</div>
+                <div class="prompt-box">You are an expert SEO backlink prospecting agent specialized in finding high-quality backlink opportunities for SaaS and digital marketing platforms.
+
+Your role:
+1. Identify relevant websites, blogs, and resource pages that could link to socialmoon.in
+2. Analyze backlink quality (authority, relevance, traffic)
+3. Categorize opportunities by difficulty and ROI
+4. Create outreach templates for different opportunity types
+5. Track and monitor backlink performance
+
+Focus on:
+- Domain Authority (PA/DA) 30+
+- Relevance to social media marketing, SaaS, digital marketing
+- Natural link placement (not PBN or spam sites)
+- Long-term relationship building
+- Bing-friendly backlinks (authority + relevance)
+
+For each opportunity, provide:
+- Website name and URL
+- Domain Authority / Page Authority
+- Relevant section/page to target
+- Recommended outreach angle
+- Anchor text suggestions
+- Priority score (1-10)
+
+Always prioritize quality over quantity. Target 5-10 high-authority links per month rather than 100 low-quality links.</div>
+
+                <div class="code-label">User Prompt Example</div>
+                <div class="prompt-box">I need to find backlink opportunities for socialmoon.in (a social media marketing and scheduling platform). 
+
+Current situation:
+- Website: socialmoon.in
+- Main service: Social media marketing tools, content scheduling, analytics
+- Competitors: Buffer, Hootsuite, Later, Sprout Social
+- Target audience: Small businesses, digital agencies, freelancers
+- Geography: Global with focus on India
+
+Please help me identify:
+1. Top 10 industry blogs in social media marketing niche
+2. Resource pages that compare social media tools
+3. Relevant B2B directories and review sites
+4. Industry influencers and thought leaders to partner with
+5. Guest posting opportunities on high-authority sites
+6. Broken link building opportunities
+7. HARO (Help A Reporter Out) topics to respond to
+
+For each opportunity, provide the outreach strategy and sample email template.</div>
+            </div>
+            
+            <!-- IMPLEMENTATION GUIDE -->
+            <div class="section">
+                <h2>🛠️ Implementation Guide</h2>
+                
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 16px;">Step 1: Set Up Bing Webmaster Tools</h3>
+                <ul class="action-list">
+                    <li><strong>Go to:</strong> https://www.bing.com/webmaster/</li>
+                    <li><strong>Add your site:</strong> socialmoon.in</li>
+                    <li><strong>Verify ownership:</strong> Upload XML file or add meta tag</li>
+                    <li><strong>Submit sitemap:</strong> https://socialmoon.in/sitemap.xml</li>
+                    <li><strong>Request crawl:</strong> For important pages</li>
+                </ul>
+                
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 16px;">Step 2: Backlink Prospecting Process</h3>
+                <ul class="action-list">
+                    <li><strong>Use SEO tools:</strong> Ahrefs, SEMrush, Moz to find competitor backlinks</li>
+                    <li><strong>Analyze backlink quality:</strong> Check Domain Authority, traffic, relevance</li>
+                    <li><strong>Create prospect list:</strong> Organize by priority and outreach type</li>
+                    <li><strong>Personalize outreach:</strong> Reference their content, explain value</li>
+                    <li><strong>Follow up:</strong> 3-4 follow-ups over 2 weeks if no response</li>
+                </ul>
+                
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 16px;">Step 3: Outreach Email Template</h3>
+                <div class="prompt-box">Subject: Great article on [Topic] - Thought you'd find this tool useful
+
+Hi [Name],
+
+I came across your excellent article "[Article Title]" and it perfectly aligns with my background in social media marketing. 
+
+I noticed you were discussing [specific topic from their article]. I've been using socialmoon.in - a powerful social media scheduling and analytics platform that helps [relevant benefit]. Given your focus on [their topic], I thought you might find it valuable to mention in your content.
+
+Here's why I think it would benefit your readers:
+- [Specific benefit #1]
+- [Specific benefit #2]
+- [Specific benefit #3]
+
+I'd be happy to provide more details or even write a guest post on a related topic if that interests you.
+
+Best regards,
+[Your Name]
+[Your Title]
+socialmoon.in</div>
+                
+                <div class="tip">
+                    <strong>💡 Pro Tip:</strong> Always personalize your outreach. Research the person, reference specific content, and explain why linking to socialmoon.in benefits their readers. Generic mass emails have <10% response rate.
+                </div>
+            </div>
+            
+            <!-- LINK BUILDING CHANNELS -->
+            <div class="section">
+                <h2>🎯 Top Backlink Sources for socialmoon.in</h2>
+                
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 16px;">High-Priority Targets</h3>
+                <ul class="action-list">
+                    <li><strong>Digital Marketing Blogs:</strong> HubSpot, Neil Patel, Moz, Search Engine Journal, Social Media Examiner</li>
+                    <li><strong>SaaS Directories:</strong> Capterra, G2, Trustpilot, Appsumo, Product Hunt</li>
+                    <li><strong>Tool Review Sites:</strong> Zapier, Make.com integrations, best-of lists</li>
+                    <li><strong>Industry Publications:</strong> Social Media Today, Entrepreneur, Forbes Tech</li>
+                    <li><strong>Niche Communities:</strong> Reddit (r/marketing, r/socialmedia), Twitter marketing accounts, LinkedIn influencers</li>
+                </ul>
+                
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 16px;">Medium-Priority Targets</h3>
+                <ul class="action-list">
+                    <li><strong>Micro-influencers:</strong> Social media managers with 10k-100k followers</li>
+                    <li><strong>Startup & Business News:</strong> TechCrunch, AngelList, Y Combinator</li>
+                    <li><strong>Educational Resources:</strong> Online courses, certification programs, tutorials</li>
+                    <li><strong>Podcasts & Audio:</strong> Marketing podcasts that mention tools</li>
+                    <li><strong>Webinars & Events:</strong> Industry conference websites</li>
+                </ul>
+            </div>
+            
+            <!-- METRICS & TRACKING -->
+            <div class="section">
+                <h2>📈 Track Your Progress</h2>
+                
+                <div class="metrics">
+                    <div class="metric-box">
+                        <div class="number">5-10</div>
+                        <div class="label">Quality Links/Month</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="number">30+</div>
+                        <div class="label">Domain Authority Target</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="number">High</div>
+                        <div class="label">Relevance Score</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="number">3-6</div>
+                        <div class="label">Months to See Results</div>
+                    </div>
+                </div>
+                
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 16px;">Monitor Using:</h3>
+                <ul class="action-list">
+                    <li><strong>Bing Webmaster Tools:</strong> Links report, crawl stats, index coverage</li>
+                    <li><strong>Google Search Console:</strong> External links, coverage issues</li>
+                    <li><strong>Ahrefs/SEMrush:</strong> Backlink tracking, competitor analysis</li>
+                    <li><strong>Bing SERP tracking:</strong> Monitor ranking for target keywords</li>
+                    <li><strong>Referral traffic:</strong> Google Analytics - track traffic from backlinks</li>
+                </ul>
+            </div>
+            
+            <!-- WARNINGS & BEST PRACTICES -->
+            <div class="section">
+                <h2>⚠️ Important: What NOT to Do</h2>
+                
+                <div class="warning">
+                    <strong>❌ Avoid PBN Links:</strong> Private Blog Networks get sites penalized in Bing
+                </div>
+                
+                <div class="warning">
+                    <strong>❌ Avoid Link Farms:</strong> Bulk backlink purchases from low-quality sites
+                </div>
+                
+                <div class="warning">
+                    <strong>❌ Avoid Anchor Text Spam:</strong> Over-optimized anchors trigger manual penalties
+                </div>
+                
+                <div class="warning">
+                    <strong>❌ Avoid Unrelated Sites:</strong> Links from irrelevant niches hurt more than help
+                </div>
+                
+                <div class="tip">
+                    <strong>✅ Best Practice:</strong> Natural, relevant links from authoritative sites will always win on Bing. Focus on organic relationship building and content quality.
+                </div>
+            </div>
+            
+            <!-- ACTION PLAN -->
+            <div class="section">
+                <h2>📋 30-Day Action Plan</h2>
+                
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 16px;">Week 1: Setup & Research</h3>
+                <ul class="action-list">
+                    <li>✓ Verify socialmoon.in in Bing Webmaster Tools</li>
+                    <li>✓ Submit sitemap to Bing</li>
+                    <li>✓ Export competitor backlinks (Ahrefs/SEMrush)</li>
+                    <li>✓ Create backlink prospect spreadsheet</li>
+                </ul>
+                
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 16px;">Week 2-3: Outreach</h3>
+                <ul class="action-list">
+                    <li>✓ Send 20-30 personalized outreach emails</li>
+                    <li>✓ Target high-authority sites (PA 30+)</li>
+                    <li>✓ Mix content types: guest posts, links, partnerships</li>
+                </ul>
+                
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 16px;">Week 4: Follow-up & Monitor</h3>
+                <ul class="action-list">
+                    <li>✓ Follow up on responses</li>
+                    <li>✓ Check Bing index coverage</li>
+                    <li>✓ Monitor Bing ranking for target keywords</li>
+                    <li>✓ Document link placements in Bing WT</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
