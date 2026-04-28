@@ -145,6 +145,39 @@ export function FAQSchema({ faqs }: { faqs: { question: string; answer: string }
   );
 }
 
+export function SoftwareApplicationSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "SocialMoon",
+    url: SITE_URL,
+    description:
+      "SocialMoon is a social media marketing platform helping startups & small businesses grow with Instagram ads, Facebook marketing, lead generation & content scheduling.",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "INR",
+      description: "Free strategy consultation available",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "50",
+      bestRating: "5",
+    },
+    author: { "@type": "Organization", name: "SocialMoon", url: SITE_URL },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 export function ArticleSchema({
   title,
   description,

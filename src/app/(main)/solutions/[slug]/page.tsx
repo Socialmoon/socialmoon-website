@@ -5,6 +5,8 @@ import { Section } from '@/components/common/Section';
 import { SERVICE_DETAIL_CONTENT, SERVICES_PAGE_CONTENT, toServiceSlug } from '@/lib/config/services-catalog';
 import { getSolutionSubServices, SOLUTION_SUB_SERVICES } from '@/lib/config/sub-services-catalog';
 import { notFound } from 'next/navigation';
+import { BreadcrumbSchema } from '@/components/common/JsonLd';
+import { SITE_URL } from '@/lib/config/site';
 
 const ICON_MAP: Record<string, React.ElementType> = {
   Globe, TrendingUp, Users, Video, Target, BarChart3, Mail, BrainCircuit, Code, Shield, BookOpen, Rocket, Zap,
@@ -47,6 +49,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
 
   return (
     <div className="min-h-screen bg-white">
+      <BreadcrumbSchema items={[{ name: 'Home', url: SITE_URL }, { name: 'Solutions', url: `${SITE_URL}/solutions` }, { name: service.title, url: `${SITE_URL}/solutions/${slug}` }]} />
       {/* Hero */}
       <div className={`relative overflow-hidden pt-16 pb-20 ${isGrowth ? 'bg-gradient-to-br from-gray-950 via-emerald-950 to-gray-950' : 'bg-gradient-to-br from-gray-950 via-indigo-950 to-gray-950'}`}>
         <div className="absolute inset-0 opacity-15" style={{ backgroundImage: `radial-gradient(circle at 25% 50%, ${isGrowth ? '#10b981' : '#6366f1'} 0%, transparent 50%)` }} />

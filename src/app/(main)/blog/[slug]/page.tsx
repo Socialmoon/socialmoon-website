@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { Container } from '@/components/common/Container';
 import { BookOpen, Calendar, ArrowLeft, User, Clock } from 'lucide-react';
 import { BLOG_POSTS, getBlogPostBySlug } from '@/lib/config/blog-catalog';
+import { ArticleSchema, BreadcrumbSchema } from '@/components/common/JsonLd';
+import { SITE_URL } from '@/lib/config/site';
 
 export function generateStaticParams() {
   return BLOG_POSTS.map(p => ({ slug: p.slug }));
@@ -12,9 +14,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const { slug } = await params;
   const post = getBlogPostBySlug(slug);
   if (!post) notFound();
+  const postUrl = `${SITE_URL}/blog/${post.slug}`;
 
   return (
     <div className="min-h-screen bg-white">
+      <ArticleSchema title={post.title} description={post.excerpt || post.content.slice(0, 160)} url={postUrl} datePublished={post.date} authorName={post.author} />
+      <BreadcrumbSchema items={[{ name: 'Home', url: SITE_URL }, { name: 'Blog', url: `${SITE_URL}/blog` }, { name: post.title, url: postUrl }]} />
       {/* Header */}
       <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 pt-16 pb-20">
         <Container>

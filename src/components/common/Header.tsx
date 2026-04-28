@@ -158,7 +158,7 @@ export default function Header() {
         {/* ── MEGA DROPDOWN ── */}
         {open && (
           <div
-            className="absolute left-0 right-0 top-full bg-white border-t border-gray-100 shadow-2xl z-50"
+            className="hidden lg:block absolute left-0 right-0 top-full bg-white border-t border-gray-100 shadow-2xl z-50"
             style={{ maxHeight: '50vh' }}
             onMouseEnter={() => handleMouseEnter(open)}
             onMouseLeave={handleMouseLeave}
@@ -401,8 +401,6 @@ export default function Header() {
                 </div>
               )}
             </div>
-
-            <Link href="/contact" className="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-gray-50" onClick={() => setMobileOpen(false)}>Contact</Link>
 
             <div className="pt-4 space-y-2">
               <a

@@ -14,6 +14,11 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow: ["/admin/", "/api/"],
       },
+      {
+        userAgent: "Bingbot",
+        allow: "/",
+        disallow: ["/admin/", "/api/"],
+      },
     ],
     sitemap: new URL("/sitemap.xml", SITE_URL).href,
     host: SITE_URL,

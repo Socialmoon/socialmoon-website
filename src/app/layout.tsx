@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { SITE_URL } from "@/lib/config/site";
-import { LocalBusinessSchema, WebsiteSchema } from "@/components/common/JsonLd";
+import { LocalBusinessSchema, SoftwareApplicationSchema, WebsiteSchema } from "@/components/common/JsonLd";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -66,6 +66,9 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   verification: {
     google: "", // TODO: Add Google Search Console verification token
+    other: {
+      "msvalidate.01": "", // TODO: Add Bing Webmaster Tools verification token from https://www.bing.com/webmaster/
+    },
   },
 };
 
@@ -79,6 +82,7 @@ export default function RootLayout({
       <head>
         <LocalBusinessSchema />
         <WebsiteSchema />
+        <SoftwareApplicationSchema />
       </head>
       <body className={inter.className}>
         {children}
