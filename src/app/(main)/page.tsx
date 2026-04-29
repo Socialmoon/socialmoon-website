@@ -242,11 +242,11 @@ const HomePage = () => {
             {[
               {
                 name: 'Bharat Taxi',
-                url: 'https://www.google.com/s2/favicons?domain=bharattaxi.com&sz=128',
+                url: '/bharat taxi.webp',
                 color: 'from-yellow-50 to-amber-50',
                 border: 'border-yellow-100',
                 tag: 'Mobility',
-                local: false,
+                local: true,
               },
               {
                 name: 'Shaip',
