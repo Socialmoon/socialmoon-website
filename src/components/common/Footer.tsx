@@ -49,19 +49,19 @@ const Footer = () => {
           <div>
             <h4 className="text-md font-semibold mb-3 text-blue-600 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5" />
-              Luna AI
+              Avena AI
             </h4>
             <p className="text-gray-500 text-xs mb-3 leading-relaxed">
               Get instant answers about our services, pricing &amp; more — 24/7.
             </p>
             <a
-              href="https://luna.socialmoon.in"
+              href="https://avena.socialmoon.in"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-sm"
             >
               <Sparkles className="w-3 h-3" />
-              Chat with Luna
+              Chat with Avena
             </a>
           </div>
           <div>

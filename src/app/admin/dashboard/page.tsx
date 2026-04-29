@@ -26,7 +26,7 @@ export default function DashboardPage() {
   const quickLinks = [
     { label: 'View Messages', desc: 'Read & reply to contact form submissions', icon: MessageSquare, href: '/admin/contact', color: 'blue' },
     { label: 'Manage Admins', desc: 'Add or remove admin users', icon: Users, href: '/admin/admins', color: 'purple' },
-    { label: 'Luna Admin', desc: 'Manage Luna AI assistant', icon: Sparkles, href: 'https://luna.socialmoon.in/admin-login', color: 'violet', external: true },
+    { label: 'Avena Admin', desc: 'Manage Avena AI assistant', icon: Sparkles, href: 'https://avena.socialmoon.in/admin-login', color: 'violet', external: true },
   ];
 
   const COLOR = {

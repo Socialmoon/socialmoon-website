@@ -128,13 +128,13 @@ export default function Header() {
           {/* Right Actions */}
           <div className="hidden lg:flex items-center gap-2">
             <a
-              href="https://luna.socialmoon.in"
+              href="https://avena.socialmoon.in"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-semibold shadow hover:shadow-md hover:scale-105 transition-all"
             >
               <Sparkles className="w-3.5 h-3.5" />
-              Ask Luna
+              Ask Avena
             </a>
             <Link href="/contact" className="px-4 py-2 rounded-lg bg-gray-900 text-white text-sm font-semibold hover:bg-gray-800 transition-all">
               Get Started
@@ -404,13 +404,13 @@ export default function Header() {
 
             <div className="pt-4 space-y-2">
               <a
-                href="https://luna.socialmoon.in"
+                href="https://avena.socialmoon.in"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold text-sm"
                 onClick={() => setMobileOpen(false)}
               >
-                <Sparkles className="w-4 h-4" /> Ask Luna AI
+                <Sparkles className="w-4 h-4" /> Ask Avena AI
               </a>
               <Link href="/contact" className="flex items-center justify-center w-full px-4 py-3 rounded-xl bg-gray-900 text-white font-semibold text-sm" onClick={() => setMobileOpen(false)}>
                 Get Started

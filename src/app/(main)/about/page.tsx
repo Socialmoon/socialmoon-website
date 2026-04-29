@@ -166,7 +166,7 @@ export default function AboutPage() {
                 { label: 'Growth Systems', desc: 'Content, leads, personal brand', color: 'bg-emerald-50 border-emerald-100 text-emerald-700' },
                 { label: 'Efficiency Systems', desc: 'Ops, cloud, AI, database', color: 'bg-indigo-50 border-indigo-100 text-indigo-700' },
                 { label: 'BPOLYTIX Collab', desc: 'Powered by SocialMoon', color: 'bg-purple-50 border-purple-100 text-purple-700' },
-                { label: 'Luna AI', desc: '24/7 intelligent assistant', color: 'bg-blue-50 border-blue-100 text-blue-700' },
+                { label: 'Avena AI', desc: '24/7 intelligent assistant', color: 'bg-blue-50 border-blue-100 text-blue-700' },
               ].map((item, i) => (
                 <div key={i} className={`p-5 rounded-2xl border ${item.color} font-semibold`}>
                   <div className="text-sm font-bold mb-1">{item.label}</div>

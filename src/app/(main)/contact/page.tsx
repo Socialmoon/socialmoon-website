@@ -211,13 +211,13 @@ const ContactPage = () => {
                   WhatsApp Us
                 </a>
                 <a
-                  href="https://luna.socialmoon.in"
+                  href="https://avena.socialmoon.in"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-sm hover:from-blue-500 hover:to-purple-500 transition-all"
                 >
                   <Sparkles className="w-4 h-4" />
-                  Chat with Luna
+                  Chat with Avena
                 </a>
               </div>
             </div>
@@ -231,7 +231,7 @@ const ContactPage = () => {
                     <Sparkles className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1 ml-1">
-                    <div className="text-white font-semibold text-sm">Luna</div>
+                    <div className="text-white font-semibold text-sm">Avena</div>
                   </div>
                   <div className="text-purple-400 text-xs font-semibold">AI Assistant</div>
                 </div>
@@ -243,7 +243,7 @@ const ContactPage = () => {
                       <Sparkles className="w-3.5 h-3.5 text-white" />
                     </div>
                     <div className="bg-white/10 rounded-2xl rounded-bl-md px-4 py-3 text-gray-200 text-sm max-w-[82%] leading-relaxed">
-                      Hi! I&apos;m Luna 👋 How can I help you grow your brand today?
+                      Hi! I&apos;m Avena 👋 How can I help you grow your brand today?
                     </div>
                   </div>
                   <div className="flex items-end gap-2 justify-end">
@@ -264,13 +264,13 @@ const ContactPage = () => {
                 {/* Input */}
                 <div className="flex gap-2 mb-4">
                   <a
-                    href="https://luna.socialmoon.in"
+                    href="https://avena.socialmoon.in"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-400 text-sm hover:border-purple-400/40 hover:bg-purple-500/10 transition-colors"
-                  >Ask Luna anything...</a>
+                  >Ask Avena anything...</a>
                   <a
-                    href="https://luna.socialmoon.in"
+                    href="https://avena.socialmoon.in"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-11 h-11 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 flex items-center justify-center text-white transition-colors flex-shrink-0"
@@ -378,7 +378,7 @@ const ContactPage = () => {
         </Container>
       </Section>
 
-      {/* Luna AI Featured Section */}
+      {/* Avena AI Featured Section */}
       <Section className="py-20 bg-gradient-to-br from-slate-900 via-blue-950 to-purple-950 relative overflow-hidden">
         {/* Background glow effects */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -396,14 +396,14 @@ const ContactPage = () => {
               <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-5">
                 Meet{' '}
                 <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  Luna
+                  Avena
                 </span>
                 ,<br />
                 our AI assistant
               </h2>
 
               <p className="text-white/60 text-base md:text-lg leading-relaxed mb-8 max-w-md">
-                Get instant answers about our services, pricing, timelines, and more — any time of day or night. Luna knows everything about SocialMoon.
+                Get instant answers about our services, pricing, timelines, and more — any time of day or night. Avena knows everything about SocialMoon.
               </p>
 
               <div className="space-y-3 mb-8">
@@ -421,18 +421,18 @@ const ContactPage = () => {
               </div>
 
               <a
-                href="https://luna.socialmoon.in"
+                href="https://avena.socialmoon.in"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-400 hover:to-purple-400 text-white font-bold text-sm transition-all shadow-lg shadow-purple-900/40 hover:shadow-xl hover:-translate-y-0.5"
               >
                 <Sparkles className="w-4 h-4" />
-                Open Luna in Full Page
+                Open Avena in Full Page
                 <ArrowRight className="w-4 h-4" />
               </a>
             </div>
 
-            {/* Right: Luna iframe preview */}
+            {/* Right: Avena iframe preview */}
             <div className="w-full lg:w-[440px] flex-shrink-0">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-purple-900/50 border border-white/10">
                 {/* Fake browser chrome */}
@@ -444,13 +444,13 @@ const ContactPage = () => {
                   </div>
                   <div className="flex-1 bg-slate-700 rounded-md px-3 py-1 flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-green-400 flex-shrink-0"></div>
-                    <span className="text-white/50 text-xs">luna.socialmoon.in</span>
+                    <span className="text-white/50 text-xs">avena.socialmoon.in</span>
                   </div>
                 </div>
                 <iframe
-                  src="https://luna.socialmoon.in"
+                  src="https://avena.socialmoon.in"
                   className="w-full h-[500px] border-none bg-white"
-                  title="Luna AI Assistant"
+                  title="Avena AI Assistant"
                   loading="lazy"
                 />
               </div>
