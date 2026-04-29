@@ -6,8 +6,8 @@
   <p>Social Media Marketing Agency — Lucknow, India</p>
 
 <p>
-    <a href="https://www.instagram.com/the_social_moon_">
-      <img src="https://img.shields.io/badge/Instagram-the__social__moon__-E4405F?style=flat&logo=instagram&logoColor=white" />
+    <a href="https://www.instagram.com/socialmoon.inc">
+      <img src="https://img.shields.io/badge/Instagram-socialmoon.inc-E4405F?style=flat&logo=instagram&logoColor=white" />
     </a>
     <a href="mailto:contact@socialmoon.in">
       <img src="https://img.shields.io/badge/Email-contact@socialmoon.in-D14836?style=flat&logo=gmail&logoColor=white" />

@@ -52,8 +52,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@the_social_moon",
-    creator: "@the_social_moon",
+    site: "@socialmoonx",
+    creator: "@socialmoonx",
     title: "Digital Marketing Agency India | SocialMoon",
     description: "India's top social media marketing agency for startups & small businesses. Instagram ads, Facebook marketing, lead generation.",
     images: ["/logo.png"],
