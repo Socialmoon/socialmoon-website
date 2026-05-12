@@ -315,6 +315,7 @@ export default function Header() {
         <div className="lg:hidden fixed inset-0 top-16 z-40 bg-white overflow-y-auto">
           <div className="px-4 py-6 space-y-1">
             <Link href="/" className="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-gray-50" onClick={() => setMobileOpen(false)}>Home</Link>
+            
 
             {/* Solutions mobile */}
             <div>

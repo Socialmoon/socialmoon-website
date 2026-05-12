@@ -1,6 +1,4 @@
-'use client';
-
-import { useEffect, useState } from 'react';
+import React from 'react';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
 import Image from 'next/image';
@@ -18,11 +16,9 @@ type TeamMember = {
   image?: string;
 };
 
-const FALLBACK: TeamMember[] = [
-  { name: 'Avinash Gautam', role: 'Founder & Chief Executive Officer', bio: "Visionary leader driving Social Moon's mission to transform brands through innovative social media strategies and digital excellence.", imageUrl: '/images/portfolio/avinash.jpg', id: 1 },
-  { name: 'Strategy Lead', role: 'Head of Growth', bio: 'Designs repeatable lead generation and content systems that create predictable pipeline.', id: 2 },
-  { name: 'Tech Lead', role: 'Head of Automation', bio: 'Builds AI-powered workflows and efficiency systems that reduce operational drag.', id: 3 },
-];
+import TEAM, { TeamMember as StaticTeamMember } from '@/data/team';
+
+const FALLBACK: StaticTeamMember[] = TEAM;
 
 const COLORS = [
   'from-blue-500 to-indigo-600',
@@ -34,16 +30,7 @@ const COLORS = [
 ];
 
 export default function TeamPage() {
-  const [team, setTeam] = useState<TeamMember[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch('/api/about')
-      .then(r => r.json())
-      .then(d => { setTeam(d?.team?.length ? d.team : FALLBACK); })
-      .catch(() => setTeam(FALLBACK))
-      .finally(() => setLoading(false));
-  }, []);
+  const team: TeamMember[] = FALLBACK;
 
   return (
     <div className="min-h-screen bg-white">
@@ -73,13 +60,6 @@ export default function TeamPage() {
       {/* Team Grid */}
       <Section className="py-20 bg-gray-50">
         <Container>
-          {loading ? (
-            <div className="flex justify-center py-20">
-              <div className="flex gap-2">
-                {[0, 1, 2].map(i => <div key={i} className="w-3 h-3 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: `${i * 0.1}s` }} />)}
-              </div>
-            </div>
-          ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {team.map((member, i) => {
                 const color = COLORS[i % COLORS.length];
@@ -112,7 +92,6 @@ export default function TeamPage() {
                 );
               })}
             </div>
-          )}
         </Container>
       </Section>
 

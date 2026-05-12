@@ -73,8 +73,8 @@ const HomePage = () => {
     <div className="min-h-screen bg-gradient-to-r from-white to-blue-100">
       {/* ── PRIMARY HERO — Original Marketing ── */}
       <Hero className="relative overflow-hidden bg-white pt-4 pb-8 md:pt-10 md:pb-14 lg:pt-14 lg:pb-16">
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-50 blur-3xl opacity-50 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-purple-50 blur-3xl opacity-50 pointer-events-none" />
+        <div className="hidden sm:block absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-50 blur-3xl opacity-50 pointer-events-none" />
+        <div className="hidden sm:block absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-purple-50 blur-3xl opacity-50 pointer-events-none" />
 
         <Container className="relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 lg:gap-12">
@@ -145,7 +145,7 @@ const HomePage = () => {
 
             {/* Right — Instagram Reel phone */}
             <div className="flex w-full md:w-1/2 relative items-center justify-center mt-4 md:mt-0">
-              <div className="relative w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] z-10">
+              <div className="relative w-[180px] sm:w-[260px] md:w-[320px] lg:w-[360px] z-10 max-w-full">
                 <div className="relative rounded-[3rem] overflow-hidden border-[8px] border-gray-900 shadow-[0_40px_80px_rgba(0,0,0,0.3)] bg-black">
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-gray-900 rounded-b-2xl z-30" />
                   <div className="relative aspect-[9/16] bg-black overflow-hidden">
