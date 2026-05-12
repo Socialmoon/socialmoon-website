@@ -6,7 +6,7 @@ import { Hero } from '@/components/common/Hero';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Zap, TrendingUp, Users, Star, CheckCircle, Sparkles, Target, MessageSquare, Globe, Shield, Clock, Award, Mail, Rocket } from 'lucide-react';
+import { ArrowRight, Zap, TrendingUp, Users, Star, CheckCircle, Sparkles, Target, Globe, Shield, Clock, Rocket } from 'lucide-react';
 
 type Feature = {
   title: string;
@@ -716,58 +716,6 @@ const HomePage = () => {
         </Container>
       </Section>
 
-      {/* Stats Section */}
-      <Section className="py-24 bg-gradient-to-br from-purple-50 via-white to-blue-50 relative overflow-hidden">
-        {/* Background decorative elements */}
-        <div className="absolute top-20 right-20 w-64 h-64 bg-purple-200/50 rounded-full blur-[100px] pointer-events-none"></div>
-        <div className="absolute bottom-20 left-20 w-56 h-56 bg-blue-200/50 rounded-full blur-[100px] pointer-events-none"></div>
-        
-        <Container className="relative z-10">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white shadow-sm border border-purple-100/50 text-purple-700 text-sm font-bold mb-8 hover:shadow-md transition-shadow">
-              <Award className="w-4 h-4 mr-2" />
-              Global Trust
-            </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
-              Trusted by businesses <br className="hidden md:block"/>
-              <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">worldwide</span>
-            </h2>
-            <p className="text-xl text-gray-500 max-w-2xl mx-auto font-medium">
-              Join thousands of companies already growing with SocialMoon
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {[
-              { number: "10K+", label: "Active Users", icon: Users, color: "blue" },
-              { number: "500K+", label: "Posts Managed", icon: MessageSquare, color: "purple" },
-              { number: "98%", label: "Satisfaction Rate", icon: Star, color: "yellow" },
-              { number: "24/7", label: "Support Available", icon: CheckCircle, color: "emerald" }
-            ].map((stat, index) => (
-              <div key={index} className="text-center group perspective-1000">
-                <div className="relative h-full bg-white/60 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white hover:border-white/50 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-                  
-                  {/* Subtle hover gradient background */}
-                  <div className={`absolute inset-0 bg-gradient-to-br from-${stat.color}-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}></div>
-                  
-                  <div className="relative z-10">
-                    <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-${stat.color}-50 text-${stat.color}-600 mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-sm border border-${stat.color}-100/50`}>
-                      <stat.icon className="h-8 w-8" />
-                    </div>
-                    <div className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2 tracking-tight group-hover:text-gray-800 transition-colors">
-                      {stat.number}
-                    </div>
-                    <div className="text-lg font-semibold text-gray-600 group-hover:text-gray-900 transition-colors">
-                      {stat.label}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
       {/* How It Works Section */}
       <Section className="py-24 bg-[#FAFAFA] relative overflow-hidden">
         {/* subtle bg patterns */}
@@ -998,7 +946,6 @@ const HomePage = () => {
         <Container className="relative z-10">
           <div className="text-center mb-12">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-slate-100 to-gray-100 text-slate-700 text-sm font-semibold mb-6 border border-slate-200/50 shadow-sm">
-              <MessageSquare className="w-4 h-4 mr-2" />
               FAQ
             </div>
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-900 via-slate-800 to-gray-800 bg-clip-text text-transparent mb-4">
@@ -1045,7 +992,6 @@ const HomePage = () => {
         <Container className="relative z-10">
           <div className="text-center max-w-2xl mx-auto">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-700 text-sm font-semibold mb-6 border border-emerald-200/50 shadow-sm">
-              <Mail className="w-4 h-4 mr-2" />
               Newsletter
             </div>
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-900 via-emerald-800 to-teal-800 bg-clip-text text-transparent mb-4">
