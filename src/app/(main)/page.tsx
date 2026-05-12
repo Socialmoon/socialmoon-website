@@ -975,10 +975,13 @@ const HomePage = () => {
                 answer: "We provide comprehensive analytics including engagement rates, reach, follower growth, best posting times, and detailed performance reports."
               }
             ].map((faq, index) => (
-              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/30 hover:shadow-xl transition-all duration-300 group">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 group-hover:text-slate-700 transition-colors">{faq.question}</h3>
-                <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
-              </div>
+              <details key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/30 hover:shadow-xl transition-all duration-300 group">
+                <summary className="text-lg font-semibold text-gray-900 cursor-pointer list-none group-hover:text-slate-700 transition-colors flex items-center justify-between">
+                  <span>{faq.question}</span>
+                  <span className="ml-4 text-slate-500 group-open:rotate-180 transition-transform">⌄</span>
+                </summary>
+                <p className="text-gray-600 leading-relaxed mt-3">{faq.answer}</p>
+              </details>
             ))}
           </div>
         </Container>

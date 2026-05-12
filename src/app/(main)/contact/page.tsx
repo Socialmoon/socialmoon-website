@@ -795,17 +795,18 @@ const ContactPage = () => {
                 answer: "Definitely! We offer maintenance packages and ongoing support to ensure your digital assets continue performing optimally."
               }
             ].map((faq, index) => (
-              <div key={index} className="group bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-                <div className="flex items-start space-x-4">
+              <details key={index} className="group bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                <summary className="flex items-start space-x-4 cursor-pointer list-none">
                   <div className="p-3 bg-blue-100 rounded-2xl group-hover:bg-blue-200 transition-colors duration-300">
                     <MessageSquare className="w-6 h-6 text-blue-600" />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">{faq.question}</h3>
-                    <p className="text-gray-600 leading-relaxed text-lg">{faq.answer}</p>
+                  <div className="flex-1 flex items-center justify-between gap-3">
+                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">{faq.question}</h3>
+                    <span className="text-slate-500 group-open:rotate-180 transition-transform">⌄</span>
                   </div>
-                </div>
-              </div>
+                </summary>
+                <p className="text-gray-600 leading-relaxed text-lg mt-4 pl-16">{faq.answer}</p>
+              </details>
             ))}
           </div>
         </Container>

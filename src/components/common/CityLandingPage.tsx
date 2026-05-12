@@ -122,10 +122,13 @@ export default function CityLandingPage({
               </h2>
               <div className="space-y-4">
                 {faqs.map((faq, i) => (
-                  <div key={i} className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
-                    <h3 className="font-bold text-gray-900 mb-2">{faq.question}</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">{faq.answer}</p>
-                  </div>
+                  <details key={i} className="group bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+                    <summary className="font-bold text-gray-900 cursor-pointer list-none flex items-center justify-between">
+                      <span>{faq.question}</span>
+                      <span className="ml-4 text-slate-500 group-open:rotate-180 transition-transform">⌄</span>
+                    </summary>
+                    <p className="text-gray-600 text-sm leading-relaxed mt-3">{faq.answer}</p>
+                  </details>
                 ))}
               </div>
             </div>
