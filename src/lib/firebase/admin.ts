@@ -1,4 +1,6 @@
-let admin: any = null;
+import { applicationDefault, cert, getApps, initializeApp } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
+
 let adminApp: any = null;
 let adminDb: any = undefined;
 
@@ -27,38 +29,22 @@ if (typeof window === 'undefined') {
     const serviceAccount = getServiceAccount();
     const hasServerCredentials = !!serviceAccount || !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
-    if (!hasServerCredentials) {
-      adminDb = undefined;
-    } else {
-    // Dynamically require to avoid bundler trying to resolve this on the client
-    // Use eval to prevent bundlers from statically analyzing the require call
-    // eslint-disable-next-line no-eval
-    const req: any = eval('require');
-    admin = req('firebase-admin');
-
-    if (!admin.apps.length) {
-      if (serviceAccount) {
-        adminApp = admin.initializeApp({
-          credential: admin.credential.cert(serviceAccount),
+    if (hasServerCredentials) {
+      if (!getApps().length) {
+        adminApp = initializeApp({
+          credential: serviceAccount ? cert(serviceAccount) : applicationDefault(),
         });
-      } else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-        adminApp = admin.initializeApp();
+      } else {
+        adminApp = getApps()[0];
       }
-    } else {
-      adminApp = admin.apps[0];
-    }
 
-    if (adminApp) {
-      adminDb = adminApp.firestore();
+      adminDb = getFirestore(adminApp);
     }
-    }
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.warn('Error initializing Firebase Admin (dynamic require):', e);
-    admin = null;
+  } catch (error) {
+    console.warn('Error initializing Firebase Admin:', error);
     adminApp = null;
     adminDb = undefined;
   }
 }
 
-export { admin, adminApp, adminDb };
+export { adminApp, adminDb };
