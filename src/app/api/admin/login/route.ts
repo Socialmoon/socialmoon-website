@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AdminService } from '@/services/admin';
 import { AuthUtils } from '@/lib/auth';
+import { adminDb } from '@/lib/firebase/admin';
 
 // Simple in-memory rate limiting for admin login (in production, use Redis)
 const loginAttempts = new Map<string, { count: number; resetTime: number }>();
 const MAX_LOGIN_ATTEMPTS = 5; // 5 attempts per window
 const LOGIN_WINDOW = 15 * 60 * 1000; // 15 minutes
-const DATABASE_ADMINS_ENABLED =
-  process.env.ENABLE_DATABASE_ADMINS === 'true' ||
-  !!process.env.FIREBASE_SERVICE_ACCOUNT ||
-  !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
+const DATABASE_ADMINS_ENABLED = process.env.ENABLE_DATABASE_ADMINS === 'true' && !!adminDb;
 
 function checkLoginRateLimit(ip: string): boolean {
   const now = Date.now();
