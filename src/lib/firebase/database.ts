@@ -25,11 +25,22 @@ try {
 
 type LocalDatabase = Record<string, Record<string, any>>;
 
+const isServer = () => typeof window === 'undefined';
+
 const useLocalServerStore = () =>
-  typeof window === 'undefined' &&
+  isServer() &&
   !adminDb &&
   process.env.NODE_ENV !== 'production' &&
   process.env.DISABLE_LOCAL_JSON_DB !== 'true';
+
+const assertClientOrConfiguredServer = (operation: string) => {
+  if (isServer()) {
+    throw new Error(
+      `Firebase Admin is not configured for server-side ${operation}. ` +
+        'Set FIREBASE_SERVICE_ACCOUNT, or FIREBASE_PROJECT_ID + FIREBASE_CLIENT_EMAIL + FIREBASE_PRIVATE_KEY in Vercel.',
+    );
+  }
+};
 
 async function getLocalDbPath() {
   const path = await import('node:path');
@@ -81,6 +92,8 @@ export class FirebaseDB {
       return docData ? withId(docId, docData) : null;
     }
 
+    assertClientOrConfiguredServer(`read from ${collectionName}`);
+
     const docRef = clientDoc(db, collectionName, docId);
     const docSnap = await clientGetDoc(docRef);
     return docSnap.exists() ? withId(docSnap.id, docSnap.data()) : null;
@@ -96,6 +109,8 @@ export class FirebaseDB {
       const localDb = await readLocalDb();
       return Object.entries(localDb[collectionName] || {}).map(([id, data]) => withId(id, data));
     }
+
+    assertClientOrConfiguredServer(`list ${collectionName}`);
 
     const collectionRef = clientCollection(db, collectionName);
     const q = _constraints.length > 0 ? clientQuery(collectionRef, ..._constraints) : collectionRef;
@@ -118,6 +133,8 @@ export class FirebaseDB {
       return withId(docId, localDb[collectionName][docId]);
     }
 
+    assertClientOrConfiguredServer(`write to ${collectionName}`);
+
     const docRef = clientDoc(db, collectionName, docId);
     await clientSetDoc(docRef, data, { merge: true });
     return withId(docId, data);
@@ -139,6 +156,8 @@ export class FirebaseDB {
       return withId(docId, data);
     }
 
+    assertClientOrConfiguredServer(`add to ${collectionName}`);
+
     const collectionRef = clientCollection(db, collectionName);
     const docRef = await clientAddDoc(collectionRef, data);
     return withId(docRef.id, data);
@@ -159,6 +178,8 @@ export class FirebaseDB {
       return withId(docId, localDb[collectionName][docId]);
     }
 
+    assertClientOrConfiguredServer(`update ${collectionName}`);
+
     const docRef = clientDoc(db, collectionName, docId);
     await clientUpdateDoc(docRef, data);
     return withId(docId, data);
@@ -177,6 +198,8 @@ export class FirebaseDB {
       await writeLocalDb(localDb);
       return { success: true };
     }
+
+    assertClientOrConfiguredServer(`delete from ${collectionName}`);
 
     const docRef = clientDoc(db, collectionName, docId);
     await clientDeleteDoc(docRef);
