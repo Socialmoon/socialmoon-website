@@ -2,9 +2,30 @@ let admin: any = null;
 let adminApp: any = null;
 let adminDb: any = undefined;
 
+const getServiceAccount = () => {
+  if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+    return JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+  }
+
+  if (
+    process.env.FIREBASE_PROJECT_ID &&
+    process.env.FIREBASE_CLIENT_EMAIL &&
+    process.env.FIREBASE_PRIVATE_KEY
+  ) {
+    return {
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    };
+  }
+
+  return null;
+};
+
 if (typeof window === 'undefined') {
   try {
-    const hasServerCredentials = !!process.env.FIREBASE_SERVICE_ACCOUNT || !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
+    const serviceAccount = getServiceAccount();
+    const hasServerCredentials = !!serviceAccount || !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
     if (!hasServerCredentials) {
       adminDb = undefined;
@@ -16,10 +37,9 @@ if (typeof window === 'undefined') {
     admin = req('firebase-admin');
 
     if (!admin.apps.length) {
-      if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-        const svc = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT as string);
+      if (serviceAccount) {
         adminApp = admin.initializeApp({
-          credential: admin.credential.cert(svc),
+          credential: admin.credential.cert(serviceAccount),
         });
       } else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
         adminApp = admin.initializeApp();

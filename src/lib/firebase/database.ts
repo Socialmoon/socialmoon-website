@@ -25,7 +25,11 @@ try {
 
 type LocalDatabase = Record<string, Record<string, any>>;
 
-const useLocalServerStore = () => typeof window === 'undefined' && !adminDb;
+const useLocalServerStore = () =>
+  typeof window === 'undefined' &&
+  !adminDb &&
+  process.env.NODE_ENV !== 'production' &&
+  process.env.DISABLE_LOCAL_JSON_DB !== 'true';
 
 async function getLocalDbPath() {
   const path = await import('node:path');
