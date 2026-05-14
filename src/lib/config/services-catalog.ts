@@ -8,7 +8,7 @@ export type ServiceItem = {
 };
 
 export type ServiceDetail = {
-  section: 'Growth' | 'Efficiency';
+  section: 'Growth' | 'Efficiency' | 'Build';
   subtitle: string;
   deliverables: string[];
   outcomes: string[];
@@ -65,7 +65,43 @@ export const SERVICES_PAGE_CONTENT = {
       ],
     },
     {
+      id: 11,
+      title: 'SEO & AEO Visibility System',
+      description:
+        'Search visibility work for people and answer engines: keyword strategy, local SEO, on-page structure, schema, content briefs, and ethical backlink outreach planning.',
+      price: 'Custom',
+      features: [
+        'Keyword strategy for services, Lucknow, and priority city pages',
+        'AEO-ready FAQs, schema, and answer-focused content structure',
+        'Local SEO, Google Business Profile, citations, and earned backlink plan',
+      ],
+    },
+    {
       id: 4,
+      title: 'Website Development System',
+      description:
+        'Mobile-first websites, landing pages, and campaign pages built to make your offer clear and credible.',
+      price: 'Custom',
+      features: [
+        'Website structure, copy direction, and conversion flow',
+        'Responsive frontend implementation',
+        'Launch-ready pages with analytics and SEO basics',
+      ],
+    },
+    {
+      id: 5,
+      title: 'App Development System',
+      description:
+        'Product design and development for web apps, mobile app flows, dashboards, and internal tools.',
+      price: 'Custom',
+      features: [
+        'Product scope and user-flow planning',
+        'Frontend, backend, and integration implementation',
+        'Testing, launch support, and iteration roadmap',
+      ],
+    },
+    {
+      id: 6,
       title: 'OpsFlow AI',
       description:
         'Automation-first operational redesign that removes repetitive workload and improves team throughput.',
@@ -77,7 +113,7 @@ export const SERVICES_PAGE_CONTENT = {
       ],
     },
     {
-      id: 5,
+      id: 7,
       title: 'WorkflowOS',
       description:
         'A unified internal operating layer that replaces scattered docs, handoffs, and status-chaos with control.',
@@ -89,7 +125,7 @@ export const SERVICES_PAGE_CONTENT = {
       ],
     },
     {
-      id: 6,
+      id: 8,
       title: 'CloudTrim',
       description:
         'Cloud cost and architecture optimization to reduce spend while improving reliability and scale readiness.',
@@ -101,7 +137,7 @@ export const SERVICES_PAGE_CONTENT = {
       ],
     },
     {
-      id: 7,
+      id: 9,
       title: 'QueryBoost',
       description:
         'Database and query optimization for significantly faster endpoints, better stability, and scale confidence.',
@@ -113,7 +149,7 @@ export const SERVICES_PAGE_CONTENT = {
       ],
     },
     {
-      id: 8,
+      id: 10,
       title: 'SmartLayer AI',
       description:
         'A practical AI feature roadmap from opportunity discovery to prototyping and production shipping plan.',
@@ -191,6 +227,28 @@ export const SERVICE_DETAIL_CONTENT: Record<string, ServiceDetail> = {
       'Teams where founder credibility drives top-of-funnel demand',
     ],
   },
+  'seo-aeo-visibility-system': {
+    section: 'Growth',
+    subtitle:
+      'We build a search visibility system that helps people and answer engines understand what you offer, where you serve, and why your pages are trustworthy.',
+    deliverables: [
+      'Keyword map for primary services, supporting topics, Lucknow intent, and priority city pages',
+      'On-page SEO improvements for titles, descriptions, headings, internal links, and content structure',
+      'AEO-ready question sections, FAQ schema, and concise answer blocks for service pages',
+      'Local SEO checklist for Google Business Profile, local citations, service areas, and review prompts',
+      'Ethical backlink and digital PR target list based on relevant directories, partners, publications, and real relationships',
+    ],
+    outcomes: [
+      'Clearer search intent coverage across service and city pages',
+      'Better structured pages for Google, AI answer engines, and real visitors',
+      'A backlink strategy that can be explained without spam or fake placements',
+    ],
+    idealFor: [
+      'Lucknow businesses that want stronger local discovery',
+      'Brands launching new websites and needing SEO foundations before ads scale',
+      'Companies that want sustainable search growth without unverifiable claims',
+    ],
+  },
   'opsflow-ai': {
     section: 'Efficiency',
     subtitle:
@@ -210,6 +268,48 @@ export const SERVICE_DETAIL_CONTENT: Record<string, ServiceDetail> = {
       'Teams buried under repetitive process work',
       'Growing operations with increasing execution delays',
       'Businesses needing speed without quality compromise',
+    ],
+  },
+  'website-development-system': {
+    section: 'Build',
+    subtitle:
+      'We design websites as campaign experiences: mobile-first, memorable, trust-building, and shaped around the action your audience should take next.',
+    deliverables: [
+      'Creative website concept and page-flow planning',
+      'Hero, service, proof, and conversion-section copy direction',
+      'Responsive frontend implementation with distinctive interaction ideas',
+      'Analytics, basic SEO setup, trust signals, and launch checklist',
+    ],
+    outcomes: [
+      'A website that feels specific to the brand, not copied from a template',
+      'Higher engagement paths for campaign and organic traffic',
+      'A clearer place for visitors to understand, trust, and act',
+    ],
+    idealFor: [
+      'Brands with outdated or generic websites',
+      'Campaigns that need dedicated landing pages',
+      'Businesses that need creative trust-building pages before running ads',
+    ],
+  },
+  'app-development-system': {
+    section: 'Build',
+    subtitle:
+      'We build app experiences that make users want to return: clear flows, useful screens, memorable interactions, and product logic tied to business growth.',
+    deliverables: [
+      'Product requirement mapping and engagement-flow planning',
+      'UI screens, interaction states, and creative product moments',
+      'Frontend, backend, and API implementation where required',
+      'Testing, launch support, analytics events, and iteration roadmap',
+    ],
+    outcomes: [
+      'A product experience that is easier to understand and keep using',
+      'Better alignment between app design, marketing, and launch work',
+      'A product foundation that can evolve after the first release',
+    ],
+    idealFor: [
+      'Founders building MVPs or internal tools',
+      'Companies that need dashboards, portals, or workflow apps',
+      'Brands that need product development alongside go-to-market support',
     ],
   },
   workflowos: {
@@ -298,65 +398,5 @@ export const SERVICE_DETAIL_CONTENT: Record<string, ServiceDetail> = {
   },
 };
 
-export const SERVICES_CASE_STUDIES = [
-  {
-    slug: 'founder-led-saas-growth-engine',
-    company: 'Northlane CRM',
-    industry: 'B2B SaaS',
-    service: 'Growth Systems',
-    results: '+214% qualified pipeline growth',
-    duration: '4 months',
-    metrics: [
-      { before: '18 leads/mo', after: '57 leads/mo', improvement: '+216%' },
-      { before: '1.6% CVR', after: '3.9% CVR', improvement: '+143%' },
-      { before: '12 SQL/mo', after: '31 SQL/mo', improvement: '+158%' },
-      { before: '7-day lag', after: '2-day lag', improvement: '-71%' },
-    ],
-    testimonial: {
-      quote:
-        'We stopped posting randomly and started operating with a real growth system. Pipeline quality improved within the first month.',
-      author: 'Aman Khurana',
-      position: 'Founder, Northlane CRM',
-    },
-  },
-  {
-    slug: 'ops-automation-for-service-team',
-    company: 'BrightRoute Consulting',
-    industry: 'Professional Services',
-    service: 'Efficiency Systems',
-    results: '52% faster project execution',
-    duration: '10 weeks',
-    metrics: [
-      { before: '21 days', after: '10 days', improvement: '-52%' },
-      { before: '43 manual tasks', after: '17 tasks', improvement: '-60%' },
-      { before: '14% rework', after: '5% rework', improvement: '-64%' },
-      { before: '68% SLA', after: '93% SLA', improvement: '+25 pts' },
-    ],
-    testimonial: {
-      quote:
-        'OpsFlow AI and WorkflowOS gave us speed and control together. We finally have clean execution across teams.',
-      author: 'Ritika Menon',
-      position: 'COO, BrightRoute Consulting',
-    },
-  },
-  {
-    slug: 'cloud-and-db-performance-rebuild',
-    company: 'FleetNova',
-    industry: 'Logistics Tech',
-    service: 'CloudTrim + QueryBoost',
-    results: '41% infra cost reduction',
-    duration: '8 weeks',
-    metrics: [
-      { before: '620ms API', after: '180ms API', improvement: '-71%' },
-      { before: '$21k/mo', after: '$12.4k/mo', improvement: '-41%' },
-      { before: '2.3% errors', after: '0.8% errors', improvement: '-65%' },
-      { before: '3 outages/qtr', after: '0 outages/qtr', improvement: '100% stable' },
-    ],
-    testimonial: {
-      quote:
-        'Performance and cloud costs were both hurting us. The optimization sprint paid for itself almost immediately.',
-      author: 'Nikhil Arora',
-      position: 'Head of Engineering, FleetNova',
-    },
-  },
-];
+export const SERVICES_CASE_STUDIES = [];
+

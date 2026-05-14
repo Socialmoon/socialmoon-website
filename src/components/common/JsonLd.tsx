@@ -6,28 +6,19 @@ export function LocalBusinessSchema() {
     "@type": "LocalBusiness",
     "@id": `${SITE_URL}/#organization`,
     name: "SocialMoon",
-    alternateName: "SocialMoon Digital Marketing Agency",
+    alternateName: "SocialMoon",
     description:
-      "SocialMoon is India's top social media marketing agency helping startups & small businesses grow with Instagram ads, Facebook marketing, lead generation & website design. Based in Lucknow, Uttar Pradesh.",
+      "SocialMoon is a creative marketing agency based in Lucknow, Uttar Pradesh.",
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
     image: `${SITE_URL}/logo.png`,
     telephone: "+91-9118439107",
     email: "contact@socialmoon.in",
-    priceRange: "₹₹",
-    currenciesAccepted: "INR",
-    paymentAccepted: "Cash, Credit Card, UPI, Bank Transfer",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Lucknow",
       addressRegion: "Uttar Pradesh",
       addressCountry: "IN",
-      postalCode: "226001",
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: 26.8467,
-      longitude: 80.9462,
     },
     openingHoursSpecification: [
       {
@@ -68,7 +59,10 @@ export function LocalBusinessSchema() {
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Facebook Marketing" } },
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Lead Generation" } },
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Content Marketing" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "SEO and AEO Strategy" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Local SEO" } },
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Website Design" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "App Development" } },
       ],
     },
   };
@@ -88,7 +82,7 @@ export function WebsiteSchema() {
     "@id": `${SITE_URL}/#website`,
     url: SITE_URL,
     name: "SocialMoon",
-    description: "India's top social media marketing agency for startups & small businesses",
+    description: "a creative marketing agency in India for startups & small businesses",
     publisher: { "@id": `${SITE_URL}/#organization` },
     potentialAction: {
       "@type": "SearchAction",
@@ -152,21 +146,9 @@ export function SoftwareApplicationSchema() {
     name: "SocialMoon",
     url: SITE_URL,
     description:
-      "SocialMoon is a social media marketing platform helping startups & small businesses grow with Instagram ads, Facebook marketing, lead generation & content scheduling.",
+      "SocialMoon is a creative marketing agency website.",
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "INR",
-      description: "Free strategy consultation available",
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "50",
-      bestRating: "5",
-    },
     author: { "@type": "Organization", name: "SocialMoon", url: SITE_URL },
   };
 
@@ -221,3 +203,5 @@ export function ArticleSchema({
     />
   );
 }
+
+

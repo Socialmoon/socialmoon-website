@@ -1,15 +1,14 @@
-import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/config/site";
+import type { Metadata } from 'next';
+import { SITE_URL } from '@/lib/config/site';
 
 export const metadata: Metadata = {
-  title: "Digital Marketing Blog India | Tips, Trends & Case Studies | SocialMoon",
+  title: 'Marketing Blog | SocialMoon',
   description:
-    "Read SocialMoon's blog for actionable digital marketing tips, social media trends in India, Instagram & Facebook ad strategies, and real case studies from Indian businesses.",
+    'Read SocialMoon notes on creative campaigns, content systems, lead generation, brand memory, and transparent marketing operations.',
   alternates: { canonical: `${SITE_URL}/blog` },
   openGraph: {
-    title: "Digital Marketing Blog India | SocialMoon",
-    description:
-      "Actionable digital marketing tips, social media trends in India, Instagram & Facebook ad strategies, and real case studies from Indian businesses.",
+    title: 'Marketing Blog | SocialMoon',
+    description: 'Thinking notes on creative campaigns, content systems, and truth-first marketing.',
     url: `${SITE_URL}/blog`,
   },
 };

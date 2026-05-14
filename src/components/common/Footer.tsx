@@ -1,104 +1,89 @@
-import Link from 'next/link';
 import Image from 'next/image';
-import { Sparkles } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, Instagram, Linkedin, MessageCircle } from 'lucide-react';
 
-const Footer = () => {
+const serviceLinks = [
+  ['Content & Social Growth', '/solutions/content-social-growth-system'],
+  ['Lead Generation', '/solutions/lead-generation-system'],
+  ['Personal Brand', '/solutions/personal-brand-system'],
+  ['Website Development', '/solutions/website-development-system'],
+  ['App Development', '/solutions/app-development-system'],
+  ['All Services', '/solutions'],
+];
+
+const proofLinks = [
+  ['Portfolio', '/portfolio'],
+  ['Case Studies', '/case-studies'],
+  ['About', '/about'],
+  ['Team', '/team'],
+  ['Careers', '/careers'],
+  ['Blog', '/blog'],
+];
+
+export default function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-white to-blue-100 text-gray-800 mt-12">
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8">
+    <footer className="border-t border-slate-200 bg-slate-950 text-white">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.2fr_0.8fr_0.8fr_1fr]">
           <div>
-            <Image src="/1.png" alt="Logo" width={180} height={80} className="mb-4" />
+            <Image src="/1.png" alt="SocialMoon" width={150} height={70} className="mb-4 h-16 w-auto rounded-xl bg-white object-contain p-2" />
+            <p className="max-w-sm text-sm leading-7 text-slate-300">
+              SocialMoon designs memorable, transparent marketing campaigns and growth systems for brands that want to be understood clearly.
+            </p>
           </div>
+
           <div>
-            <h4 className="text-md font-semibold mb-4 text-blue-600">Quick Links</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/" className="text-gray-600 hover:text-blue-600 transition-colors">Home</Link></li>
-              <li><Link href="/solutions" className="text-gray-600 hover:text-blue-600 transition-colors">Solutions</Link></li>
-              <li><Link href="/portfolio" className="text-gray-600 hover:text-blue-600 transition-colors">Portfolio</Link></li>
-              <li><Link href="/case-studies" className="text-gray-600 hover:text-blue-600 transition-colors">Case Studies</Link></li>
-              <li><Link href="/blog" className="text-gray-600 hover:text-blue-600 transition-colors">Blog</Link></li>
-              <li><Link href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">Contact Us</Link></li>
+            <h3 className="mb-4 text-xs font-black uppercase tracking-[0.18em] text-orange-300">Services</h3>
+            <ul className="space-y-3">
+              {serviceLinks.map(([label, href]) => (
+                <li key={href}>
+                  <Link href={href} className="text-sm font-semibold text-slate-300 transition-colors hover:text-white">{label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
+
           <div>
-            <h4 className="text-md font-semibold mb-4 text-blue-600">Company</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/about" className="text-gray-600 hover:text-blue-600 transition-colors">About Us</Link></li>
-              <li><Link href="/team" className="text-gray-600 hover:text-blue-600 transition-colors">Our Team</Link></li>
-              <li><Link href="/careers" className="text-gray-600 hover:text-blue-600 transition-colors">Careers</Link></li>
+            <h3 className="mb-4 text-xs font-black uppercase tracking-[0.18em] text-orange-300">Proof</h3>
+            <ul className="space-y-3">
+              {proofLinks.map(([label, href]) => (
+                <li key={href}>
+                  <Link href={href} className="text-sm font-semibold text-slate-300 transition-colors hover:text-white">{label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
+
           <div>
-            <h4 className="text-md font-semibold mb-4 text-blue-600">Follow Us</h4>
-            <div className="flex space-x-4">
-              <a href="https://www.instagram.com/socialmoon.inc" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600 transition-colors" aria-label="Instagram">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-              </a>
-              <a href="https://www.facebook.com/profile.php?id=61562932652058" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600 transition-colors" aria-label="Facebook">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-              </a>
-              <a href="https://www.linkedin.com/company/socialmoonhq/" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600 transition-colors" aria-label="LinkedIn">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-              </a>
-              <a href="https://x.com/socialmoonx" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600 transition-colors" aria-label="X (Twitter)">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            <h3 className="mb-4 text-xs font-black uppercase tracking-[0.18em] text-orange-300">Start Here</h3>
+            <p className="text-sm leading-7 text-slate-300">Bring us the brand, product, or campaign problem. We will help define the message people should remember.</p>
+            <div className="mt-5 flex flex-col gap-3">
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#ff4d2e] px-5 py-3 text-sm font-bold text-white">
+                Talk to SocialMoon
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <a href="https://avena.socialmoon.in" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 px-5 py-3 text-sm font-bold text-slate-200">
+                <MessageCircle className="h-4 w-4" />
+                Ask Avena
               </a>
             </div>
           </div>
-          <div>
-            <h4 className="text-md font-semibold mb-3 text-blue-600 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" />
-              Avena AI
-            </h4>
-            <p className="text-gray-500 text-xs mb-3 leading-relaxed">
-              Get instant answers about our services, pricing &amp; more — 24/7.
-            </p>
-            <a
-              href="https://avena.socialmoon.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-sm"
-            >
-              <Sparkles className="w-3 h-3" />
-              Chat with Avena
-            </a>
-          </div>
-          <div>
-            <h4 className="text-md font-semibold mb-3 text-blue-600 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span className="w-7 h-7 rounded-full bg-white border border-blue-200 flex items-center justify-center overflow-hidden shadow-sm">
-                <Image src="/logo_bpolytix.png" alt="BPOLYTIX logo" width={20} height={20} className="object-contain" />
-              </span>
-              BPOLYTIX
-            </h4>
-            <p className="text-gray-500 text-xs mb-3 leading-relaxed">
-              BPOLYTIX is powered by SocialMoon. Discover their platform and explore collaboration opportunities.
-            </p>
-            <a
-              href="https://bpolytix.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-sm"
-            >
-              Visit BPOLYTIX
-            </a>
-          </div>
         </div>
-        <div className="border-t border-blue-200 mt-8 pt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-sm text-gray-600">
-          <p>&copy; 2025 SocialMoon. All rights reserved.</p>
-          <div className="flex items-center gap-4 sm:justify-end">
-            <a href="/terms-of-service.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">
-              Terms &amp; Conditions
+
+        <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-slate-400">Copyright 2026 SocialMoon. All rights reserved.</p>
+          <div className="flex flex-wrap items-center gap-4">
+            <a href="https://www.instagram.com/socialmoon.inc" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-slate-400 hover:text-white">
+              <Instagram className="h-5 w-5" />
             </a>
-            <a href="/privacy-policy.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors">
-              Privacy Policy
+            <a href="https://www.linkedin.com/company/socialmoonhq/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-slate-400 hover:text-white">
+              <Linkedin className="h-5 w-5" />
             </a>
+            <a href="/terms-of-service.pdf" target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-slate-400 hover:text-white">Terms</a>
+            <a href="/privacy-policy.pdf" target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-slate-400 hover:text-white">Privacy</a>
           </div>
         </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

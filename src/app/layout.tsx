@@ -1,75 +1,66 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { SITE_URL } from "@/lib/config/site";
-import { LocalBusinessSchema, SoftwareApplicationSchema, WebsiteSchema } from "@/components/common/JsonLd";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import Script from 'next/script';
+import './globals.css';
+import { SITE_URL } from '@/lib/config/site';
+import { LocalBusinessSchema, WebsiteSchema } from '@/components/common/JsonLd';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Digital Marketing Agency India | SocialMoon — Grow. Engage. Conquer.",
-    template: "%s | SocialMoon",
+    default: 'SocialMoon | Creative Marketing Agency',
+    template: '%s | SocialMoon',
   },
   description:
-    "SocialMoon is India's top social media marketing agency helping startups & small businesses grow with Instagram ads, Facebook marketing, lead generation & website design. Based in Lucknow. Get a free strategy call today!",
+    'SocialMoon is a creative marketing agency based in Lucknow, India. We help brands plan memorable campaigns, content systems, lead generation, and honest digital communication.',
   keywords: [
-    "digital marketing agency India",
-    "social media marketing India",
-    "Instagram ads agency India",
-    "Facebook marketing agency India",
-    "lead generation agency India",
-    "digital marketing for startups India",
-    "social media management India",
-    "digital marketing company India",
-    "digital marketing agency Lucknow",
-    "social media agency Lucknow",
-    "best digital marketing agency",
-    "affordable digital marketing agency India",
-    "paid ads agency India",
-    "content marketing agency India",
-    "ROI based digital marketing India",
+    'creative marketing agency India',
+    'digital marketing agency India',
+    'social media marketing India',
+    'Instagram ads agency India',
+    'Facebook marketing agency India',
+    'lead generation agency India',
+    'content marketing agency India',
+    'digital marketing agency Lucknow',
+    'SEO agency Lucknow',
+    'local SEO services Lucknow',
+    'AEO services India',
+    'website development agency Lucknow',
   ],
-  authors: [{ name: "SocialMoon", url: SITE_URL }],
-  creator: "SocialMoon",
-  publisher: "SocialMoon",
+  authors: [{ name: 'SocialMoon', url: SITE_URL }],
+  creator: 'SocialMoon',
+  publisher: 'SocialMoon',
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
   alternates: { canonical: SITE_URL },
   openGraph: {
-    type: "website",
-    locale: "en_IN",
+    type: 'website',
+    locale: 'en_IN',
     url: SITE_URL,
-    siteName: "SocialMoon",
-    title: "Digital Marketing Agency India | SocialMoon — Grow. Engage. Conquer.",
-    description:
-      "SocialMoon is India's top social media marketing agency. Instagram ads, Facebook marketing, lead generation & website design for startups & small businesses.",
-    images: [{ url: "/logo.png", width: 512, height: 512, alt: "SocialMoon - Digital Marketing Agency India" }],
+    siteName: 'SocialMoon',
+    title: 'SocialMoon | Creative Marketing Agency',
+    description: 'Creative marketing, content systems, and lead generation with a truth-first approach.',
+    images: [{ url: '/logo.png', width: 512, height: 512, alt: 'SocialMoon logo' }],
   },
   twitter: {
-    card: "summary_large_image",
-    site: "@socialmoonx",
-    creator: "@socialmoonx",
-    title: "Digital Marketing Agency India | SocialMoon",
-    description: "India's top social media marketing agency for startups & small businesses. Instagram ads, Facebook marketing, lead generation.",
-    images: ["/logo.png"],
+    card: 'summary_large_image',
+    site: '@socialmoonx',
+    creator: '@socialmoonx',
+    title: 'SocialMoon | Creative Marketing Agency',
+    description: 'Creative marketing, content systems, and lead generation with a truth-first approach.',
+    images: ['/logo.png'],
   },
   icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-    shortcut: "/logo.png",
+    icon: '/logo.png',
+    apple: '/logo.png',
+    shortcut: '/logo.png',
   },
-  manifest: "/manifest.json",
-  verification: {
-    google: "", // TODO: Add Google Search Console verification token
-    other: {
-      "msvalidate.01": "", // TODO: Add Bing Webmaster Tools verification token from https://www.bing.com/webmaster/
-    },
-  },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -77,14 +68,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-8HNQJ7RW4M';
+
   return (
     <html lang="en-IN">
       <head>
         <LocalBusinessSchema />
         <WebsiteSchema />
-        <SoftwareApplicationSchema />
       </head>
       <body className={inter.className}>
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`} strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${googleAnalyticsId}');
+          `}
+        </Script>
         {children}
       </body>
     </html>

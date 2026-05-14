@@ -290,7 +290,7 @@ export const SOLUTION_SUB_SERVICES: SolutionWithSubServices[] = [
           'Team training and documentation',
         ],
         outcomes: [
-          '40-70% reduction in manual task time',
+          'Reduced manual task time after workflow validation',
           'Fewer errors from human-in-the-loop processes',
           'Team capacity freed for higher-value work',
         ],
@@ -348,7 +348,7 @@ export const SOLUTION_SUB_SERVICES: SolutionWithSubServices[] = [
           'Process library in your tool of choice',
         ],
         outcomes: [
-          'Onboarding new team members 3x faster',
+          'Clearer onboarding for new team members',
           'Fewer errors from unclear handoffs',
           'Processes that survive team changes',
         ],
@@ -396,7 +396,7 @@ export const SOLUTION_SUB_SERVICES: SolutionWithSubServices[] = [
       {
         slug: 'cloud-cost-optimization',
         title: 'Cloud Cost Optimization',
-        tagline: 'Cut your cloud bill by 40-60% without touching your product',
+        tagline: 'Find cloud waste and create a practical optimization plan',
         description: 'We audit your AWS, GCP, or Azure spend, identify waste, and implement rightsizing, reserved instances, and policy changes that reduce cost without impacting performance.',
         icon: 'Shield',
         deliverables: [
@@ -406,7 +406,7 @@ export const SOLUTION_SUB_SERVICES: SolutionWithSubServices[] = [
           'Cost governance policies and alerting',
         ],
         outcomes: [
-          '40-60% reduction in monthly cloud spend',
+          'Monthly cloud spend optimization plan',
           'Predictable infrastructure costs for budgeting',
           'No performance degradation from optimization',
         ],
@@ -431,7 +431,7 @@ export const SOLUTION_SUB_SERVICES: SolutionWithSubServices[] = [
           'Documentation of current and target state',
         ],
         outcomes: [
-          'Infrastructure ready for 5-10x traffic growth',
+          'Infrastructure readiness review for expected traffic growth',
           'Reduced risk of outages and performance incidents',
           'Clear roadmap for engineering to execute',
         ],
@@ -464,7 +464,7 @@ export const SOLUTION_SUB_SERVICES: SolutionWithSubServices[] = [
           'Query rewrite recommendations',
         ],
         outcomes: [
-          '5-10x faster page and API response times',
+          'Faster page and API response targets after diagnosis',
           'Fewer database-related incidents',
           'Clear list of fixes ranked by impact',
         ],
@@ -545,3 +545,4 @@ export const getSubService = (solutionSlug: string, subSlug: string) => {
   const solution = getSolutionSubServices(solutionSlug);
   return solution?.subServices.find(s => s.slug === subSlug) || null;
 };
+

@@ -1,371 +1,402 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Eye, Check, MessageSquare, Trash2 } from 'lucide-react';
+import {
+  Check,
+  Clock3,
+  Mail,
+  MessageSquare,
+  RefreshCw,
+  Search,
+  Trash2,
+  X,
+} from 'lucide-react';
+
+type MessageStatus = 'unread' | 'read' | 'replied';
 
 type Message = {
-  id: number;
-  name: string;
-  email: string;
-  message: string;
-  timestamp: string;
-  status: 'unread' | 'read' | 'replied';
+  id?: string;
+  _id?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  company?: string;
+  service?: string;
+  message?: string;
+  timestamp?: string;
+  createdAt?: string;
+  status?: MessageStatus | string;
+  read?: boolean;
 };
 
-type Subscriber = {
-  id: number;
-  email: string;
-  timestamp: string;
+const getMessageId = (message: Message) => String(message._id || message.id || '');
+
+const getMessageStatus = (message: Message): MessageStatus => {
+  if (message.status === 'replied') return 'replied';
+  if (message.status === 'read' || message.read) return 'read';
+  return 'unread';
+};
+
+const formatDate = (value?: string) => {
+  if (!value) return 'No date';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return 'No date';
+  return date.toLocaleString();
+};
+
+const statusStyles: Record<MessageStatus, string> = {
+  unread: 'border-orange-200 bg-orange-50 text-orange-800',
+  read: 'border-slate-200 bg-slate-50 text-slate-700',
+  replied: 'border-emerald-200 bg-emerald-50 text-emerald-700',
 };
 
 const ContactAdminPage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<'messages' | 'subscribers'>('messages');
+  const [savingId, setSavingId] = useState<string | null>(null);
+  const [error, setError] = useState('');
+  const [query, setQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | MessageStatus>('all');
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const router = useRouter();
+
+  const fetchMessages = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/messages', { cache: 'no-store' });
+      if (!res.ok) throw new Error('Could not load messages');
+      const data = await res.json();
+      setMessages(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error('Error fetching messages:', err);
+      setError('Messages could not be loaded. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined' && !localStorage.getItem('adminToken')) {
       router.push('/admin/login');
       return;
     }
+
     fetchMessages();
-    fetchSubscribers();
   }, [router]);
 
-  const fetchMessages = async () => {
-    try {
-      const res = await fetch('/api/messages');
-      if (res.ok) {
-        const data = await res.json();
-        setMessages(data);
-      }
-    } catch (error) {
-      console.error('Error fetching messages:', error);
-    }
-    setLoading(false);
-  };
+  const counts = useMemo(() => {
+    return messages.reduce(
+      (acc, message) => {
+        const status = getMessageStatus(message);
+        acc.total += 1;
+        acc[status] += 1;
+        return acc;
+      },
+      { total: 0, unread: 0, read: 0, replied: 0 },
+    );
+  }, [messages]);
 
-  const fetchSubscribers = async () => {
-    try {
-      const res = await fetch('/api/subscribers');
-      if (res.ok) {
-        const data = await res.json();
-        setSubscribers(data);
-      }
-    } catch (error) {
-      console.error('Error fetching subscribers:', error);
-    }
-  };
+  const filteredMessages = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
 
-  const updateMessageStatus = async (id: number, status: 'read' | 'replied') => {
-    setSaving(true);
+    return messages.filter((message) => {
+      const status = getMessageStatus(message);
+      const matchesStatus = statusFilter === 'all' || status === statusFilter;
+      const haystack = [
+        message.name,
+        message.email,
+        message.company,
+        message.service,
+        message.message,
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+
+      return matchesStatus && (!normalizedQuery || haystack.includes(normalizedQuery));
+    });
+  }, [messages, query, statusFilter]);
+
+  const updateMessageStatus = async (message: Message, status: MessageStatus) => {
+    const id = getMessageId(message);
+    if (!id) return;
+
+    setSavingId(id);
     try {
       const res = await fetch('/api/messages', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, status }),
       });
-      if (res.ok) {
-        await fetchMessages(); // Refresh messages
-      }
-    } catch (error) {
-      console.error('Error updating message:', error);
+      if (!res.ok) throw new Error('Could not update message');
+      setMessages((current) =>
+        current.map((item) =>
+          getMessageId(item) === id ? { ...item, status, read: status !== 'unread' } : item,
+        ),
+      );
+      setSelectedMessage((current) =>
+        current && getMessageId(current) === id ? { ...current, status, read: status !== 'unread' } : current,
+      );
+    } catch (err) {
+      console.error('Error updating message:', err);
+      setError('Message status could not be updated.');
+    } finally {
+      setSavingId(null);
     }
-    setSaving(false);
   };
 
-  const deleteMessage = async (id: number) => {
-    setSaving(true);
+  const deleteMessage = async (message: Message) => {
+    const id = getMessageId(message);
+    if (!id) return;
+
+    setSavingId(id);
     try {
       const res = await fetch('/api/messages', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id }),
       });
-      if (res.ok) {
-        await fetchMessages(); // Refresh messages
-      }
-    } catch (error) {
-      console.error('Error deleting message:', error);
+      if (!res.ok) throw new Error('Could not delete message');
+      setMessages((current) => current.filter((item) => getMessageId(item) !== id));
+      setSelectedMessage(null);
+    } catch (err) {
+      console.error('Error deleting message:', err);
+      setError('Message could not be deleted.');
+    } finally {
+      setSavingId(null);
     }
-    setSaving(false);
   };
-
-  const deleteSubscriber = async (id: number) => {
-    setSaving(true);
-    try {
-      const res = await fetch('/api/subscribers', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id }),
-      });
-      if (res.ok) {
-        await fetchSubscribers(); // Refresh subscribers
-      }
-    } catch (error) {
-      console.error('Error deleting subscriber:', error);
-    }
-    setSaving(false);
-  };
-
-  if (loading) return <div className="p-8 text-center">Loading messages...</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Manage Messages & Subscribers</h1>
-          <Button
-            onClick={() => router.push('/admin/dashboard')}
-            variant="outline"
-          >
-            Back to Dashboard
-          </Button>
-        </div>
+    <div className="min-h-screen px-4 py-6 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl space-y-6">
+        <section className="overflow-hidden rounded-[2rem] bg-slate-950 text-white shadow-2xl shadow-slate-950/10">
+          <div className="relative p-5 sm:p-8">
+            <div
+              className="absolute inset-0 opacity-15"
+              style={{
+                backgroundImage:
+                  'linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)',
+                backgroundSize: '32px 32px',
+              }}
+            />
+            <div className="relative z-10 grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-orange-200">Inbox</p>
+                <h1 className="mt-3 max-w-2xl text-3xl font-black leading-tight sm:text-5xl">
+                  Messages that need a real reply.
+                </h1>
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
+                  Review contact requests, mark progress, and keep the admin area focused on client conversations only.
+                </p>
+              </div>
+              <button
+                onClick={fetchMessages}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#ff4d2e] px-5 py-3 text-sm font-black text-white transition hover:bg-[#e63f23] sm:w-auto lg:justify-self-end"
+              >
+                <RefreshCw className="h-4 w-4" />
+                Refresh
+              </button>
+            </div>
+          </div>
+        </section>
 
-        {/* Tabs */}
-        <div className="flex space-x-1 mb-8 bg-white p-1 rounded-lg shadow-sm">
-          <button
-            onClick={() => setActiveTab('messages')}
-            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-              activeTab === 'messages'
-                ? 'bg-blue-600 text-white'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-            }`}
-          >
-            Messages ({messages.length})
-          </button>
-          <button
-            onClick={() => setActiveTab('subscribers')}
-            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-              activeTab === 'subscribers'
-                ? 'bg-blue-600 text-white'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-            }`}
-          >
-            Subscribers ({subscribers.length})
-          </button>
-        </div>
-
-        {activeTab === 'messages' && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Contact Messages</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {messages.length === 0 ? (
-                <p className="text-gray-500 text-center py-8">No messages yet.</p>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full table-auto border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th className="text-left py-3 px-6 font-semibold text-gray-900 border-b">Name</th>
-                        <th className="text-left py-3 px-6 font-semibold text-gray-900 border-b">Email</th>
-                        <th className="text-left py-3 px-6 font-semibold text-gray-900 border-b">Message</th>
-                        <th className="text-left py-3 px-6 font-semibold text-gray-900 border-b">Status</th>
-                        <th className="text-left py-3 px-6 font-semibold text-gray-900 border-b">Date</th>
-                        <th className="text-left py-3 px-6 font-semibold text-gray-900 border-b">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {messages.map((msg, index) => (
-                        <tr key={msg.id} className={`hover:bg-gray-50 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-gray-25'}`}>
-                          <td className="py-4 px-6 border-b border-gray-200">{msg.name}</td>
-                          <td className="py-4 px-6 border-b border-gray-200">{msg.email}</td>
-                          <td className="py-4 px-6 border-b border-gray-200 max-w-xs">
-                            <div className="truncate" title={msg.message}>
-                              {msg.message}
-                            </div>
-                          </td>
-                          <td className="py-4 px-6 border-b border-gray-200">
-                            <Badge
-                              variant={
-                                msg.status === 'unread' ? 'destructive' :
-                                msg.status === 'read' ? 'secondary' :
-                                'default'
-                              }
-                            >
-                              {msg.status}
-                            </Badge>
-                          </td>
-                          <td className="py-4 px-6 border-b border-gray-200 text-sm text-gray-500">
-                            {new Date(msg.timestamp).toLocaleString()}
-                          </td>
-                          <td className="py-4 px-6 border-b border-gray-200">
-                            <div className="flex gap-1">
-                              <Button
-                                onClick={() => setSelectedMessage(msg)}
-                                size="sm"
-                                variant="ghost"
-                                className="p-2"
-                                title="View Message"
-                              >
-                                <Eye className="w-4 h-4" />
-                              </Button>
-                              {msg.status === 'unread' && (
-                                <Button
-                                  onClick={() => updateMessageStatus(msg.id, 'read')}
-                                  disabled={saving}
-                                  size="sm"
-                                  variant="ghost"
-                                  className="p-2"
-                                  title="Mark as Read"
-                                >
-                                  <Check className="w-4 h-4" />
-                                </Button>
-                              )}
-                              {msg.status === 'read' && (
-                                <Button
-                                  onClick={() => updateMessageStatus(msg.id, 'replied')}
-                                  disabled={saving}
-                                  size="sm"
-                                  variant="ghost"
-                                  className="p-2"
-                                  title="Mark as Replied"
-                                >
-                                  <MessageSquare className="w-4 h-4" />
-                                </Button>
-                              )}
-                              <Button
-                                onClick={() => deleteMessage(msg.id)}
-                                disabled={saving}
-                                size="sm"
-                                variant="ghost"
-                                className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50"
-                                title="Delete Message"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+        <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {[
+            { label: 'Total messages', value: counts.total, icon: Mail },
+            { label: 'Unread', value: counts.unread, icon: Clock3 },
+            { label: 'Read', value: counts.read, icon: Check },
+            { label: 'Replied', value: counts.replied, icon: MessageSquare },
+          ].map((item) => (
+            <div key={item.label} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.14em] text-slate-500">{item.label}</p>
+                  <p className="mt-2 text-3xl font-black text-slate-950">{item.value}</p>
                 </div>
-              )}
-            </CardContent>
-          </Card>
-        )}
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-orange-50 text-[#ff4d2e]">
+                  <item.icon className="h-5 w-5" />
+                </span>
+              </div>
+            </div>
+          ))}
+        </section>
 
-        {activeTab === 'subscribers' && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Newsletter Subscribers</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {subscribers.length === 0 ? (
-                <p className="text-gray-500 text-center py-8">No subscribers yet.</p>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full table-auto border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th className="text-left py-3 px-6 font-semibold text-gray-900 border-b">Email</th>
-                        <th className="text-left py-3 px-6 font-semibold text-gray-900 border-b">Subscribed Date</th>
-                        <th className="text-left py-3 px-6 font-semibold text-gray-900 border-b">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {subscribers.map((subscriber, index) => (
-                        <tr key={subscriber.id} className={`hover:bg-gray-50 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-gray-25'}`}>
-                          <td className="py-4 px-6 border-b border-gray-200">{subscriber.email}</td>
-                          <td className="py-4 px-6 border-b border-gray-200 text-sm text-gray-500">
-                            {new Date(subscriber.timestamp).toLocaleString()}
-                          </td>
-                          <td className="py-4 px-6 border-b border-gray-200">
-                            <Button
-                              onClick={() => deleteSubscriber(subscriber.id)}
-                              disabled={saving}
-                              size="sm"
-                              variant="ghost"
-                              className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50"
-                              title="Delete Subscriber"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        )}
+        <section className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div className="relative flex-1">
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search name, email, company, service, or message"
+                className="h-12 w-full rounded-full border border-slate-200 bg-[#fffdf8] pl-11 pr-4 text-sm font-semibold outline-none transition focus:border-[#ff4d2e] focus:ring-4 focus:ring-orange-100"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-2 sm:flex">
+              {(['all', 'unread', 'read', 'replied'] as const).map((status) => (
+                <button
+                  key={status}
+                  onClick={() => setStatusFilter(status)}
+                  className={`rounded-full px-4 py-2 text-sm font-black capitalize transition ${
+                    statusFilter === status
+                      ? 'bg-slate-950 text-white'
+                      : 'border border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  {status}
+                </button>
+              ))}
+            </div>
+          </div>
 
-        {/* Message Modal */}
+          {error && (
+            <div className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+              {error}
+            </div>
+          )}
+        </section>
+
+        <section className="rounded-[2rem] border border-slate-200 bg-white shadow-sm">
+          {loading ? (
+            <div className="grid gap-3 p-4">
+              {[0, 1, 2].map((item) => (
+                <div key={item} className="h-28 animate-pulse rounded-3xl bg-slate-100" />
+              ))}
+            </div>
+          ) : filteredMessages.length === 0 ? (
+            <div className="px-5 py-16 text-center">
+              <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-orange-50 text-[#ff4d2e]">
+                <Mail className="h-6 w-6" />
+              </div>
+              <h2 className="mt-4 text-xl font-black text-slate-950">No messages found</h2>
+              <p className="mt-2 text-sm font-medium text-slate-500">New contact form messages will appear here.</p>
+            </div>
+          ) : (
+            <div className="divide-y divide-slate-100">
+              {filteredMessages.map((message) => {
+                const id = getMessageId(message);
+                const status = getMessageStatus(message);
+                return (
+                  <article key={id} className="grid gap-4 p-4 transition hover:bg-[#fffdf8] sm:p-5 lg:grid-cols-[1fr_auto] lg:items-center">
+                    <button onClick={() => setSelectedMessage(message)} className="min-w-0 text-left">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="truncate text-lg font-black text-slate-950">{message.name || 'Unnamed lead'}</h3>
+                        <span className={`rounded-full border px-3 py-1 text-xs font-black capitalize ${statusStyles[status]}`}>
+                          {status}
+                        </span>
+                      </div>
+                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold text-slate-500">
+                        <span>{message.email || 'No email'}</span>
+                        {message.phone && <span>{message.phone}</span>}
+                        {message.company && <span>{message.company}</span>}
+                        {message.service && <span>{message.service}</span>}
+                      </div>
+                      <p className="mt-3 line-clamp-2 max-w-4xl text-sm leading-6 text-slate-700">
+                        {message.message || 'No message provided.'}
+                      </p>
+                      <p className="mt-3 text-xs font-black uppercase tracking-[0.12em] text-slate-400">
+                        {formatDate(message.timestamp || message.createdAt)}
+                      </p>
+                    </button>
+
+                    <div className="flex flex-wrap gap-2 lg:justify-end">
+                      {status === 'unread' && (
+                        <button
+                          onClick={() => updateMessageStatus(message, 'read')}
+                          disabled={savingId === id}
+                          className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-black text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                        >
+                          <Check className="h-4 w-4" />
+                          Read
+                        </button>
+                      )}
+                      {status !== 'replied' && (
+                        <button
+                          onClick={() => updateMessageStatus(message, 'replied')}
+                          disabled={savingId === id}
+                          className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2 text-sm font-black text-white transition hover:bg-slate-800 disabled:opacity-60"
+                        >
+                          <MessageSquare className="h-4 w-4" />
+                          Replied
+                        </button>
+                      )}
+                      <button
+                        onClick={() => deleteMessage(message)}
+                        disabled={savingId === id}
+                        className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-2 text-sm font-black text-red-700 transition hover:bg-red-100 disabled:opacity-60"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        Delete
+                      </button>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </section>
+
         {selectedMessage && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg max-w-2xl w-full mx-4 max-h-96 overflow-y-auto">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-lg font-semibold">Message from {selectedMessage.name}</h3>
+          <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/70 px-4 py-6">
+            <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[2rem] bg-white shadow-2xl">
+              <div className="flex items-start justify-between gap-4 border-b border-slate-100 p-5">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[#ff4d2e]">Message detail</p>
+                  <h2 className="mt-2 text-2xl font-black text-slate-950">{selectedMessage.name || 'Unnamed lead'}</h2>
+                </div>
                 <button
                   onClick={() => setSelectedMessage(null)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 text-slate-500 transition hover:bg-slate-50"
+                  aria-label="Close message"
                 >
-                  ✕
+                  <X className="h-5 w-5" />
                 </button>
               </div>
-              <div className="space-y-2 mb-4">
-                <p><strong>Email:</strong> {selectedMessage.email}</p>
-                <p><strong>Date:</strong> {new Date(selectedMessage.timestamp).toLocaleString()}</p>
-                <div><strong>Status:</strong> <Badge variant={selectedMessage.status === 'unread' ? 'destructive' : selectedMessage.status === 'read' ? 'secondary' : 'default'}>{selectedMessage.status}</Badge></div>
-              </div>
-              <div className="border-t pt-4">
-                <p className="whitespace-pre-wrap">{selectedMessage.message}</p>
-              </div>
-              <div className="flex gap-2 mt-4">
-                {selectedMessage.status === 'unread' && (
-                  <Button
-                    onClick={() => {
-                      updateMessageStatus(selectedMessage.id, 'read');
-                      setSelectedMessage(null);
-                    }}
-                    disabled={saving}
-                    size="sm"
-                    variant="default"
+
+              <div className="space-y-5 p-5">
+                <div className="grid gap-3 rounded-3xl bg-[#fffdf8] p-4 text-sm font-semibold text-slate-700 sm:grid-cols-2">
+                  <p>Email: <span className="font-black text-slate-950">{selectedMessage.email || 'No email'}</span></p>
+                  <p>Status: <span className="font-black capitalize text-slate-950">{getMessageStatus(selectedMessage)}</span></p>
+                  {selectedMessage.phone && <p>Phone: <span className="font-black text-slate-950">{selectedMessage.phone}</span></p>}
+                  {selectedMessage.company && <p>Company: <span className="font-black text-slate-950">{selectedMessage.company}</span></p>}
+                  {selectedMessage.service && <p>Service: <span className="font-black text-slate-950">{selectedMessage.service}</span></p>}
+                  <p>Date: <span className="font-black text-slate-950">{formatDate(selectedMessage.timestamp || selectedMessage.createdAt)}</span></p>
+                </div>
+
+                <p className="whitespace-pre-wrap text-base leading-8 text-slate-700">
+                  {selectedMessage.message || 'No message provided.'}
+                </p>
+
+                <div className="flex flex-wrap gap-2 border-t border-slate-100 pt-5">
+                  {getMessageStatus(selectedMessage) === 'unread' && (
+                    <button
+                      onClick={() => updateMessageStatus(selectedMessage, 'read')}
+                      className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-black text-slate-700 hover:bg-slate-50"
+                    >
+                      <Check className="h-4 w-4" />
+                      Mark read
+                    </button>
+                  )}
+                  {getMessageStatus(selectedMessage) !== 'replied' && (
+                    <button
+                      onClick={() => updateMessageStatus(selectedMessage, 'replied')}
+                      className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2 text-sm font-black text-white hover:bg-slate-800"
+                    >
+                      <MessageSquare className="h-4 w-4" />
+                      Mark replied
+                    </button>
+                  )}
+                  <button
+                    onClick={() => deleteMessage(selectedMessage)}
+                    className="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-2 text-sm font-black text-red-700 hover:bg-red-100"
                   >
-                    <Check className="w-4 h-4 mr-2" />
-                    Mark Read
-                  </Button>
-                )}
-                {selectedMessage.status === 'read' && (
-                  <Button
-                    onClick={() => {
-                      updateMessageStatus(selectedMessage.id, 'replied');
-                      setSelectedMessage(null);
-                    }}
-                    disabled={saving}
-                    size="sm"
-                    variant="default"
-                  >
-                    <MessageSquare className="w-4 h-4 mr-2" />
-                    Mark Replied
-                  </Button>
-                )}
-                <Button
-                  onClick={() => {
-                    deleteMessage(selectedMessage.id);
-                    setSelectedMessage(null);
-                  }}
-                  disabled={saving}
-                  size="sm"
-                  variant="destructive"
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Delete
-                </Button>
+                    <Trash2 className="h-4 w-4" />
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -1,15 +1,14 @@
-import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/config/site";
+import type { Metadata } from 'next';
+import { SITE_URL } from '@/lib/config/site';
 
 export const metadata: Metadata = {
-  title: "Digital Marketing Services India | SocialMoon Solutions",
+  title: 'Marketing, SEO, Website & App Development Services | SocialMoon',
   description:
-    "Explore SocialMoon's full range of digital marketing services — Instagram ads, Facebook marketing, lead generation, social media management, AI automation & more. Trusted by 100+ Indian businesses.",
+    "Explore SocialMoon's creative marketing, SEO, AEO, local SEO, website development, app development, AI automation, workflow systems, and technical support.",
   alternates: { canonical: `${SITE_URL}/solutions` },
   openGraph: {
-    title: "Digital Marketing Services India | SocialMoon Solutions",
-    description:
-      "Instagram ads, Facebook marketing, lead generation, social media management & AI automation for Indian startups & small businesses. Get a free quote.",
+    title: 'Marketing, SEO, Website & App Development Services | SocialMoon',
+    description: 'Creative marketing first, with SEO, AEO, website, app, automation, and technical systems available when growth needs them.',
     url: `${SITE_URL}/solutions`,
   },
 };

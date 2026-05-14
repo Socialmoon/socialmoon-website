@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/config/site";
+import type { Metadata } from 'next';
+import { SITE_URL } from '@/lib/config/site';
 
 export const metadata: Metadata = {
-  title: "Contact SocialMoon | Free Digital Marketing Consultation India",
+  title: 'Contact SocialMoon | Project Brief',
   description:
-    "Get in touch with SocialMoon — India's top digital marketing agency. Free strategy consultation for startups & small businesses. Based in Lucknow. Call, WhatsApp or email us today.",
+    'Share a marketing, website, app, automation, or full-scope build brief with SocialMoon. We respond with clear next steps and no fake certainty.',
   alternates: { canonical: `${SITE_URL}/contact` },
   openGraph: {
-    title: "Contact SocialMoon | Free Digital Marketing Consultation India",
+    title: 'Contact SocialMoon | Project Brief',
     description:
-      "Get a free digital marketing strategy consultation from SocialMoon. Instagram ads, Facebook marketing, lead generation & website design for Indian businesses.",
+      'Share your brief with SocialMoon for marketing, website development, app development, automation, or full-scope build work.',
     url: `${SITE_URL}/contact`,
   },
 };

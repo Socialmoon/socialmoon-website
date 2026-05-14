@@ -1,145 +1,156 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { MessageSquare, Users, Mail, ArrowRight, Clock, ExternalLink, Sparkles } from 'lucide-react';
+import { ArrowRight, Clock, ExternalLink, Mail, MessageSquare, ShieldCheck, Sparkles, Users } from 'lucide-react';
 
-type Message = { _id?: string; name: string; email: string; message: string; timestamp: string; status?: string };
+type Message = { _id?: string; id?: string; name: string; email: string; message: string; timestamp?: string; createdAt?: string; status?: string };
 
 export default function DashboardPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
 
   useEffect(() => {
-    fetch('/api/messages').then(r => r.ok ? r.json() : []).then(msgs => {
-      setMessages(Array.isArray(msgs) ? msgs : []);
-    }).finally(() => setLoading(false));
+    fetch('/api/messages')
+      .then((response) => {
+        if (!response.ok) throw new Error('Unable to load messages');
+        return response.json();
+      })
+      .then((data) => setMessages(Array.isArray(data) ? data : []))
+      .catch(() => {
+        setMessages([]);
+        setLoadError('Messages could not be loaded. Check database access if this continues.');
+      })
+      .finally(() => setLoading(false));
   }, []);
 
-  const unread = messages.filter(m => !m.status || m.status === 'unread').length;
+  const unread = messages.filter((message) => !message.status || message.status === 'unread').length;
 
   const stats = [
-    { label: 'Total Messages', value: messages.length, sub: `${unread} unread`, icon: MessageSquare, color: 'blue', href: '/admin/contact' },
-    { label: 'Subscribers', value: '—', sub: 'Newsletter list', icon: Mail, color: 'emerald', href: '/admin/contact' },
+    { label: 'Messages', value: messages.length, sub: `${unread} unread`, icon: MessageSquare, href: '/admin/contact' },
+    { label: 'Admin Access', value: 'Active', sub: 'JWT session', icon: ShieldCheck, href: '/admin/admins' },
+    { label: 'Database', value: loadError ? 'Check' : 'Ready', sub: loadError || 'Messages endpoint responding', icon: Mail, href: '/admin/contact' },
   ];
 
   const quickLinks = [
-    { label: 'View Messages', desc: 'Read & reply to contact form submissions', icon: MessageSquare, href: '/admin/contact', color: 'blue' },
-    { label: 'Manage Admins', desc: 'Add or remove admin users', icon: Users, href: '/admin/admins', color: 'purple' },
-    { label: 'Avena Admin', desc: 'Manage Avena AI assistant', icon: Sparkles, href: 'https://avena.socialmoon.in/admin-login', color: 'violet', external: true },
+    { label: 'View Messages', desc: 'Read contact submissions and update status.', icon: MessageSquare, href: '/admin/contact' },
+    { label: 'Manage Admins', desc: 'Create, remove, or update admin access.', icon: Users, href: '/admin/admins' },
+    { label: 'Avena Admin', desc: 'Open the AI assistant admin panel.', icon: Sparkles, href: 'https://avena.socialmoon.in/admin-login', external: true },
   ];
 
-  const COLOR = {
-    blue: 'bg-blue-50 text-blue-600 border-blue-100',
-    indigo: 'bg-indigo-50 text-indigo-600 border-indigo-100',
-    orange: 'bg-orange-50 text-orange-600 border-orange-100',
-    emerald: 'bg-emerald-50 text-emerald-600 border-emerald-100',
-    purple: 'bg-purple-50 text-purple-600 border-purple-100',
-    violet: 'bg-violet-50 text-violet-600 border-violet-100',
-  };
-
   return (
-    <div className="p-6 max-w-7xl">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500 text-sm mt-1">Welcome back. Here's what's happening with your site.</p>
-      </div>
-
-      {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        {loading ? (
-          Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-xl border border-gray-100 p-5 animate-pulse">
-              <div className="h-4 bg-gray-100 rounded w-24 mb-3" />
-              <div className="h-8 bg-gray-100 rounded w-16 mb-2" />
-              <div className="h-3 bg-gray-100 rounded w-20" />
-            </div>
-          ))
-        ) : stats.map((s, i) => (
-          <Link key={i} href={s.href} className="group bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-gray-200 transition-all">
-            <div className="flex items-center justify-between mb-3">
-              <div className={`w-9 h-9 rounded-lg border flex items-center justify-center ${COLOR[s.color as keyof typeof COLOR]}`}>
-                <s.icon className="w-4 h-4" />
+    <div className="min-h-full bg-[#fffdf8] p-4 sm:p-6 lg:p-8">
+      <div className="mx-auto max-w-7xl">
+        <section className="overflow-hidden rounded-[2rem] bg-slate-950 p-6 text-white sm:p-8">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_0.6fr] lg:items-end">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-orange-200">
+                <Sparkles className="h-3.5 w-3.5" />
+                SocialMoon dashboard
               </div>
-              <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 transition-colors" />
+              <h1 className="mt-5 max-w-3xl text-4xl font-black tracking-tight sm:text-5xl">Operate the website without adding noise.</h1>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300">
+                Keep messages, admin access, and content operations clean. If the database is unavailable, the dashboard shows it without breaking the login flow.
+              </p>
             </div>
-            <div className="text-2xl font-bold text-gray-900 mb-0.5">{s.value}</div>
-            <div className="text-xs text-gray-400 font-medium">{s.label}</div>
-            <div className="text-xs text-gray-400 mt-0.5">{s.sub}</div>
-          </Link>
-        ))}
-      </div>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-orange-200">Today</p>
+              <p className="mt-3 text-3xl font-black">{loading ? '...' : messages.length}</p>
+              <p className="mt-1 text-sm text-slate-300">total message{messages.length === 1 ? '' : 's'} tracked</p>
+            </div>
+          </div>
+        </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Quick Actions */}
-        <div className="lg:col-span-2">
-          <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-            <div className="px-5 py-4 border-b border-gray-100">
-              <h2 className="font-semibold text-gray-900 text-sm">Quick Actions</h2>
+        <section className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+          {stats.map((stat) => (
+            <Link key={stat.label} href={stat.href} className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-transform hover:-translate-y-1">
+              <div className="flex items-center justify-between">
+                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#fff1ec] text-[#ff4d2e]">
+                  <stat.icon className="h-5 w-5" />
+                </span>
+                <ArrowRight className="h-4 w-4 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:text-slate-700" />
+              </div>
+              <p className="mt-5 text-3xl font-black text-slate-950">{loading && stat.label === 'Messages' ? '...' : stat.value}</p>
+              <p className="mt-1 text-xs font-black uppercase tracking-[0.16em] text-slate-500">{stat.label}</p>
+              <p className="mt-2 text-sm leading-5 text-slate-600">{stat.sub}</p>
+            </Link>
+          ))}
+        </section>
+
+        <section className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1.25fr_0.75fr]">
+          <div className="rounded-[2rem] border border-slate-200 bg-white shadow-sm">
+            <div className="border-b border-slate-200 p-5">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#ff4d2e]">Quick actions</p>
+              <h2 className="mt-2 text-2xl font-black text-slate-950">Go where the work is.</h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-gray-100">
-              {quickLinks.map((item, i) => (
+            <div className="grid grid-cols-1 divide-y divide-slate-100 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+              {quickLinks.map((item) => (
                 <Link
-                  key={i}
+                  key={item.label}
                   href={item.href}
                   target={item.external ? '_blank' : undefined}
                   rel={item.external ? 'noopener noreferrer' : undefined}
-                  className="group flex items-center gap-3 bg-white p-4 hover:bg-gray-50 transition-colors"
+                  className="group p-5 transition-colors hover:bg-[#fffdf8]"
                 >
-                  <div className={`w-9 h-9 rounded-lg border flex items-center justify-center flex-shrink-0 ${COLOR[item.color as keyof typeof COLOR]}`}>
-                    <item.icon className="w-4 h-4" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-semibold text-gray-900 flex items-center gap-1">
-                      {item.label}
-                      {item.external && <ExternalLink className="w-3 h-3 text-gray-400" />}
-                    </div>
-                    <div className="text-xs text-gray-400 truncate">{item.desc}</div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 flex-shrink-0 transition-colors" />
+                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-white">
+                    <item.icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="mt-5 flex items-center gap-2 text-base font-black text-slate-950">
+                    {item.label}
+                    {item.external && <ExternalLink className="h-3.5 w-3.5 text-slate-400" />}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{item.desc}</p>
+                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#ff4d2e]">
+                    Open
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  </span>
                 </Link>
               ))}
             </div>
           </div>
-        </div>
 
-        {/* Recent Messages */}
-        <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
-            <h2 className="font-semibold text-gray-900 text-sm">Recent Messages</h2>
-            <Link href="/admin/contact" className="text-xs text-blue-600 hover:text-blue-700 font-medium">View all</Link>
-          </div>
-          <div className="divide-y divide-gray-50">
-            {loading ? (
-              Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="px-5 py-3 animate-pulse">
-                  <div className="h-3.5 bg-gray-100 rounded w-32 mb-1.5" />
-                  <div className="h-3 bg-gray-100 rounded w-48" />
-                </div>
-              ))
-            ) : messages.length === 0 ? (
-              <div className="px-5 py-8 text-center">
-                <MessageSquare className="w-8 h-8 text-gray-200 mx-auto mb-2" />
-                <p className="text-gray-400 text-xs">No messages yet</p>
+          <div className="rounded-[2rem] border border-slate-200 bg-white shadow-sm">
+            <div className="flex items-center justify-between border-b border-slate-200 p-5">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#ff4d2e]">Recent</p>
+                <h2 className="mt-1 text-xl font-black text-slate-950">Messages</h2>
               </div>
-            ) : messages.slice(0, 6).map((msg, i) => (
-              <div key={i} className="px-5 py-3 hover:bg-gray-50 transition-colors">
-                <div className="flex items-center gap-2 mb-0.5">
-                  <span className="text-sm font-semibold text-gray-900 truncate">{msg.name}</span>
-                  {(!msg.status || msg.status === 'unread') && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0" />
-                  )}
+              <Link href="/admin/contact" className="text-sm font-black text-[#ff4d2e]">View all</Link>
+            </div>
+            <div className="divide-y divide-slate-100">
+              {loading ? (
+                Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} className="p-5">
+                    <div className="h-4 w-32 animate-pulse rounded bg-slate-100" />
+                    <div className="mt-3 h-3 w-full animate-pulse rounded bg-slate-100" />
+                  </div>
+                ))
+              ) : loadError ? (
+                <div className="p-6 text-sm leading-6 text-slate-600">{loadError}</div>
+              ) : messages.length === 0 ? (
+                <div className="p-8 text-center">
+                  <MessageSquare className="mx-auto h-8 w-8 text-slate-300" />
+                  <p className="mt-3 text-sm font-semibold text-slate-500">No messages yet.</p>
                 </div>
-                <p className="text-xs text-gray-400 truncate">{msg.message}</p>
-                <p className="text-[10px] text-gray-300 mt-0.5 flex items-center gap-1">
-                  <Clock className="w-3 h-3" />
-                  {new Date(msg.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                </p>
-              </div>
-            ))}
+              ) : (
+                messages.slice(0, 6).map((message, index) => (
+                  <div key={message._id || message.id || index} className="p-5">
+                    <div className="flex items-center gap-2">
+                      <p className="truncate text-sm font-black text-slate-950">{message.name}</p>
+                      {(!message.status || message.status === 'unread') && <span className="h-2 w-2 rounded-full bg-[#ff4d2e]" />}
+                    </div>
+                    <p className="mt-1 truncate text-sm text-slate-600">{message.message}</p>
+                    <p className="mt-2 flex items-center gap-1 text-xs font-semibold text-slate-400">
+                      <Clock className="h-3 w-3" />
+                      {new Date(message.timestamp || message.createdAt || Date.now()).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}
+                    </p>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

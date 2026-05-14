@@ -11,7 +11,7 @@ export async function GET() {
     return NextResponse.json(
       { 
         title: 'Welcome to SocialMoon',
-        description: 'Your one-stop solution for social media management.',
+        description: 'Creative marketing, content systems, and lead generation.',
         features: [],
         error: 'Failed to fetch home' 
       },
@@ -33,3 +33,4 @@ export async function PUT(request: Request) {
     );
   }
 }
+

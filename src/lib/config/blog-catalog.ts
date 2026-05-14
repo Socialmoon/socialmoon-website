@@ -28,7 +28,7 @@ When we work with clients, the first thing we do is audit whether they have camp
 
 Here's what a content system looks like vs a content campaign:
 
-Campaign: "Let's post 3x a week for the next month and see what happens."
+Campaign: "Let's post several times a week for the next month and see what happens."
 System: "We publish 3 formats weekly — one educational, one social proof, one offer — reviewed every 4 weeks against engagement and pipeline data, with a documented production workflow that any team member can run."
 
 The system compounds. The campaign doesn't.
@@ -51,13 +51,13 @@ Here's what we've seen work consistently for B2B founders:
 
 1. Post 3-4 times per week. Consistency beats virality. One post that reaches 500 of the right people every week compounds into thousands of warm impressions over a quarter.
 
-2. Lead with insight, not promotion. The posts that perform best share a specific, counterintuitive observation from your work. "We analyzed 50 sales calls and found that..." outperforms "We're excited to announce..." every time.
+2. Lead with insight, not promotion. The posts that perform best share a specific, counterintuitive observation from your work. "Here is the pattern we keep seeing in buyer conversations..." outperforms "We're excited to announce..." every time.
 
 3. Engage before you post. Spend 15 minutes commenting on posts from your ICP before you publish your own. This primes the algorithm and builds genuine relationships.
 
 4. Make your profile a landing page. Your headline, about section, and featured posts should answer one question: "Why should I trust this person with my problem?"
 
-The founders we work with who commit to this system see inbound DMs from qualified prospects within 60-90 days. Not from ads. Not from cold outreach. From showing up consistently with useful thinking.`,
+Founders who commit to this system give prospects a clearer reason to remember them. The timeline depends on the audience, offer, and consistency.`,
     author: 'SocialMoon Team',
     date: '2025-11-08',
     tags: ['LinkedIn', 'B2B', 'Personal Brand'],
@@ -69,7 +69,7 @@ The founders we work with who commit to this system see inbound DMs from qualifi
     excerpt: 'AI automation isn\'t just for enterprise. Here\'s how small teams are using it to punch above their weight.',
     content: `The biggest competitive advantage available to small businesses right now isn't a bigger budget or a larger team. It's AI automation.
 
-Here's the reality: a 5-person team running the right automation stack can execute at the speed of a 20-person team. We've seen it happen with our clients.
+Here's the reality: a small team with the right automation stack can remove a lot of repetitive work. The exact gain depends on the workflow.
 
 The key is knowing where to automate first. Not everything should be automated — but the right processes, automated well, free up your team to focus on the work that actually requires human judgment.
 
@@ -83,7 +83,7 @@ The highest-ROI automation categories for small teams:
 
 4. Reporting. Weekly performance reports that used to take 2 hours to compile can be automated to generate and send themselves.
 
-The teams that win in the next 5 years won't be the ones with the most people. They'll be the ones who figured out how to make every person 3x more effective.`,
+The teams that win in the next few years won't be the ones with the most people. They'll be the ones who figured out how to make each person more effective.`,
     author: 'SocialMoon Team',
     date: '2025-11-01',
     tags: ['AI', 'Automation', 'Operations'],
@@ -163,9 +163,9 @@ When we partnered with Shaip on their data annotation and dataset structuring wo
 Here's what we learned:
 
 **1. Accuracy compounds — in both directions.**
-A 95% accurate annotation workflow sounds good until you realize that 5% error rate across 10,000 records means 500 mislabeled data points feeding your model. Quality assurance isn't a nice-to-have in annotation work. It's the entire product.
+A 95% accurate annotation workflow sounds good until you realize that 5% error rate across a large dataset can contain many mislabeled data points feeding your model. Quality assurance isn't a nice-to-have in annotation work. It's the entire product.
 
-We built multi-layer QA into every workflow: annotator-level checks, batch-level validation, and final dataset audits before delivery. The result was 98%+ accuracy maintained across all datasets.
+We built multi-layer QA into every workflow: annotator-level checks, batch-level validation, and final dataset audits before delivery. The result was a clearer review process before datasets moved forward.
 
 **2. Workflow design determines throughput.**
 Most annotation bottlenecks aren't about the number of annotators — they're about how work is structured. Clear labeling guidelines, well-defined edge case rules, and efficient review loops can double throughput without adding headcount.
@@ -185,3 +185,5 @@ If you're building AI products and struggling with data quality, labeling consis
 
 export const getBlogPostBySlug = (slug: string) =>
   BLOG_POSTS.find(p => p.slug === slug) || null;
+
+

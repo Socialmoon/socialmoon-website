@@ -6,6 +6,10 @@ import { AuthUtils } from '@/lib/auth';
 const loginAttempts = new Map<string, { count: number; resetTime: number }>();
 const MAX_LOGIN_ATTEMPTS = 5; // 5 attempts per window
 const LOGIN_WINDOW = 15 * 60 * 1000; // 15 minutes
+const DATABASE_ADMINS_ENABLED =
+  process.env.ENABLE_DATABASE_ADMINS === 'true' ||
+  !!process.env.FIREBASE_SERVICE_ACCOUNT ||
+  !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
 function checkLoginRateLimit(ip: string): boolean {
   const now = Date.now();
@@ -58,17 +62,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // First check if admin exists in database
-    let isAuthenticated = await AdminService.authenticateAdmin(sanitizedUsername, password);
-    let role = await AdminService.getAdminRole(sanitizedUsername);
+    let isAuthenticated = false;
+    let role: 'admin' | 'superadmin' | null = null;
 
-    // Fallback to environment variables if no admin in database
-    if (!isAuthenticated && process.env.ADMIN_USERNAME && process.env.ADMIN_PASSWORD) {
-      if (sanitizedUsername === process.env.ADMIN_USERNAME.toLowerCase() && 
-          password === process.env.ADMIN_PASSWORD) {
+    // Environment admin must work even when the database is unavailable.
+    // Database admins are optional records, not a required login dependency.
+    if (process.env.ADMIN_USERNAME && process.env.ADMIN_PASSWORD) {
+      if (sanitizedUsername === process.env.ADMIN_USERNAME.toLowerCase() && password === process.env.ADMIN_PASSWORD) {
         isAuthenticated = true;
         role = 'superadmin';
       }
+    }
+
+    if (!isAuthenticated && DATABASE_ADMINS_ENABLED) {
+      isAuthenticated = await AdminService.authenticateAdmin(sanitizedUsername, password);
+      const databaseRole = await AdminService.getAdminRole(sanitizedUsername);
+      role = databaseRole === 'superadmin' ? 'superadmin' : databaseRole === 'admin' ? 'admin' : null;
     }
 
     if (!isAuthenticated) {

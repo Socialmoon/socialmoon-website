@@ -4,6 +4,11 @@ let adminDb: any = undefined;
 
 if (typeof window === 'undefined') {
   try {
+    const hasServerCredentials = !!process.env.FIREBASE_SERVICE_ACCOUNT || !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
+
+    if (!hasServerCredentials) {
+      adminDb = undefined;
+    } else {
     // Dynamically require to avoid bundler trying to resolve this on the client
     // Use eval to prevent bundlers from statically analyzing the require call
     // eslint-disable-next-line no-eval
@@ -18,13 +23,6 @@ if (typeof window === 'undefined') {
         });
       } else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
         adminApp = admin.initializeApp();
-      } else {
-        try {
-          adminApp = admin.initializeApp();
-        } catch (e) {
-          // eslint-disable-next-line no-console
-          console.warn('Firebase Admin not initialized - no service account provided');
-        }
       }
     } else {
       adminApp = admin.apps[0];
@@ -32,6 +30,7 @@ if (typeof window === 'undefined') {
 
     if (adminApp) {
       adminDb = adminApp.firestore();
+    }
     }
   } catch (e) {
     // eslint-disable-next-line no-console

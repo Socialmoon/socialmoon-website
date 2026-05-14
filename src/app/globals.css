@@ -62,8 +62,17 @@
     @apply border-gray-200;
   }
   body {
-    @apply bg-white text-gray-900;
+    @apply bg-[#fffdf8] text-slate-950 antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  ::selection {
+    background: #ffdfcf;
+    color: #0f172a;
   }
 
   /* Button styles */
@@ -117,11 +126,11 @@
 
   /* Card styles */
   .card {
-    @apply bg-white border border-gray-200 rounded-xl shadow-lg transition-all duration-200 ease-in-out overflow-hidden;
+    @apply bg-white border border-slate-200 rounded-2xl shadow-sm transition-all duration-200 ease-in-out overflow-hidden;
   }
 
   .card:hover {
-    @apply transform -translate-y-1 shadow-xl;
+    @apply transform -translate-y-1 shadow-lg;
   }
 
   .card-body {
@@ -141,7 +150,7 @@
   .business-card,
   .process-card,
   .testimonial-card {
-    @apply bg-white rounded-2xl p-8 shadow-lg transition-all duration-300 ease-in-out border border-gray-50/50;
+    @apply bg-white rounded-2xl p-6 shadow-sm transition-all duration-300 ease-in-out border border-slate-200;
   }
 
   .service-card:hover,
@@ -224,7 +233,7 @@
 
   /* Gradient text */
   .gradient-text {
-    @apply bg-gradient-to-br from-primary-500 via-secondary-500 to-accent-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-br from-slate-950 via-orange-600 to-red-500 bg-clip-text text-transparent;
   }
 
   .gradient-text-primary {

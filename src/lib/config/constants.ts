@@ -2,7 +2,7 @@
 export const APP_CONFIG = {
   name: 'SocialMoon',
   version: '1.0.0',
-  description: 'Your one-stop solution for social media management',
+  description: 'Creative marketing, content systems, and lead generation',
 } as const;
 
 // Database collection names
@@ -29,3 +29,4 @@ export const DEFAULT_DATA = {
     title: 'Our Portfolio',
   },
 } as const;
+

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
+import PageHero from '@/components/common/PageHero';
 import { BookOpen, Calendar, ArrowRight, Clock } from 'lucide-react';
 import { BLOG_POSTS } from '@/lib/config/blog-catalog';
 
@@ -15,44 +16,28 @@ const COLORS = [
 
 export default function BlogPage() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero */}
-      <div className="relative bg-white border-b border-gray-100 pt-16 pb-20 overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-          <span className="text-[20vw] font-black text-gray-900/[0.025] tracking-tighter whitespace-nowrap">BLOG</span>
-        </div>
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-500" />
-        <Container className="relative z-10">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="h-px w-12 bg-indigo-600" />
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-indigo-600">Blog & Insights</span>
-            </div>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-gray-900 leading-[0.9] tracking-tight mb-6">
-              Ideas that<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500">move businesses.</span>
-            </h1>
-            <p className="text-gray-500 text-lg leading-relaxed">
-              Practical thinking on growth systems, automation, AI, and what actually works in modern marketing.
-            </p>
-          </div>
-        </Container>
-      </div>
+    <div className="min-h-screen bg-[#fffdf8]">
+      <PageHero
+        eyebrow="Blog & insights"
+        title="Thinking notes for brands that want clearer marketing."
+        description="Practical essays on campaigns, content, positioning, lead generation, and the operational side of marketing. Opinionated, but not dressed up as universal fact."
+        icon={BookOpen}
+      />
 
       {/* Posts */}
-      <Section className="py-20 bg-gray-50">
+      <Section className="py-16 bg-[#fffdf8]">
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {BLOG_POSTS.map((post, i) => {
               const c = COLORS[i % COLORS.length];
               return (
                 <Link key={post.slug} href={`/blog/${post.slug}`} className="group block">
-                  <div className={`h-full bg-gradient-to-br ${c.bg} border ${c.border} rounded-2xl p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}>
+                  <div className="h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                     <div className="flex items-center justify-between mb-4">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${c.tag}`}>
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#fffdf8] px-2.5 py-1 text-xs font-semibold text-[#ff4d2e]">
                         <BookOpen className="w-3 h-3" /> Article
                       </span>
-                      <div className={`flex items-center gap-1 text-xs ${c.icon}`}>
+                      <div className="flex items-center gap-1 text-xs text-slate-400">
                         <Clock className="w-3 h-3" /> 5 min read
                       </div>
                     </div>

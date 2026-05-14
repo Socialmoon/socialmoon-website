@@ -8,192 +8,179 @@ import {
   updateDoc as clientUpdateDoc,
   deleteDoc as clientDeleteDoc,
   query as clientQuery,
-  where as clientWhere,
-  orderBy as clientOrderBy,
-  limit as clientLimit,
-  QueryConstraint
+  QueryConstraint,
 } from 'firebase/firestore';
 import { db } from './config';
 
-// Try to load Admin SDK firestore when running on server and service account is provided
 let adminDb: any = null;
 try {
   if (typeof window === 'undefined') {
-    // require at runtime so client bundles don't include admin SDK
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const adminModule = require('./admin');
     adminDb = adminModule.adminDb;
   }
-} catch (e) {
-  // admin not available — keep using client SDK
+} catch {
+  adminDb = null;
 }
 
-/**
- * Firebase Firestore helper functions
- * These replace MongoDB operations with Firestore equivalents
- */
+type LocalDatabase = Record<string, Record<string, any>>;
+
+const useLocalServerStore = () => typeof window === 'undefined' && !adminDb;
+
+async function getLocalDbPath() {
+  const path = await import('node:path');
+  return path.join(process.cwd(), '.data', 'socialmoon-db.json');
+}
+
+async function readLocalDb(): Promise<LocalDatabase> {
+  const fs = await import('node:fs/promises');
+  const path = await import('node:path');
+  const filePath = await getLocalDbPath();
+
+  try {
+    const raw = await fs.readFile(filePath, 'utf8');
+    return JSON.parse(raw || '{}');
+  } catch {
+    await fs.mkdir(path.dirname(filePath), { recursive: true });
+    return {};
+  }
+}
+
+async function writeLocalDb(data: LocalDatabase) {
+  const fs = await import('node:fs/promises');
+  const path = await import('node:path');
+  const filePath = await getLocalDbPath();
+  await fs.mkdir(path.dirname(filePath), { recursive: true });
+  await fs.writeFile(filePath, JSON.stringify(data, null, 2));
+}
+
+function createId() {
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function withId(id: string, data: any) {
+  return { id, _id: data?._id || id, ...data };
+}
 
 export class FirebaseDB {
-  /**
-   * Get a single document by ID
-   */
   static async getDocument(collectionName: string, docId: string): Promise<any> {
-    try {
-      if (adminDb) {
-        const docRef = adminDb.collection(collectionName).doc(docId);
-        const snap = await docRef.get();
-        if (snap.exists) return { id: snap.id, ...snap.data() };
-        return null;
-      }
-
-      const docRef = clientDoc(db, collectionName, docId);
-      const docSnap = await clientGetDoc(docRef);
-
-      if (docSnap.exists()) {
-        return { id: docSnap.id, ...docSnap.data() };
-      }
+    if (adminDb) {
+      const docRef = adminDb.collection(collectionName).doc(docId);
+      const snap = await docRef.get();
+      if (snap.exists) return withId(snap.id, snap.data());
       return null;
-    } catch (error) {
-      console.error(`Error getting document from ${collectionName}:`, error);
-      throw error;
     }
+
+    if (useLocalServerStore()) {
+      const localDb = await readLocalDb();
+      const docData = localDb[collectionName]?.[docId];
+      return docData ? withId(docId, docData) : null;
+    }
+
+    const docRef = clientDoc(db, collectionName, docId);
+    const docSnap = await clientGetDoc(docRef);
+    return docSnap.exists() ? withId(docSnap.id, docSnap.data()) : null;
   }
 
-  /**
-   * Get all documents from a collection
-   */
-  static async getCollection(collectionName: string, constraints: QueryConstraint[] = []): Promise<any[]> {
-    try {
-      if (adminDb) {
-        // Admin SDK: get all docs and optionally warn that client QueryConstraints are ignored
-        const snap = await adminDb.collection(collectionName).get();
-        if (constraints.length > 0) {
-          console.warn('Query constraints supplied to getCollection are ignored when using Admin SDK.');
-        }
-        return snap.docs.map((d: any) => ({ id: d.id, ...d.data() }));
-      }
-
-      const collectionRef = clientCollection(db, collectionName);
-      const q = constraints.length > 0 ? clientQuery(collectionRef, ...constraints) : collectionRef;
-      const querySnapshot = await clientGetDocs(q);
-
-      return querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-    } catch (error) {
-      console.error(`Error getting collection ${collectionName}:`, error);
-      throw error;
+  static async getCollection(collectionName: string, _constraints: QueryConstraint[] = []): Promise<any[]> {
+    if (adminDb) {
+      const snap = await adminDb.collection(collectionName).get();
+      return snap.docs.map((docItem: any) => withId(docItem.id, docItem.data()));
     }
+
+    if (useLocalServerStore()) {
+      const localDb = await readLocalDb();
+      return Object.entries(localDb[collectionName] || {}).map(([id, data]) => withId(id, data));
+    }
+
+    const collectionRef = clientCollection(db, collectionName);
+    const q = _constraints.length > 0 ? clientQuery(collectionRef, ..._constraints) : collectionRef;
+    const querySnapshot = await clientGetDocs(q);
+    return querySnapshot.docs.map((docItem) => withId(docItem.id, docItem.data()));
   }
 
-  /**
-   * Set/Create a document with specific ID
-   */
   static async setDocument(collectionName: string, docId: string, data: any) {
-    try {
-      if (adminDb) {
-        const docRef = adminDb.collection(collectionName).doc(docId);
-        await docRef.set(data, { merge: true });
-        return { id: docId, ...data };
-      }
-
-      const docRef = clientDoc(db, collectionName, docId);
-      await clientSetDoc(docRef, data, { merge: true });
-      return { id: docId, ...data };
-    } catch (error) {
-      console.error(`Error setting document in ${collectionName}:`, error);
-      throw error;
+    if (adminDb) {
+      const docRef = adminDb.collection(collectionName).doc(docId);
+      await docRef.set(data, { merge: true });
+      return withId(docId, data);
     }
+
+    if (useLocalServerStore()) {
+      const localDb = await readLocalDb();
+      localDb[collectionName] = localDb[collectionName] || {};
+      localDb[collectionName][docId] = { ...(localDb[collectionName][docId] || {}), ...data };
+      await writeLocalDb(localDb);
+      return withId(docId, localDb[collectionName][docId]);
+    }
+
+    const docRef = clientDoc(db, collectionName, docId);
+    await clientSetDoc(docRef, data, { merge: true });
+    return withId(docId, data);
   }
 
-  /**
-   * Add a new document (auto-generated ID)
-   */
   static async addDocument(collectionName: string, data: any) {
-    try {
-      if (adminDb) {
-        const collectionRef = adminDb.collection(collectionName);
-        const docRef = await collectionRef.add(data);
-        return { id: docRef.id, ...data };
-      }
-
-      const collectionRef = clientCollection(db, collectionName);
-      const docRef = await clientAddDoc(collectionRef, data);
-      return { id: docRef.id, ...data };
-    } catch (error) {
-      console.error(`Error adding document to ${collectionName}:`, error);
-      throw error;
+    if (adminDb) {
+      const collectionRef = adminDb.collection(collectionName);
+      const docRef = await collectionRef.add(data);
+      return withId(docRef.id, data);
     }
+
+    if (useLocalServerStore()) {
+      const localDb = await readLocalDb();
+      const docId = createId();
+      localDb[collectionName] = localDb[collectionName] || {};
+      localDb[collectionName][docId] = data;
+      await writeLocalDb(localDb);
+      return withId(docId, data);
+    }
+
+    const collectionRef = clientCollection(db, collectionName);
+    const docRef = await clientAddDoc(collectionRef, data);
+    return withId(docRef.id, data);
   }
 
-  /**
-   * Update an existing document
-   */
   static async updateDocument(collectionName: string, docId: string, data: any) {
-    try {
-      if (adminDb) {
-        const docRef = adminDb.collection(collectionName).doc(docId);
-        await docRef.update(data);
-        return { id: docId, ...data };
-      }
-
-      const docRef = clientDoc(db, collectionName, docId);
-      await clientUpdateDoc(docRef, data);
-      return { id: docId, ...data };
-    } catch (error) {
-      console.error(`Error updating document in ${collectionName}:`, error);
-      throw error;
+    if (adminDb) {
+      const docRef = adminDb.collection(collectionName).doc(docId);
+      await docRef.update(data);
+      return withId(docId, data);
     }
+
+    if (useLocalServerStore()) {
+      const localDb = await readLocalDb();
+      localDb[collectionName] = localDb[collectionName] || {};
+      localDb[collectionName][docId] = { ...(localDb[collectionName][docId] || {}), ...data };
+      await writeLocalDb(localDb);
+      return withId(docId, localDb[collectionName][docId]);
+    }
+
+    const docRef = clientDoc(db, collectionName, docId);
+    await clientUpdateDoc(docRef, data);
+    return withId(docId, data);
   }
 
-  /**
-   * Delete a document
-   */
   static async deleteDocument(collectionName: string, docId: string) {
-    try {
-      if (adminDb) {
-        const docRef = adminDb.collection(collectionName).doc(docId);
-        await docRef.delete();
-        return { success: true };
-      }
-
-      const docRef = clientDoc(db, collectionName, docId);
-      await clientDeleteDoc(docRef);
+    if (adminDb) {
+      const docRef = adminDb.collection(collectionName).doc(docId);
+      await docRef.delete();
       return { success: true };
-    } catch (error) {
-      console.error(`Error deleting document from ${collectionName}:`, error);
-      throw error;
     }
+
+    if (useLocalServerStore()) {
+      const localDb = await readLocalDb();
+      if (localDb[collectionName]) delete localDb[collectionName][docId];
+      await writeLocalDb(localDb);
+      return { success: true };
+    }
+
+    const docRef = clientDoc(db, collectionName, docId);
+    await clientDeleteDoc(docRef);
+    return { success: true };
   }
 
-  /**
-   * Query documents with conditions
-   */
-  static async queryDocuments(
-    collectionName: string, 
-    conditions: QueryConstraint[]
-  ) {
-    try {
-      if (adminDb) {
-        // Admin SDK: we don't attempt to map client QueryConstraint objects to admin queries.
-        // Fetch all documents and return; callers using constraints will be served full data.
-        const snap = await adminDb.collection(collectionName).get();
-        return snap.docs.map((d: any) => ({ id: d.id, ...d.data() }));
-      }
-
-      const collectionRef = clientCollection(db, collectionName);
-      const q = clientQuery(collectionRef, ...conditions);
-      const querySnapshot = await clientGetDocs(q);
-
-      return querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-    } catch (error) {
-      console.error(`Error querying ${collectionName}:`, error);
-      throw error;
-    }
+  static async queryDocuments(collectionName: string, conditions: QueryConstraint[]) {
+    return this.getCollection(collectionName, conditions);
   }
 }
 

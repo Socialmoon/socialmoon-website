@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles, Target, Zap, Globe, TrendingUp, Users, Video, BarChart3, Mail, BrainCircuit, Code, Shield, BookOpen, Rocket } from 'lucide-react';
 import { Container } from '@/components/common/Container';
 import { Section } from '@/components/common/Section';
@@ -24,7 +25,40 @@ const COLOR_MAP: Record<string, { gradient: string; light: string; text: string;
 };
 
 export function generateStaticParams() {
-  return SOLUTION_SUB_SERVICES.map(s => ({ slug: s.solutionSlug }));
+  return SERVICES_PAGE_CONTENT.services.map(service => ({ slug: toServiceSlug(service.title) }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const service = SERVICES_PAGE_CONTENT.services.find(item => toServiceSlug(item.title) === slug);
+  const detail = SERVICE_DETAIL_CONTENT[slug];
+
+  if (!service) {
+    return {
+      title: 'Service Not Found',
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const description = detail?.subtitle || service.description;
+
+  return {
+    title: `${service.title} | SocialMoon`,
+    description,
+    keywords: [
+      service.title,
+      `${service.title} Lucknow`,
+      `${service.title} India`,
+      'SocialMoon services',
+      ...(slug.includes('seo') ? ['SEO agency Lucknow', 'AEO services India', 'local SEO Lucknow', 'backlink strategy India'] : []),
+    ],
+    alternates: { canonical: `${SITE_URL}/solutions/${slug}` },
+    openGraph: {
+      title: `${service.title} | SocialMoon`,
+      description,
+      url: `${SITE_URL}/solutions/${slug}`,
+    },
+  };
 }
 
 export default async function SolutionDetailPage({ params }: { params: Promise<{ slug: string }> }) {

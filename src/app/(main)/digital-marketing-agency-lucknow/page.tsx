@@ -3,18 +3,22 @@ import { SITE_URL } from "@/lib/config/site";
 import CityLandingPage from "@/components/common/CityLandingPage";
 
 export const metadata: Metadata = {
-  title: "Digital Marketing Agency in Lucknow | SocialMoon — #1 Social Media Agency UP",
+  title: "Digital Marketing Agency in Lucknow | SocialMoon",
   description:
-    "SocialMoon is Lucknow's #1 digital marketing agency. We help startups & small businesses in Lucknow & UP grow with Instagram ads, Facebook marketing, lead generation & website design. Free strategy call.",
+    "SocialMoon is a Lucknow-based creative marketing agency for social media, ads, SEO, AEO, lead generation, website development, and app development.",
   keywords: [
     "digital marketing agency Lucknow",
     "social media agency Lucknow",
+    "SEO agency Lucknow",
+    "local SEO services Lucknow",
+    "AEO services Lucknow",
     "Instagram ads agency Lucknow",
     "Facebook marketing Lucknow",
     "lead generation Lucknow",
     "digital marketing company Lucknow",
-    "best digital marketing agency Lucknow",
     "social media marketing Lucknow",
+    "website development Lucknow",
+    "app development Lucknow",
     "digital marketing UP",
     "online marketing agency Lucknow",
   ],
@@ -22,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Digital Marketing Agency in Lucknow | SocialMoon",
     description:
-      "Lucknow's #1 digital marketing agency. Instagram ads, Facebook marketing, lead generation & website design for startups & small businesses in UP.",
+      "Lucknow-based creative marketing, SEO, AEO, social media, ads, lead generation, website development, and app development.",
     url: `${SITE_URL}/digital-marketing-agency-lucknow`,
   },
 };
@@ -33,61 +37,71 @@ export default function LucknowPage() {
       city="Lucknow"
       state="Uttar Pradesh"
       slug="digital-marketing-agency-lucknow"
-      headline="Lucknow's #1 Digital Marketing Agency for Startups & Small Businesses"
-      subheadline="Why Lucknow Businesses Choose SocialMoon"
-      description="SocialMoon is based in Lucknow and has helped 100+ businesses across UP grow their brand, generate leads, and scale revenue through social media marketing, Instagram ads, Facebook campaigns, and website design."
-      stats={[
-        { value: "100+", label: "Lucknow Clients" },
-        { value: "5x", label: "Avg. Instagram Growth" },
-        { value: "₹15K", label: "Starting Budget" },
-        { value: "24hrs", label: "Response Time" },
-      ]}
+      headline="Lucknow-based marketing for brands that want to be remembered."
+      subheadline="Marketing services for Lucknow businesses"
+      description="SocialMoon is based in Lucknow and helps businesses plan brand recall, content, lead generation, SEO, AEO, ads, websites, and app experiences with clear scope and honest expectations."
       services={[
         {
           title: "Instagram Marketing Lucknow",
-          description: "Grow your Instagram following and generate real leads from Lucknow's growing digital audience. Reels, ads, and organic growth strategies tailored for UP businesses.",
+          description: "Reels, posts, content hooks, profile clarity, and ad paths planned around the audience your Lucknow business wants to reach.",
         },
         {
           title: "Facebook Ads Lucknow",
-          description: "Reach your ideal customers in Lucknow and across UP with targeted Facebook ad campaigns. We manage everything from creative to conversion tracking.",
+          description: "Meta campaign planning for Lucknow and UP audiences, including creative direction, targeting, landing path, and reporting setup.",
         },
         {
           title: "Lead Generation Lucknow",
-          description: "Get qualified leads for your Lucknow business through social media, paid ads, and content marketing. Real estate, education, retail, and more.",
+          description: "Lead paths built through content, ads, landing pages, forms, and follow-up flows after we understand the offer and sales process.",
         },
         {
           title: "Social Media Management Lucknow",
-          description: "Full-service social media management for Lucknow businesses. We handle content creation, posting, community management, and monthly reporting.",
+          description: "Content planning, posting rhythm, community response support, and reporting for Lucknow businesses that need consistency.",
+        },
+        {
+          title: "SEO & AEO Lucknow",
+          description: "Keyword strategy, local SEO, FAQ structure, schema, and answer-focused content for Lucknow service discovery.",
         },
         {
           title: "Website Design Lucknow",
-          description: "Fast, mobile-first, SEO-ready websites for Lucknow startups and SMEs. Delivered in 7 days. Starting ₹12,000.",
+          description: "Mobile-first, SEO-ready websites and campaign pages scoped after we understand the pages, content, proof, and launch timeline.",
+        },
+        {
+          title: "App Development Lucknow",
+          description: "App flows, dashboards, MVP screens, portals, and product foundations that support campaigns and customer engagement.",
         },
         {
           title: "Digital Strategy for UP Businesses",
-          description: "Custom digital marketing strategies built for the Lucknow and UP market. We understand local consumer behavior and regional competition.",
+          description: "A practical marketing plan for Lucknow and UP audiences based on offer clarity, channels, proof, budget, and execution capacity.",
         },
       ]}
       faqs={[
         {
           question: "How much does digital marketing cost in Lucknow?",
-          answer: "SocialMoon's digital marketing packages for Lucknow businesses start from ₹15,000/month for social media management and ₹20,000/month for paid ad campaigns. We offer custom pricing based on your goals and budget.",
+          answer: "Pricing is scoped after we understand your goals, channels, content volume, and reporting needs.",
         },
         {
-          question: "Which is the best digital marketing agency in Lucknow?",
-          answer: "SocialMoon is Lucknow's top-rated digital marketing agency, trusted by 100+ businesses across UP. We specialize in Instagram ads, Facebook marketing, lead generation, and website design for startups and small businesses.",
+          question: "How should I choose a digital marketing agency in Lucknow?",
+          answer: "Look for clear services, honest reporting, explainable strategy, real portfolio context, and no fake ranking or result claims. SocialMoon focuses on transparent marketing, SEO, social media, ads, lead generation, websites, and app support.",
         },
         {
-          question: "Can SocialMoon help my Lucknow business get leads from Instagram?",
-          answer: "Yes! We've helped dozens of Lucknow businesses generate qualified leads through Instagram ads and organic growth strategies. Our campaigns are tailored to the UP market and local consumer behavior.",
+          question: "Can SocialMoon help my Lucknow business build leads from Instagram?",
+          answer: "We can build lead paths through Instagram content, ads, forms, landing pages, and follow-up workflows. We do not promise a fixed number of leads before auditing the offer, audience, budget, and current assets.",
+        },
+        {
+          question: "Do you offer SEO and AEO in Lucknow?",
+          answer: "Yes. We offer keyword strategy, on-page SEO, local SEO, FAQ and schema planning, AEO-ready answer sections, and ethical backlink outreach planning for Lucknow businesses.",
+        },
+        {
+          question: "Can you generate backlinks for my business?",
+          answer: "We do not create spam links or fake placements. We plan earned backlink opportunities through real directories, citations, partner mentions, local publications, and outreach targets that can be verified.",
         },
         {
           question: "Do you work with small businesses in Lucknow?",
-          answer: "Absolutely. SocialMoon specializes in helping small businesses and startups in Lucknow grow their digital presence. We offer affordable packages starting from ₹15,000/month with no long-term contracts.",
+          answer: "Yes. We scope a practical plan around the business goal, available proof, budget, and channels that make sense.",
         },
         {
           question: "How quickly can I see results from digital marketing in Lucknow?",
-          answer: "Most Lucknow clients see improved engagement and lead flow within the first 30 days. Significant growth in followers and leads typically happens within 60-90 days of consistent execution.",
+          answer: "Timelines depend on the channel, offer, creative quality, and budget. We set expectations after reviewing the campaign scope.",
         },
       ]}
     />

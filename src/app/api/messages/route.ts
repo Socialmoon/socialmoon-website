@@ -35,9 +35,8 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    // For messages, PUT is used to update status
     if (body.id && body.status) {
-      const result = await MessagesService.markAsRead(body.id);
+      const result = await MessagesService.updateMessageStatus(body.id, body.status);
       return NextResponse.json(result);
     }
     return NextResponse.json(
