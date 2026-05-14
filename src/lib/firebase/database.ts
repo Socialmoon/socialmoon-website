@@ -11,17 +11,7 @@ import {
   QueryConstraint,
 } from 'firebase/firestore';
 import { db } from './config';
-
-let adminDb: any = null;
-try {
-  if (typeof window === 'undefined') {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const adminModule = require('./admin');
-    adminDb = adminModule.adminDb;
-  }
-} catch {
-  adminDb = null;
-}
+import { adminDb } from './admin';
 
 type LocalDatabase = Record<string, Record<string, any>>;
 
